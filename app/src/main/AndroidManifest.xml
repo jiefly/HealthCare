@@ -6,7 +6,8 @@
     <permission
         android:name="org.ecnu.chgao.healthcare.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <!-- Required -->
     <uses-permission android:name="org.ecnu.chgao.healthcare.permission.JPUSH_MESSAGE" />
@@ -172,8 +173,18 @@
         <activity android:name=".view.FindPwdActivity" />
         <activity android:name=".view.MainActivity" />
         <activity android:name=".view.RegisterActivity" />
-        <activity android:name=".view.StepHistoryActivity"></activity>
-        <service android:name=".service.FallDeteachService"/>
+        <activity android:name=".view.StepHistoryActivity" />
+
+        <service android:name=".service.FallDeteachService" />
+
+        <receiver
+            android:name=".service.CancelFallDownReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="org.ecnu.jiefly.CancelFallDown" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

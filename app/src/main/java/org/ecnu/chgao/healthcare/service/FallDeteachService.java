@@ -5,12 +5,14 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.util.Log;
 
 import org.ecnu.chgao.healthcare.R;
 import org.ecnu.chgao.healthcare.view.MainActivity;
@@ -27,9 +29,12 @@ public class FallDeteachService extends Service implements FallListener.OnFallLi
     public static final String TAG = FallDeteachService.class.getSimpleName();
     public static final int FOREGROUND_NOTIFICATION_ID = 0x10010;
     public static final int FALL_DOWN_ACTION_NOTIFICATION_ID = 0x01101;
+    public static final String CANCEL_FALL_DOWN_ACTION = "cancel_fall_down_action";
     private SensorManager mSensorManager;
     private FallListener mListener;
     private AtomicBoolean mShowFalldownNotification;
+    private Timer mTimer;
+    private CancelFallDownReceiver mReceiver;
 
     @Nullable
     @Override
@@ -40,6 +45,7 @@ public class FallDeteachService extends Service implements FallListener.OnFallLi
     @Override
     public void onCreate() {
         super.onCreate();
+        initReceiver();
         initAndStartForeground();
         mShowFalldownNotification = new AtomicBoolean(false);
         mListener = new FallListener(this).registerListener(this);
@@ -51,6 +57,20 @@ public class FallDeteachService extends Service implements FallListener.OnFallLi
                 onFall();
             }
         }, 10000);
+    }
+
+    private void initReceiver() {
+        mReceiver = new CancelFallDownReceiver();
+        IntentFilter intentFilter = new IntentFilter("org.ecnu.jiefly.CancelFallDown");
+        registerReceiver(mReceiver, intentFilter);
+    }
+
+    public void onCancelFallDownAction() {
+        if (mTimer != null) {
+            mTimer.cancel();
+        }
+        ((NotificationManager) getSystemService(NOTIFICATION_SERVICE)).cancel(FALL_DOWN_ACTION_NOTIFICATION_ID);
+        Log.w(TAG, "onCancelFallDownAction");
     }
 
     private void initAndStartForeground() {
@@ -74,6 +94,9 @@ public class FallDeteachService extends Service implements FallListener.OnFallLi
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if (intent.getBooleanExtra(CANCEL_FALL_DOWN_ACTION, false)) {
+            onCancelFallDownAction();
+        }
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -82,6 +105,9 @@ public class FallDeteachService extends Service implements FallListener.OnFallLi
         stopForeground(true);
         if (mListener != null) {
             mSensorManager.unregisterListener(mListener);
+        }
+        if (mReceiver != null) {
+            unregisterReceiver(mReceiver);
         }
         super.onDestroy();
     }
@@ -97,28 +123,32 @@ public class FallDeteachService extends Service implements FallListener.OnFallLi
         //a chance to cancel this fall down action.if user did't canceled this
         //action in time,we should upload this action to our server
         final long fallTime = System.currentTimeMillis();
+        Intent intent = new Intent(this, CancelFallDownReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         builder.setContentTitle("检测到您摔倒")
                 .setContentText("如果您不希望上传摔倒事件，请在一分钟内点击此通知。")
                 .setPriority(Notification.PRIORITY_MAX)
                 .setDefaults(Notification.DEFAULT_ALL)
+                .setContentIntent(pendingIntent)
                 .setVibrate(new long[]{0, 300, 500, 700})
                 .setSmallIcon(R.mipmap.ic_launcher);
         final NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         nm.notify(FALL_DOWN_ACTION_NOTIFICATION_ID, builder.build());
-        final Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
+        mTimer = new Timer();
+        mTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if (System.currentTimeMillis() - fallTime > 60 * 1000){
+                if (System.currentTimeMillis() - fallTime > 60 * 1000) {
                     realFall();
-                    timer.cancel();
+                    mTimer.cancel();
                     builder.setContentText("由于您未在60s内取消该事件，我们将帮你通知您的亲属。");
-                    nm.notify(FALL_DOWN_ACTION_NOTIFICATION_ID,builder.build());
+                    nm.notify(FALL_DOWN_ACTION_NOTIFICATION_ID, builder.build());
                     return;
                 }
                 builder.setContentText(String.format("如果您不希望上传摔倒事件，请在 %s s 内点击次通知。", 60 - (System.currentTimeMillis() - fallTime) / 1000));
-                nm.notify(FALL_DOWN_ACTION_NOTIFICATION_ID,builder.build());
+                nm.notify(FALL_DOWN_ACTION_NOTIFICATION_ID, builder.build());
             }
         }, 1000, 1000);
     }
