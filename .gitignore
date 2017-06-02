@@ -34,11 +34,6 @@ captures/
 
 # Intellij
 *.iml
-.idea/workspace.xml
-.idea/tasks.xml
-.idea/gradle.xml
-.idea/dictionaries
-.idea/libraries
 
 # Keystore files
 *.jks
@@ -53,3 +48,7 @@ google-services.json
 freeline.py
 freeline/
 freeline_project_description.json
+/.idea/
+将删除 app/src/androidTest/
+将删除 app/src/main/java/org/ecnu/chgao/healthcare/connection/ble/
+将删除 app/src/test/
