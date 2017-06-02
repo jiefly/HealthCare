@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.ecnu.chgao.healthcare.view.StepHistoryActivity">
+    <include layout="@layout/normal_tool_bar"/>
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/id_step_chart"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/id_normal_tool_bar"
+        android:layout_height="200dp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/id_step_rv"
+        android:layout_below="@id/id_step_chart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</RelativeLayout>
