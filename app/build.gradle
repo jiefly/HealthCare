@@ -45,6 +45,7 @@ dependencies {
     compile 'com.getbase:floatingactionbutton:1.10.1'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.0'
     compile files('libs/jsms_android-1.1.0.jar')
+    compile files('libs/lite-orm-1.7.0.jar')
 }
 repositories {
     mavenCentral()

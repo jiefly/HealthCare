@@ -11,6 +11,7 @@ import android.view.View;
 public interface Viewer<P> {
     //void setPresent(P present);
     Context getContext();
+
     void showToast(String message);
 
     void showSnack(View view, String message);

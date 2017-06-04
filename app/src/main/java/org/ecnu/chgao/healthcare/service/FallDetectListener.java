@@ -1,11 +1,9 @@
 package org.ecnu.chgao.healthcare.service;
 
 import android.content.Context;
-import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.util.Log;
 
 import org.ecnu.chgao.healthcare.util.Config;
 import org.ecnu.chgao.healthcare.util.DTW;
@@ -17,8 +15,8 @@ import java.util.Set;
 /**
  * Created by user on 2017/3/7.
  */
-public class FallListener implements SensorEventListener {
-    public static final String TAG = FallListener.class.getSimpleName();
+public class FallDetectListener implements SensorEventListener {
+    public static final String TAG = FallDetectListener.class.getSimpleName();
     private Context context;
     private int count = 0;
     private ArrayList<Double> DataStore;
@@ -27,14 +25,14 @@ public class FallListener implements SensorEventListener {
     private Set<OnFallListener> mListeners;
     private double[] sample = Config.SAMPLE;
 
-    public FallListener(Context context) {
+    public FallDetectListener(Context context) {
         super();
         this.context = context;
         DataStore = new ArrayList<>();
         mListeners = new HashSet<>();
     }
 
-    public FallListener registerListener(OnFallListener listener) {
+    public FallDetectListener registerListener(OnFallListener listener) {
         mListeners.add(listener);
         return this;
     }
@@ -72,7 +70,6 @@ public class FallListener implements SensorEventListener {
     }
 
     public void DataCalculate(float[][] Data_in) {
-        Log.i(TAG,"DataCalculate");
         double svm = 0;
         double[] DataAft = new double[200];
         for (int i = 0; i < 200; i++) {
@@ -88,21 +85,12 @@ public class FallListener implements SensorEventListener {
 
     public void FallDetect(double[] query) {
         DTW dtw = new DTW(sample, query);
-        double similirity = dtw.warpingDistance;
-        if (similirity < 6) {
+        double similarity = dtw.warpingDistance;
+        if (similarity < 6) {
             for (OnFallListener listener : mListeners) {
                 listener.onFall();
             }
-            // Alert();
         }
-    }
-
-    //检测到摔倒，用户判断时间
-    public void Alert() {
-        Intent intent = new Intent();
-        intent.setAction("android.intent.action.MainTab");
-        intent.putExtra("msg", true);
-        context.sendBroadcast(intent);
     }
 
     public interface OnFallListener {

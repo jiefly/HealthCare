@@ -25,14 +25,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Created by chgao on 17-6-1.
  */
 
-public class FallDeteachService extends Service implements FallListener.OnFallListener {
-    public static final String TAG = FallDeteachService.class.getSimpleName();
+public class FallDetectService extends Service implements FallDetectListener.OnFallListener {
+    public static final String TAG = FallDetectService.class.getSimpleName();
     public static final int FOREGROUND_NOTIFICATION_ID = 0x10010;
     public static final int FALL_DOWN_ACTION_NOTIFICATION_ID = 0x01101;
     public static final String CANCEL_FALL_DOWN_ACTION = "cancel_fall_down_action";
     private SensorManager mSensorManager;
-    private FallListener mListener;
-    private AtomicBoolean mShowFalldownNotification;
+    private FallDetectListener mListener;
+    private AtomicBoolean mShowFallDownNotification;
     private Timer mTimer;
     private CancelFallDownReceiver mReceiver;
 
@@ -47,8 +47,8 @@ public class FallDeteachService extends Service implements FallListener.OnFallLi
         super.onCreate();
         initReceiver();
         initAndStartForeground();
-        mShowFalldownNotification = new AtomicBoolean(false);
-        mListener = new FallListener(this).registerListener(this);
+        mShowFallDownNotification = new AtomicBoolean(false);
+        mListener = new FallDetectListener(this).registerListener(this);
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mSensorManager.registerListener(mListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
         new Timer().schedule(new TimerTask() {
@@ -77,6 +77,8 @@ public class FallDeteachService extends Service implements FallListener.OnFallLi
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("跌倒检测服务")
+                .setAutoCancel(false)
+                .setOngoing(true)
                 .setContentText("运行中...");
         Intent resultIntent = new Intent(this, MainActivity.class);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
@@ -115,10 +117,10 @@ public class FallDeteachService extends Service implements FallListener.OnFallLi
     @Override
     public void onFall() {
         //if we show notification,ignore the same fall down action which happen during showing
-        if (mShowFalldownNotification.get()) {
+        if (mShowFallDownNotification.get()) {
             return;
         }
-        mShowFalldownNotification.set(true);
+        mShowFallDownNotification.set(true);
         //if we find user fall down,we need show a notification and give user
         //a chance to cancel this fall down action.if user did't canceled this
         //action in time,we should upload this action to our server
