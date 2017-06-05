@@ -1,5 +1,7 @@
 package org.ecnu.chgao.healthcare.present;
 
+import android.util.Log;
+
 import org.ecnu.chgao.healthcare.bean.UserAction;
 import org.ecnu.chgao.healthcare.model.RegisterModel;
 import org.ecnu.chgao.healthcare.util.Config;
@@ -11,13 +13,13 @@ import java.util.Objects;
 
 import cn.jpush.sms.SMSSDK;
 import cn.jpush.sms.listener.SmscheckListener;
-import cn.jpush.sms.listener.SmscodeListener;
 
 /**
  * Created by chgao on 17-5-26.
  */
 
 public class RegisterPresent extends BasePresent<RegisterViewer, RegisterModel> {
+    private static final String TAG = "RegisterPresent";
     private String mPhone;
 
     public RegisterPresent(RegisterViewer viewer, RegisterModel model) {
@@ -32,7 +34,24 @@ public class RegisterPresent extends BasePresent<RegisterViewer, RegisterModel> 
 
     public void onGetSmsCodeClick(String phone) {
         mPhone = phone;
-        SMSSDK.getInstance().getSmsCodeAsyn(phone, "1", new SmscodeListener() {
+        UserAction action = new UserAction(mViewer.getContext());
+        try {
+            action.getSmsCode(phone, Config.ACTION_GET_SMS_CODE, new UserAction.SuccessCallback() {
+                        @Override
+                        public void onSuccess(String jsonResult) {
+                            Log.i(TAG, "send sms code success");
+                        }
+                    },
+                    new UserAction.FailCallback() {
+                        @Override
+                        public void onFail(int status, int reason) {
+
+                        }
+                    });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        /*SMSSDK.getInstance().getSmsCodeAsyn(phone, "1", new SmscodeListener() {
             @Override
             public void getCodeSuccess(String s) {
 
@@ -42,14 +61,14 @@ public class RegisterPresent extends BasePresent<RegisterViewer, RegisterModel> 
             public void getCodeFail(int i, String s) {
 
             }
-        });
+        });*/
     }
 
-    public void onRegisterClick(final String phone, String smsCode, final String pwd) {
+    public void onRegisterClick(final String phone, final String smsCode, final String pwd) {
         if (DEBUG) {
             UserAction ua = new UserAction(mViewer.getContext());
             try {
-                ua.register(phone, pwd, Config.ACTION_REGISTER, new UserAction.SuccessCallback() {
+                ua.register(phone, pwd, smsCode, Config.ACTION_REGISTER, new UserAction.SuccessCallback() {
                     @Override
                     public void onSuccess(String jsonResult) {
                         try {
@@ -95,7 +114,7 @@ public class RegisterPresent extends BasePresent<RegisterViewer, RegisterModel> 
                         //if the sms code is correct,will invoke register function
                         UserAction ua = new UserAction(mViewer.getContext());
                         try {
-                            ua.register(phone, pwd, Config.ACTION_REGISTER, new UserAction.SuccessCallback() {
+                            ua.register(phone, pwd, smsCode, Config.ACTION_REGISTER, new UserAction.SuccessCallback() {
                                 @Override
                                 public void onSuccess(String jsonResult) {
                                     try {

@@ -15,6 +15,7 @@ public class AccountInfo {
 
     public static final String HEADER = "header";
     public static final String PHONE = "phone";
+    public static final String SMS_CODE = "code";
     //	public static final String NAME = "userName";
     public static final String PASSWORD_MD5 = "passwordMd5";
     public static final String ACTION = "action";
@@ -44,7 +45,7 @@ public class AccountInfo {
     }
 
 
-    public void register(String phone, String passwordMd5, int action,
+    public void register(String phone, String passwordMd5, String smsCode, int action,
                          final SuccessCallback successCallback,
                          final FailCallback failCallback) throws JSONException {
 
@@ -60,6 +61,7 @@ public class AccountInfo {
         jsonObject.put(AccountInfo.PHONE, phone);
         jsonObject.put(AccountInfo.PASSWORD_MD5, passwordMd5);
         jsonObject.put(AccountInfo.ACTION, action);
+        jsonObject.put(AccountInfo.SMS_CODE, smsCode);
 
 //		JSONArray jsonMembers = new JSONArray(); 
 //		jsonMembers.put(jsonObject);
@@ -123,6 +125,37 @@ public class AccountInfo {
 
     }
 
+    public void getSmsCode(String phone, int action,
+                           final SuccessCallback successCallback,
+                           final FailCallback failCallback) throws JSONException {
+
+        // ���������ת����json�ַ���
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(AccountInfo.PHONE, phone);
+        jsonObject.put(AccountInfo.ACTION, action);
+
+
+        // ��������������ӷ�����
+        new Netconnection(context, ApiStores.API_SERVER_URL, HttpMethod.POST,
+                new Netconnection.SuccessCallback() {
+                    @Override
+                    public void onSuccess(String result) {
+
+                        if (successCallback != null) {
+                            successCallback.onSuccess(result);
+                        }
+                    }
+                }, new Netconnection.FailCallback() {
+            @Override
+            public void onFail(int status, int reason) {
+
+                if (failCallback != null) {
+                    failCallback.onFail(status, reason);
+                }
+            }
+        }, action, jsonObject.toString());
+
+    }
 
     /**
      * �ɹ��ص�����
