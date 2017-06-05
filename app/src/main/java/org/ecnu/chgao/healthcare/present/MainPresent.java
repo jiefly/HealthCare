@@ -22,6 +22,7 @@ public class MainPresent extends BasePresent<MainViewer, MainModel> implements U
 
     public void onStepServiceConnected(StepService service) {
         service.registerCallback(this);
+        mViewer.setStepCount(mModel.getTodayTask(), service.getStepCount());
     }
 
     public void onStepServiceDisconnected() {
@@ -45,7 +46,7 @@ public class MainPresent extends BasePresent<MainViewer, MainModel> implements U
 
     @Override
     public void updateUi(int stepCount) {
-        updateCurrentStep(stepCount);
+        //updateCurrentStep(stepCount);
         mViewer.setStepCount(mModel.getTodayTask(), stepCount);
     }
 }

@@ -19,7 +19,7 @@ class MainActivity : BaseActivity(), MainViewer {
     var cover: View? = null
     var menu: FloatingActionsMenu? = null
     var stepArc: StepArcView? = null
-    val serviceConntction = object : ServiceConnection {
+    val serviceConnection = object : ServiceConnection {
 
 
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
@@ -48,13 +48,13 @@ class MainActivity : BaseActivity(), MainViewer {
 
     override fun bindStepService() {
         intent = Intent(this, StepService::class.java)
-        bindService(intent, serviceConntction, Context.BIND_AUTO_CREATE)
+        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
         startService(intent)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        unbindService(serviceConntction)
+        unbindService(serviceConnection)
     }
 
     private fun initView() {

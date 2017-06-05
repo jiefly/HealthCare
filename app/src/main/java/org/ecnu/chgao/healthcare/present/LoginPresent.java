@@ -31,11 +31,11 @@ public class LoginPresent extends BasePresent<LoginViewer, LoginModel> {
                         public void onSuccess(String jsonResult) {
                             try {
                                 JSONObject result = new JSONObject(jsonResult);
-                                if ("success".equals(result.getString("result"))){
-                                    mViewer.login();
+                                if ("success".equals(result.getString("result"))) {
+                                    mViewer.loginSuccess();
                                     // TODO:save user account && pwd
-                                }else {
-                                    mViewer.showToast("用户名或者密码错误");
+                                } else {
+                                    mViewer.loginFailed(result.getString("result"));
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -46,7 +46,7 @@ public class LoginPresent extends BasePresent<LoginViewer, LoginModel> {
                     new UserAction.FailCallback() {
                         @Override
                         public void onFail(int status, int reason) {
-                            mViewer.showAlertDialog("Tips","登录失败",null,null);
+                            mViewer.loginFailed("登录失败");
                         }
                     });
         } catch (JSONException e) {

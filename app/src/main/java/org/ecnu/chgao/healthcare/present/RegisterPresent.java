@@ -5,6 +5,7 @@ import org.ecnu.chgao.healthcare.model.RegisterModel;
 import org.ecnu.chgao.healthcare.util.Config;
 import org.ecnu.chgao.healthcare.view.RegisterViewer;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Objects;
 
@@ -25,6 +26,7 @@ public class RegisterPresent extends BasePresent<RegisterViewer, RegisterModel> 
     }
 
     public RegisterPresent(RegisterViewer viewer) {
+        DEBUG = true;
         this.mViewer = viewer;
     }
 
@@ -44,6 +46,37 @@ public class RegisterPresent extends BasePresent<RegisterViewer, RegisterModel> 
     }
 
     public void onRegisterClick(final String phone, String smsCode, final String pwd) {
+        if (DEBUG) {
+            UserAction ua = new UserAction(mViewer.getContext());
+            try {
+                ua.register(phone, pwd, Config.ACTION_REGISTER, new UserAction.SuccessCallback() {
+                    @Override
+                    public void onSuccess(String jsonResult) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(jsonResult);
+                            if ("success".equals(jsonObject.getString("result"))) {
+                                //if register success,loginSuccess and jump to main activity
+                                mViewer.onRegisterSuccess();
+                            } else {
+                                mViewer.onRegisterFailed(jsonObject.getString("message"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new UserAction.FailCallback() {
+
+                    @Override
+                    public void onFail(int status, int reason) {
+                        //tell user register failed
+                        mViewer.onRegisterFailed("注册失败");
+                    }
+                });
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
         //should get sms code before register
         if (mPhone == null) {
             mViewer.showToast("请先获取验证码");
@@ -65,16 +98,25 @@ public class RegisterPresent extends BasePresent<RegisterViewer, RegisterModel> 
                             ua.register(phone, pwd, Config.ACTION_REGISTER, new UserAction.SuccessCallback() {
                                 @Override
                                 public void onSuccess(String jsonResult) {
-                                    //if register success,login and jump to main activity
-                                    mViewer.showToast("注册成功");
-                                    mViewer.onRegisterSuccess();
+                                    try {
+                                        JSONObject jsonObject = new JSONObject(jsonResult);
+                                        if ("success".equals(jsonObject.getString("result"))) {
+                                            //if register success,loginSuccess and jump to main activity
+                                            mViewer.onRegisterSuccess();
+                                        } else {
+                                            mViewer.onRegisterFailed(jsonObject.getString("message"));
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
                                 }
                             }, new UserAction.FailCallback() {
 
                                 @Override
                                 public void onFail(int status, int reason) {
                                     //tell user register failed
-                                    mViewer.showToast("注册失败");
+                                    mViewer.onRegisterFailed("注册失败");
                                 }
                             });
                         } catch (JSONException e) {

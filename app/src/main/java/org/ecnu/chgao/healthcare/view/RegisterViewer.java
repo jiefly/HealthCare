@@ -5,7 +5,7 @@ package org.ecnu.chgao.healthcare.view;
  */
 
 public interface RegisterViewer extends Viewer {
-
+    void onRegisterFailed(String msg);
     void onRegisterSuccess();
 
 }

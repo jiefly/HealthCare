@@ -5,8 +5,6 @@ import android.graphics.Paint
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.TextView
-import cn.jpush.sms.SMSSDK
-import cn.jpush.sms.listener.SmscodeListener
 import org.ecnu.chgao.healthcare.R
 import org.ecnu.chgao.healthcare.present.LoginPresent
 
@@ -42,10 +40,14 @@ class LoginActivity : BaseActivity(), LoginViewer {
     }
 
 
-    //login success will invoke this method
-    override fun login() {
+    //loginSuccess success will invoke this method
+    override fun loginSuccess() {
         showToast("登陆成功")
         navigate<MainActivity>()
+    }
+
+    override fun loginFailed(msg: String?) {
+        showAlertDialog("登录失败", msg, null, null)
     }
 
     override fun jumpToFindPwd() {

@@ -7,7 +7,9 @@ import org.ecnu.chgao.healthcare.present.LoginPresent;
  */
 
 public interface LoginViewer extends Viewer<LoginPresent> {
-    void login();
+    void loginSuccess();
+
+    void loginFailed(String msg);
 
     void jumpToRegister();
 

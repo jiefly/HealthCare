@@ -5,6 +5,7 @@ package org.ecnu.chgao.healthcare.present;
  */
 
 public class BasePresent<V, M> {
+    protected static boolean DEBUG = false;
     protected V mViewer;
     protected M mModel;
 }

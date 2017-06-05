@@ -37,7 +37,12 @@ class RegisterActivity : BaseActivity(), RegisterViewer {
     }
 
     override fun onRegisterSuccess() {
+        showToast("注册成功")
         navigate<MainActivity>()
+    }
+
+    override fun onRegisterFailed(msg: String?) {
+        showAlertDialog("注册失败", msg, null, null)
     }
 
     override fun getContext(): Context {
