@@ -5,25 +5,25 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.jiefly.multiparametermonitor.measuring.data.historydata.HeartRateHistoryData;
+import org.ecnu.chgao.healthcare.bean.StepHistoryData;
 
-import org.ecnu.chgao.healthcare.view.item.HeartRateHistoryItemView;
+import org.ecnu.chgao.healthcare.view.item.StepHistoryItemView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HeartRateRvAdapter extends RecyclerView.Adapter<HeartRateRvAdapter.HeartRateVH> {
+public class StepRvAdapter extends RecyclerView.Adapter<StepRvAdapter.HeartRateVH> {
     private Context mContext;
-    private List<HeartRateHistoryData> datas;
+    private List<StepHistoryData> datas;
 
-    public HeartRateRvAdapter(Context context) {
+    public StepRvAdapter(Context context) {
         mContext = context;
         datas = new ArrayList<>();
     }
 
     @Override
     public HeartRateVH onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new HeartRateVH(new HeartRateHistoryItemView(mContext));
+        return new HeartRateVH(new StepHistoryItemView(mContext));
     }
 
     @Override
@@ -36,27 +36,27 @@ public class HeartRateRvAdapter extends RecyclerView.Adapter<HeartRateRvAdapter.
         return datas.size();
     }
 
-    public void addData(HeartRateHistoryData data) {
+    public void addData(StepHistoryData data) {
         if (data != null) {
             datas.add(data);
         }
     }
 
-    public void addDatas(List<HeartRateHistoryData> datas) {
+    public void addDatas(List<StepHistoryData> datas) {
         if (datas != null) {
             this.datas.addAll(datas);
         }
     }
 
     class HeartRateVH extends RecyclerView.ViewHolder {
-        HeartRateHistoryItemView itemView;
+        StepHistoryItemView itemView;
 
         public HeartRateVH(View itemView) {
             super(itemView);
-            this.itemView = (HeartRateHistoryItemView) itemView;
+            this.itemView = (StepHistoryItemView) itemView;
         }
 
-        public HeartRateHistoryItemView getItemView() {
+        public StepHistoryItemView getItemView() {
             return itemView;
         }
     }

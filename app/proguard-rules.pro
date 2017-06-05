@@ -28,5 +28,9 @@
 -dontwarn com.google.**
 -keep class com.google.gson.** {*;}
 -keep class com.google.protobuf.** {*;}
+#jpush sms
 -keep class cn.jpush.sms.SMSSDK {*;}
 -keep class cn.jpush.sms.listener.** {*;}
+#amap
+-keep class com.amap.api.maps2d.**{*;}
+-keep class com.amap.api.mapcore2d.**{*;}

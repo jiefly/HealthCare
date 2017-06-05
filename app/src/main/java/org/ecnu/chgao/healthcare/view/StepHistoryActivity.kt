@@ -7,13 +7,13 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import com.example.jiefly.multiparametermonitor.measuring.data.historydata.HeartRateHistoryData
+import org.ecnu.chgao.healthcare.bean.StepHistoryData
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import org.ecnu.chgao.healthcare.R
-import org.ecnu.chgao.healthcare.adapter.HeartRateRvAdapter
+import org.ecnu.chgao.healthcare.adapter.StepRvAdapter
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -23,7 +23,7 @@ class StepHistoryActivity : BaseActivity(), StepViewer {
     }
 
     var recyclerView: RecyclerView? = null
-    var adapter: HeartRateRvAdapter? = null
+    var adapter: StepRvAdapter? = null
     var chart: LineChart? = null
     var lineDataSet: LineDataSet? = null
 
@@ -65,14 +65,14 @@ class StepHistoryActivity : BaseActivity(), StepViewer {
     }
 
     private fun initRv() {
-        adapter = HeartRateRvAdapter(this)
+        adapter = StepRvAdapter(this)
         recyclerView?.layoutManager = LinearLayoutManager(this) as RecyclerView.LayoutManager?
         val decoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         decoration.setDrawable(resources.getDrawable(R.drawable.div_bg))
         recyclerView?.addItemDecoration(decoration)
         recyclerView?.adapter = adapter
         for (i in 1..10)
-            adapter?.addData(HeartRateHistoryData().setDate(Date()).setValue(100 + i))
+            adapter?.addData(StepHistoryData().setDate(Date()).setValue(100 + i))
         adapter?.notifyDataSetChanged()
     }
 }
