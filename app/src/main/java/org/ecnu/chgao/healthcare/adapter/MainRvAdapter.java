@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import org.ecnu.chgao.healthcare.R;
 import org.ecnu.chgao.healthcare.model.NormalMainItemData;
@@ -20,9 +21,6 @@ import rx.functions.Action1;
 import rx.subjects.PublishSubject;
 
 public class MainRvAdapter extends RecyclerView.Adapter<MainRvAdapter.NormalItemVH> {
-    public static final int ITEM_HEADER = 0x00101;
-    public static final int ITEM_NORMAL = 0x11010;
-    public static final int ITEM_FOTTER = 0x11111;
     private final PublishSubject<NormalMainItemData> onClickSubject = PublishSubject.create();
     private Context mContext;
     private List<NormalMainItemData> datas;
@@ -34,11 +32,14 @@ public class MainRvAdapter extends RecyclerView.Adapter<MainRvAdapter.NormalItem
 
     @Override
     public NormalItemVH onCreateViewHolder(ViewGroup parent, int viewType) {
-        switch (viewType) {
-            case ITEM_HEADER:
+        switch (NormalMainItemData.ItemType.getTypeByValue(viewType)) {
+            case HEADER:
                 return new MainHeaderItemVH(LayoutInflater.from(mContext).inflate(R.layout.main_item_header_item_view, parent, false)).setOnClickListener(onClickSubject);
+            case FOTTER:
+                return new MainFooterItemVH(LayoutInflater.from(mContext).inflate(R.layout.main_item_footer_item_view, parent, false)).setOnClickListener(onClickSubject);
+            default:
+                return new MainItemVH(new NormalMainItemView(mContext)).setOnClickListener(onClickSubject);
         }
-        return new MainItemVH(new NormalMainItemView(mContext)).setOnClickListener(onClickSubject);
     }
 
     @Override
@@ -59,7 +60,7 @@ public class MainRvAdapter extends RecyclerView.Adapter<MainRvAdapter.NormalItem
 
     @Override
     public int getItemViewType(int position) {
-        return position == 0 ? ITEM_HEADER : ITEM_NORMAL;
+        return datas.get(position).getmItemType().getValue();
     }
 
     public void setStep(int totalStep, int currentStep) {
@@ -84,9 +85,36 @@ public class MainRvAdapter extends RecyclerView.Adapter<MainRvAdapter.NormalItem
         }
     }
 
+    class MainFooterItemVH extends NormalItemVH {
+        private View itemView;
+        private NormalMainItemData data;
+
+        public MainFooterItemVH(View itemView) {
+            super(itemView);
+            this.itemView = itemView;
+        }
+
+        @Override
+        public NormalItemVH setOnClickListener(final PublishSubject<NormalMainItemData> onClickListener) {
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onClickListener.onNext(data);
+                }
+            });
+            return this;
+        }
+
+        @Override
+        public void resetView(NormalMainItemData data) {
+            this.data = data;
+        }
+    }
+
     class MainHeaderItemVH extends NormalItemVH {
         public View itemView;
         public StepArcView mArcView;
+        public TextView mTotalStep;
         public NormalMainItemData itemData;
 
 
@@ -94,8 +122,10 @@ public class MainRvAdapter extends RecyclerView.Adapter<MainRvAdapter.NormalItem
             super(itemView);
             this.itemView = itemView;
             mArcView = (StepArcView) itemView.findViewById(R.id.id_main_step_arc_view);
+            mTotalStep = (TextView) itemView.findViewById(R.id.id_main_today_task);
         }
 
+        @Override
         public MainHeaderItemVH setOnClickListener(final PublishSubject<NormalMainItemData> onClickListener) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -120,6 +150,9 @@ public class MainRvAdapter extends RecyclerView.Adapter<MainRvAdapter.NormalItem
                     if (mArcView != null) {
                         mArcView.setCurrentCount(totalStep, integer);
                     }
+                    if (mTotalStep != null) {
+                        mTotalStep.setText(mContext.getResources().getString(R.string.today_task_format, totalStep));
+                    }
                 }
             });
         }
@@ -138,6 +171,7 @@ public class MainRvAdapter extends RecyclerView.Adapter<MainRvAdapter.NormalItem
             return itemView;
         }
 
+        @Override
         public MainItemVH setOnClickListener(final PublishSubject<NormalMainItemData> onClickListener) {
             itemView.getmCardView().setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -157,9 +191,13 @@ public class MainRvAdapter extends RecyclerView.Adapter<MainRvAdapter.NormalItem
     }
 
     public abstract class NormalItemVH extends RecyclerView.ViewHolder {
+
+
         public NormalItemVH(View itemView) {
             super(itemView);
         }
+
+        public abstract NormalItemVH setOnClickListener(final PublishSubject<NormalMainItemData> onClickListener);
 
         public abstract void resetView(NormalMainItemData data);
     }

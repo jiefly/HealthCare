@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">HealthCare</string>
+    <string name="today_task_format">今日计划：%d 步</string>
 </resources>

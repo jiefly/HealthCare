@@ -91,7 +91,7 @@ public class NormalMainItemData {
     }
 
     public enum ItemType {
-        UNKNOW(0), STEP(1), LOCATION(2), FALL_DOWN(3), NOTIFICATION(4), EVETY_DAY_HEALTH(5);
+        UNKNOW(0), STEP(1), LOCATION(2), FALL_DOWN(3), NOTIFICATION(4), EVETY_DAY_HEALTH(5), FOTTER(6), HEADER(7);
         int value;
 
         ItemType(int value) {

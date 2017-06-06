@@ -92,14 +92,16 @@ class MainActivity : BaseActivity(), MainViewer {
         recyclerView!!.layoutManager = LinearLayoutManager(this) as RecyclerView.LayoutManager?
         adapter = MainRvAdapter(this)
         recyclerView!!.adapter = adapter
-        adapter!!.addData(NormalMainItemData().setmItemType(NormalMainItemData.ItemType.STEP))
-        for (i in 0..3) {
-            adapter!!.addData(NormalMainItemData().setmMoreRes(R.drawable.ic_more_horiz_red_50_24dp).setmIconRes(R.drawable.ic_place_white_24dp).setmItemTitle("标题：" + i).setmContent("内容：" + i).setmItemType(NormalMainItemData.ItemType.LOCATION))
-        }
+        adapter!!.addData(NormalMainItemData().setmItemType(NormalMainItemData.ItemType.HEADER))
+        adapter!!.addData(NormalMainItemData().setmItemType(NormalMainItemData.ItemType.FALL_DOWN).setmItemTitle("跌倒检测").setmIconRes(R.drawable.ic_receipt_blue_50_24dp).setmContent("跌到检测服务正在后台运行。点击可配置相关信息"))
+        adapter!!.addData(NormalMainItemData().setmItemType(NormalMainItemData.ItemType.NOTIFICATION).setmItemTitle("每日提醒").setmIconRes(R.drawable.ic_snooze_white_24dp).setmContent("每一个用户设置的提醒都应该显示为一条Item"))
+        adapter!!.addData(NormalMainItemData().setmItemType(NormalMainItemData.ItemType.EVETY_DAY_HEALTH).setmItemTitle("健康小提示").setmIconRes(R.drawable.ic_receipt_blue_50_24dp).setmContent("这里的消息可以来自于服务端的推送。"))
+        adapter!!.addData(NormalMainItemData().setmItemType(NormalMainItemData.ItemType.LOCATION).setmItemTitle("运动轨迹").setmIconRes(R.drawable.ic_place_white_24dp).setmContent("点击查看运动轨迹"))
+        adapter!!.addData(NormalMainItemData().setmItemType(NormalMainItemData.ItemType.FOTTER))
         adapter!!.notifyDataSetChanged()
         adapter!!.positionClicks.observeOn(AndroidSchedulers.mainThread()).subscribe {
             when (it.getmItemType()) {
-                NormalMainItemData.ItemType.STEP -> navigate<StepHistoryActivity>()
+                NormalMainItemData.ItemType.HEADER -> navigate<StepHistoryActivity>()
                 NormalMainItemData.ItemType.LOCATION -> navigate<Amap>()
                 else -> showToast("index:${it.getmIndex()} clicked")
             }
