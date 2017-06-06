@@ -49,18 +49,18 @@ class StepHistoryActivity : BaseActivity(), StepViewer {
     private fun mockData() {
         var data = ArrayList<Entry>()
         (0..10).mapTo(data) { Entry(it.toFloat(),Random().nextInt(100).toFloat()) }
-        lineDataSet = LineDataSet(data,"")
+        lineDataSet = LineDataSet(data, "每天运动量")
         lineDataSet!!.mode = LineDataSet.Mode.CUBIC_BEZIER
-        (lineDataSet as LineDataSet).color = Color.BLACK;
-        lineDataSet!!.setCircleColor(Color.RED);
-        lineDataSet!!.lineWidth = 1f;//设置线宽
-        lineDataSet!!.circleRadius = 1.5f;//设置焦点圆心的大小
-        lineDataSet!!.enableDashedHighlightLine(10f, 5f, 0f);//点击后的高亮线的显示样式
-        lineDataSet!!.highlightLineWidth = 1f;//设置点击交点后显示高亮线宽
-        lineDataSet!!.isHighlightEnabled = false;//是否禁用点击高亮线
-        lineDataSet!!.highLightColor = Color.RED;//设置点击交点后显示交高亮线的颜色
-        lineDataSet!!.valueTextSize = 9f;//设置显示值的文字大小
-        lineDataSet!!.setDrawFilled(true);//设置禁用范围背景填充
+        (lineDataSet as LineDataSet).color = Color.BLACK
+        lineDataSet!!.setCircleColor(Color.RED)
+        lineDataSet!!.lineWidth = 1f//设置线宽
+        lineDataSet!!.circleRadius = 1.5f//设置焦点圆心的大小
+        lineDataSet!!.enableDashedHighlightLine(10f, 5f, 0f)//点击后的高亮线的显示样式
+        lineDataSet!!.highlightLineWidth = 1f//设置点击交点后显示高亮线宽
+        lineDataSet!!.isHighlightEnabled = false//是否禁用点击高亮线
+        lineDataSet!!.highLightColor = Color.RED//设置点击交点后显示交高亮线的颜色
+        lineDataSet!!.valueTextSize = 9f//设置显示值的文字大小
+        lineDataSet!!.setDrawFilled(true)//设置禁用范围背景填充
         lineDataSet!!.fillColor = Color.GREEN
     }
 

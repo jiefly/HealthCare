@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true" />
 
-    <View
+    <!--<View
         android:id="@+id/id_main_cover"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -62,5 +62,5 @@
             app:fab_colorPressed="@color/white_pressed"
             app:fab_size="mini"
             app:fab_title="关于作者" />
-    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>-->
 </RelativeLayout>

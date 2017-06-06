@@ -7,7 +7,8 @@
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:foreground="?android:attr/selectableItemBackground">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -25,13 +26,13 @@
             <TextView
                 android:id="@+id/id_footer_info"
                 android:layout_width="wrap_content"
-                android:layout_marginTop="2dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/id_main_footer_img"
                 android:layout_centerHorizontal="true"
-                android:textSize="16sp"
+                android:layout_marginTop="2dp"
                 android:text="点击添加新的卡片"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textSize="16sp" />
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>

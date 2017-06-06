@@ -6,24 +6,28 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
+import android.support.design.widget.NavigationView
+import android.support.v4.view.GravityCompat
+import android.support.v4.widget.DrawerLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.View
-import com.getbase.floatingactionbutton.FloatingActionsMenu
+import android.view.Gravity
+import android.view.MenuItem
 import org.ecnu.chgao.healthcare.R
 import org.ecnu.chgao.healthcare.adapter.MainRvAdapter
+import org.ecnu.chgao.healthcare.model.MainMenuClickEvent
 import org.ecnu.chgao.healthcare.model.NormalMainItemData
 import org.ecnu.chgao.healthcare.present.MainPresent
 import org.ecnu.chgao.healthcare.service.FallDetectService
 import org.ecnu.chgao.healthcare.step.service.StepService
 import rx.android.schedulers.AndroidSchedulers
 
-class MainActivity : BaseActivity(), MainViewer {
+class MainActivity : BaseActivity(), MainViewer, NavigationView.OnNavigationItemSelectedListener {
     var mainPresent: MainPresent? = null
-    var cover: View? = null
-    var menu: FloatingActionsMenu? = null
     var recyclerView: RecyclerView? = null
     var adapter: MainRvAdapter? = null
+    var drawer: DrawerLayout? = null
+    var navigationView: NavigationView? = null
     val serviceConnection = object : ServiceConnection {
 
 
@@ -40,7 +44,7 @@ class MainActivity : BaseActivity(), MainViewer {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_drawer_main)
         mainPresent = MainPresent(this)
         initView()
         startService(Intent(this, FallDetectService::class.java))
@@ -63,29 +67,30 @@ class MainActivity : BaseActivity(), MainViewer {
     }
 
     private fun initView() {
+        initDrawer()
         initRv()
-        cover = findViewById(R.id.id_main_cover)
-        menu = findViewById(R.id.id_main_menu) as FloatingActionsMenu
-        menu!!.setOnFloatingActionsMenuUpdateListener(object : FloatingActionsMenu.OnFloatingActionsMenuUpdateListener {
-            override fun onMenuExpanded() {
-                toggleCover(true)
-            }
-
-            override fun onMenuCollapsed() {
-                toggleCover(false)
-            }
-        })
-        menu!!.findViewById(R.id.id_main_menu_item_1).setOnClickListener({
-            navigate<StepHistoryActivity>()
-            menu!!.collapse()
-        })
-        menu!!.findViewById(R.id.id_main_menu_item_2).setOnClickListener {
-            menu!!.collapse()
-        }
-        menu!!.findViewById(R.id.id_main_menu_item_3).setOnClickListener({
-            menu!!.collapse()
-        })
     }
+
+    private fun initDrawer() {
+        drawer = findViewById(R.id.drawer_layout) as DrawerLayout
+        navigationView = findViewById(R.id.nav_view) as NavigationView
+        navigationView!!.setNavigationItemSelectedListener(this)
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        showToast("menu item clicked ,item name:${item.title}")
+        drawer!!.closeDrawer(GravityCompat.START)
+        return true
+    }
+
+    override fun onBackPressed() {
+        if (drawer!!.isDrawerOpen(GravityCompat.START)) {
+            drawer!!.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed()
+        }
+    }
+
 
     private fun initRv() {
         recyclerView = findViewById(R.id.id_main_rv) as RecyclerView?
@@ -101,22 +106,20 @@ class MainActivity : BaseActivity(), MainViewer {
         adapter!!.notifyDataSetChanged()
         adapter!!.positionClicks.observeOn(AndroidSchedulers.mainThread()).subscribe {
             when (it.getmItemType()) {
-                NormalMainItemData.ItemType.HEADER -> navigate<StepHistoryActivity>()
+                NormalMainItemData.ItemType.HEADER -> {
+                    if (it is MainMenuClickEvent) {
+                        drawer!!.openDrawer(Gravity.START)
+                    } else {
+                        navigate<StepHistoryActivity>()
+                    }
+                }
                 NormalMainItemData.ItemType.LOCATION -> navigate<Amap>()
                 else -> showToast("index:${it.getmIndex()} clicked")
             }
         }
-    }
 
-    private fun toggleCover(show: Boolean) {
-        if (cover == null) {
-            cover = findViewById(R.id.id_main_cover)
-        }
-        if (show) {
-            cover!!.visibility = View.VISIBLE
-            cover!!.alpha = 0.7f
-        } else {
-            cover!!.visibility = View.GONE
+        adapter!!.positionLongClicks.observeOn(AndroidSchedulers.mainThread()).subscribe {
+            showToast("index:${it.getmIndex()} long clicked")
         }
     }
 

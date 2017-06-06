@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">HealthCare</string>
     <string name="today_task_format">今日计划：%d 步</string>
+    <string name="title_activity_test">TestActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>

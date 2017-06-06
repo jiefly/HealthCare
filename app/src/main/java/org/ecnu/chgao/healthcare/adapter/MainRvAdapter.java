@@ -5,9 +5,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.ecnu.chgao.healthcare.R;
+import org.ecnu.chgao.healthcare.model.MainMenuClickEvent;
 import org.ecnu.chgao.healthcare.model.NormalMainItemData;
 import org.ecnu.chgao.healthcare.view.customview.StepArcView;
 import org.ecnu.chgao.healthcare.view.item.NormalMainItemView;
@@ -22,6 +24,7 @@ import rx.subjects.PublishSubject;
 
 public class MainRvAdapter extends RecyclerView.Adapter<MainRvAdapter.NormalItemVH> {
     private final PublishSubject<NormalMainItemData> onClickSubject = PublishSubject.create();
+    private final PublishSubject<NormalMainItemData> onLongClickSubject = PublishSubject.create();
     private Context mContext;
     private List<NormalMainItemData> datas;
 
@@ -38,7 +41,7 @@ public class MainRvAdapter extends RecyclerView.Adapter<MainRvAdapter.NormalItem
             case FOTTER:
                 return new MainFooterItemVH(LayoutInflater.from(mContext).inflate(R.layout.main_item_footer_item_view, parent, false)).setOnClickListener(onClickSubject);
             default:
-                return new MainItemVH(new NormalMainItemView(mContext)).setOnClickListener(onClickSubject);
+                return new MainItemVH(new NormalMainItemView(mContext)).setOnClickListener(onClickSubject).setOnLongClickListener(onLongClickSubject);
         }
     }
 
@@ -71,6 +74,10 @@ public class MainRvAdapter extends RecyclerView.Adapter<MainRvAdapter.NormalItem
 
     public Observable<? extends NormalMainItemData> getPositionClicks() {
         return onClickSubject.asObservable();
+    }
+
+    public Observable<? extends NormalMainItemData> getPositionLongClicks() {
+        return onLongClickSubject.asObservable();
     }
 
     public void addData(NormalMainItemData data) {
@@ -115,6 +122,7 @@ public class MainRvAdapter extends RecyclerView.Adapter<MainRvAdapter.NormalItem
         public View itemView;
         public StepArcView mArcView;
         public TextView mTotalStep;
+        public ImageView mMenuIcon;
         public NormalMainItemData itemData;
 
 
@@ -123,14 +131,21 @@ public class MainRvAdapter extends RecyclerView.Adapter<MainRvAdapter.NormalItem
             this.itemView = itemView;
             mArcView = (StepArcView) itemView.findViewById(R.id.id_main_step_arc_view);
             mTotalStep = (TextView) itemView.findViewById(R.id.id_main_today_task);
+            mMenuIcon = (ImageView) itemView.findViewById(R.id.id_main_header_menu);
         }
 
         @Override
         public MainHeaderItemVH setOnClickListener(final PublishSubject<NormalMainItemData> onClickListener) {
-            itemView.setOnClickListener(new View.OnClickListener() {
+            mArcView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onClickListener.onNext(itemData);
+                }
+            });
+            mMenuIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onClickListener.onNext(new MainMenuClickEvent());
                 }
             });
 
@@ -184,6 +199,18 @@ public class MainRvAdapter extends RecyclerView.Adapter<MainRvAdapter.NormalItem
         }
 
         @Override
+        public NormalItemVH setOnLongClickListener(final PublishSubject<NormalMainItemData> onLongClickListener) {
+            itemView.getmCardView().setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    onLongClickListener.onNext(itemData);
+                    return true;
+                }
+            });
+            return this;
+        }
+
+        @Override
         public void resetView(NormalMainItemData data) {
             itemData = data;
             itemView.fillData(itemData);
@@ -198,6 +225,10 @@ public class MainRvAdapter extends RecyclerView.Adapter<MainRvAdapter.NormalItem
         }
 
         public abstract NormalItemVH setOnClickListener(final PublishSubject<NormalMainItemData> onClickListener);
+
+        public NormalItemVH setOnLongClickListener(final PublishSubject<NormalMainItemData> onLongClickListener) {
+            return this;
+        }
 
         public abstract void resetView(NormalMainItemData data);
     }

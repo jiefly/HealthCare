@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_setting"
+            android:icon="@drawable/ic_settings_red_900_24dp"
+            android:title="设置" />
+        <item
+            android:id="@+id/nav_account"
+            android:icon="@drawable/ic_account_circle_white_24dp"
+            android:title="个人信息" />
+        <item
+            android:id="@+id/nav_reset_pwd"
+            android:icon="@drawable/ic_lock_outline_black_24dp"
+            android:title="修改密码" />
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_info_outline_black_24dp"
+            android:title="关于" />
+
+    </group>
+
+</menu>
