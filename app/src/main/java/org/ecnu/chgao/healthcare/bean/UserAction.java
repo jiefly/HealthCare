@@ -70,6 +70,29 @@ public class UserAction {
                 });
     }
 
+    public void findPwd(String phone, String pwd, String code, int action, final SuccessCallback successCallback, final FailCallback failCallback) throws JSONException {
+        AccountInfo accountInfo = new AccountInfo(context);
+        accountInfo.findPwd(phone, pwd, code, action, new AccountInfo.SuccessCallback() {
+                    @Override
+                    public void onSuccess(String jsonResult) {
+                        if (successCallback != null) {
+                            successCallback.onSuccess(jsonResult);
+                        } else {
+                            failCallback.onFail(Config.STATUS_FAIL, Config.STATUS_FAIL_REASON_OTHER);
+                        }
+
+                    }
+                },
+                new AccountInfo.FailCallback() {
+                    @Override
+                    public void onFail(int status, int reason) {
+                        if (failCallback != null) {
+                            failCallback.onFail(status, reason);
+                        }
+                    }
+                });
+    }
+
     public void register(String phone, String passwordMd5, String smsCode, int action,
                          final SuccessCallback successCallback,
                          final FailCallback failCallback) throws JSONException {

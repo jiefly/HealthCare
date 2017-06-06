@@ -16,174 +16,81 @@
         android:id="@+id/id_register_phone"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:inputType="phone"
+        android:layout_alignStart="@+id/id_register_agree_pro"
+        android:layout_below="@+id/id_register_pic_logo"
+        android:layout_marginTop="16dp"
+        android:layout_toStartOf="@+id/id_register_get_sms_code"
         android:hint="手机号"
+        android:inputType="phone"
         android:paddingBottom="6dp"
         android:paddingTop="6dp"
-        android:textSize="12sp"
-        android:layout_toStartOf="@+id/id_register_get_sms_code"
-        android:layout_below="@+id/id_register_pic_logo"
-        android:layout_alignStart="@+id/id_register_agree_pro"
-        android:layout_marginTop="16dp" />
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/id_register_get_sms_code"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/id_register_phone"
+        android:layout_alignBottom="@+id/id_register_phone"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="16dp"
         android:background="@color/grey"
         android:gravity="center"
         android:lines="1"
         android:padding="8dp"
-        android:text="获取验证码"
-        android:layout_marginEnd="16dp"
-        android:layout_alignBaseline="@+id/id_register_phone"
-        android:layout_alignBottom="@+id/id_register_phone"
-        android:layout_alignParentEnd="true" />
+        android:text="获取验证码" />
 
     <EditText
         android:id="@+id/id_register_sms_code"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:hint="验证码"
-        android:textSize="12sp"
-        android:layout_marginEnd="16dp"
+        android:layout_alignStart="@+id/id_register_phone"
         android:layout_below="@+id/id_register_phone"
-        android:layout_alignStart="@+id/id_register_phone" />
+        android:layout_marginEnd="16dp"
+        android:hint="验证码"
+        android:textSize="12sp" />
 
     <EditText
         android:id="@+id/id_register_password"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:hint="密码(6-16位)"
-        android:inputType="textPassword"
-        android:textSize="12sp"
-        android:layout_marginEnd="16dp"
+        android:layout_alignStart="@+id/id_register_sms_code"
         android:layout_below="@+id/id_register_sms_code"
-        android:layout_alignStart="@+id/id_register_sms_code" />
+        android:layout_marginEnd="16dp"
+        android:hint="密码(8-16位)"
+        android:maxEms="16"
+        android:minEms="8"
+        android:inputType="textPassword"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/id_register_agree_pro"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:layout_marginStart="19dp"
-        android:gravity="bottom"
-        android:textSize="10sp"
-        android:text="点击注册表示同意隐私条款"
-        android:layout_below="@+id/id_register_password"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="33dp" />
+        android:layout_below="@+id/id_register_password"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="33dp"
+        android:gravity="bottom"
+        android:text="点击注册表示同意隐私条款"
+        android:textSize="10sp" />
 
     <TextView
         android:id="@+id/id_register_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:gravity="center_vertical"
-        android:paddingEnd="30dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:paddingStart="30dp"
-        android:text="注册"
-        android:textColor="@color/white"
-        android:textSize="18sp"
+        android:layout_alignBottom="@+id/id_register_agree_pro"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="16dp"
-        android:layout_alignBottom="@+id/id_register_agree_pro" />
-
-
-    <!--<RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:clickable="true"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/phone_number"
-                    android:padding="9dp"
-                    android:text="手    机："
-                    android:textColor="#000"
-                    android:textSize="17sp" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/phone_numberEdit"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dip"
-                    android:hint="请输入您的手机号"
-                    android:layout_toRightOf="@id/phone_number"
-                    android:textSize="15sp"
-                    android:inputType="phone"
-                    android:singleLine="true" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:clickable="true"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/pwd"
-                    android:padding="9dp"
-                    android:text="密    码："
-                    android:textColor="#000"
-                    android:textSize="17sp" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:id="@+id/pwdEdit"
-                    android:layout_marginLeft="15dip"
-                    android:hint="请设置您的密码"
-                    android:layout_toRightOf="@id/pwd"
-                    android:textSize="15sp" />
-            </RelativeLayout>
-        </LinearLayout>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="20dp">
-
-        <Button
-            android:id="@+id/cancel_btn"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp"
-            android:background="@drawable/button_bg"
-            android:text="取消"
-            android:textColor="#000" />
-
-        <Button
-            android:id="@+id/next_btn"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/cancel_btn"
-            android:background="@drawable/button_bg"
-            android:text="注册"
-            android:textColor="#000" />
-
-    </RelativeLayout>-->
+        android:background="@color/colorPrimary"
+        android:gravity="center_vertical"
+        android:paddingBottom="10dp"
+        android:paddingEnd="30dp"
+        android:paddingStart="30dp"
+        android:paddingTop="10dp"
+        android:text="注册"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
 
 
 </RelativeLayout>

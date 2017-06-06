@@ -125,6 +125,40 @@ public class AccountInfo {
 
     }
 
+    public void findPwd(String phone, String passwordMd5, String smsCode, int action,
+                        final SuccessCallback successCallback,
+                        final FailCallback failCallback) throws JSONException {
+
+        // ���������ת����json�ַ���
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(AccountInfo.PHONE, phone);
+        jsonObject.put(AccountInfo.PASSWORD_MD5, passwordMd5);
+        jsonObject.put(AccountInfo.SMS_CODE, smsCode);
+        jsonObject.put(AccountInfo.ACTION, action);
+
+
+        // ��������������ӷ�����
+        new Netconnection(context, ApiStores.API_SERVER_URL, HttpMethod.POST,
+                new Netconnection.SuccessCallback() {
+                    @Override
+                    public void onSuccess(String result) {
+
+                        if (successCallback != null) {
+                            successCallback.onSuccess(result);
+                        }
+                    }
+                }, new Netconnection.FailCallback() {
+            @Override
+            public void onFail(int status, int reason) {
+
+                if (failCallback != null) {
+                    failCallback.onFail(status, reason);
+                }
+            }
+        }, action, jsonObject.toString());
+
+    }
+
     public void getSmsCode(String phone, int action,
                            final SuccessCallback successCallback,
                            final FailCallback failCallback) throws JSONException {

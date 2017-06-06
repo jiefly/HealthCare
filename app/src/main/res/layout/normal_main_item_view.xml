@@ -1,27 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:padding="4dp"
-    android:layout_height="140dp">
+    android:layout_height="140dp"
+    android:background="@color/cardview_dark_background"
+    android:padding="4dp">
 
     <android.support.v7.widget.CardView
-        android:background="@color/cardview_dark_background"
         android:id="@+id/id_normal_main_item_card"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/cardview_dark_background"
         android:clickable="true"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:layout_height="match_parent">
+        android:foreground="?android:attr/selectableItemBackground">
 
-        <FrameLayout
+        <RelativeLayout
             android:id="@+id/id_main_item_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/yellow">
+
+            <ImageView
+                android:id="@+id/id_normal_main_item_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_margin="8dp"
+                android:src="@drawable/ic_receipt_blue_50_24dp" />
+
+            <ImageView
+                android:id="@+id/id_normal_main_item_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="8dp"
+                android:src="@drawable/ic_more_horiz_red_50_24dp" />
 
             <TextView
-                android:layout_gravity="center"
+                android:id="@+id/id_normal_main_item_title"
                 android:layout_width="wrap_content"
-                android:text="HELLO_WORLD"
-                android:layout_height="wrap_content" />
-        </FrameLayout>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="17dp"
+                android:layout_toEndOf="@+id/id_normal_main_item_icon"
+                android:text="健康小贴士"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/id_normal_main_item_content"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:lines="2"
+                android:text="在 MVVM 中，当 app 修改了 ViewModel, View 会自动更新。你不可以从 ViewModel 中直接更新 View, 因为 ViewModel 不持有 View 的引用。"
+                android:layout_alignParentBottom="true" />
+        </RelativeLayout>
     </android.support.v7.widget.CardView>
-</RelativeLayout>
+</FrameLayout>

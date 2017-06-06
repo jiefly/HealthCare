@@ -35,7 +35,7 @@ public class LoginPresent extends BasePresent<LoginViewer, LoginModel> {
                                     mViewer.loginSuccess();
                                     // TODO:save user account && pwd
                                 } else {
-                                    mViewer.loginFailed(result.getString("result"));
+                                    mViewer.loginFailed(result.getString("message"));
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

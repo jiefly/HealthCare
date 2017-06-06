@@ -6,10 +6,9 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
-import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import com.amap.api.maps2d.AMap
 import com.getbase.floatingactionbutton.FloatingActionsMenu
 import org.ecnu.chgao.healthcare.R
 import org.ecnu.chgao.healthcare.adapter.MainRvAdapter
@@ -17,14 +16,12 @@ import org.ecnu.chgao.healthcare.model.NormalMainItemData
 import org.ecnu.chgao.healthcare.present.MainPresent
 import org.ecnu.chgao.healthcare.service.FallDetectService
 import org.ecnu.chgao.healthcare.step.service.StepService
-import org.ecnu.chgao.healthcare.view.customview.StepArcView
 import rx.android.schedulers.AndroidSchedulers
 
 class MainActivity : BaseActivity(), MainViewer {
     var mainPresent: MainPresent? = null
     var cover: View? = null
     var menu: FloatingActionsMenu? = null
-    var stepArc: StepArcView? = null
     var recyclerView: RecyclerView? = null
     var adapter: MainRvAdapter? = null
     val serviceConnection = object : ServiceConnection {
@@ -51,7 +48,7 @@ class MainActivity : BaseActivity(), MainViewer {
     }
 
     override fun setStepCount(totalCount: Int, currentCount: Int) {
-        stepArc!!.setCurrentCount(totalCount, currentCount)
+        adapter!!.setStep(totalCount, currentCount)
     }
 
     override fun bindStepService() {
@@ -67,8 +64,6 @@ class MainActivity : BaseActivity(), MainViewer {
 
     private fun initView() {
         initRv()
-        stepArc = findViewById(R.id.id_main_step_arc_view) as StepArcView
-        stepArc!!.setCurrentCount(mainPresent!!.taskStep, mainPresent!!.currentStep)
         cover = findViewById(R.id.id_main_cover)
         menu = findViewById(R.id.id_main_menu) as FloatingActionsMenu
         menu!!.setOnFloatingActionsMenuUpdateListener(object : FloatingActionsMenu.OnFloatingActionsMenuUpdateListener {
@@ -94,14 +89,21 @@ class MainActivity : BaseActivity(), MainViewer {
 
     private fun initRv() {
         recyclerView = findViewById(R.id.id_main_rv) as RecyclerView?
-        recyclerView!!.layoutManager = GridLayoutManager(this, 3) as RecyclerView.LayoutManager?
+        recyclerView!!.layoutManager = LinearLayoutManager(this) as RecyclerView.LayoutManager?
         adapter = MainRvAdapter(this)
         recyclerView!!.adapter = adapter
-        for (i in 0..8) {
-            adapter!!.addData(NormalMainItemData())
+        adapter!!.addData(NormalMainItemData().setmItemType(NormalMainItemData.ItemType.STEP))
+        for (i in 0..3) {
+            adapter!!.addData(NormalMainItemData().setmMoreRes(R.drawable.ic_more_horiz_red_50_24dp).setmIconRes(R.drawable.ic_place_white_24dp).setmItemTitle("标题：" + i).setmContent("内容：" + i).setmItemType(NormalMainItemData.ItemType.LOCATION))
         }
         adapter!!.notifyDataSetChanged()
-        adapter!!.positionClicks.observeOn(AndroidSchedulers.mainThread()).subscribe { navigate<Amap>() }
+        adapter!!.positionClicks.observeOn(AndroidSchedulers.mainThread()).subscribe {
+            when (it.getmItemType()) {
+                NormalMainItemData.ItemType.STEP -> navigate<StepHistoryActivity>()
+                NormalMainItemData.ItemType.LOCATION -> navigate<Amap>()
+                else -> showToast("index:${it.getmIndex()} clicked")
+            }
+        }
     }
 
     private fun toggleCover(show: Boolean) {
