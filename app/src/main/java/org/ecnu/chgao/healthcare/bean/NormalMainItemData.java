@@ -1,4 +1,4 @@
-package org.ecnu.chgao.healthcare.model;
+package org.ecnu.chgao.healthcare.bean;
 
 import android.support.annotation.DrawableRes;
 

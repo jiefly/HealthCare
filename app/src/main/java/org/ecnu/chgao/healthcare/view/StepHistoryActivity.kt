@@ -7,49 +7,45 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import org.ecnu.chgao.healthcare.bean.StepHistoryData
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import org.ecnu.chgao.healthcare.R
 import org.ecnu.chgao.healthcare.adapter.StepRvAdapter
-import java.util.*
-import kotlin.collections.ArrayList
+import org.ecnu.chgao.healthcare.present.StepPresent
+import org.ecnu.chgao.healthcare.step.bean.StepData
 
 class StepHistoryActivity : BaseActivity(), StepViewer {
-    override fun getContext(): Context {
-        return this
-    }
 
     var recyclerView: RecyclerView? = null
     var adapter: StepRvAdapter? = null
     var chart: LineChart? = null
     var lineDataSet: LineDataSet? = null
+    var chartRawData = ArrayList<Entry>()
+    var present: StepPresent? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_step_history)
-        useCustomToolbar(title = "步数", onLeftIconClick = View.OnClickListener { onBackPressed() })
+        useCustomToolbar(title = "历史记录", onLeftIconClick = View.OnClickListener { onBackPressed() })
         recyclerView = findViewById(R.id.id_step_rv) as RecyclerView
         chart = findViewById(R.id.id_step_chart) as LineChart
         initRv()
         initChart()
+        present = StepPresent(this)
+        present!!.fetchData()
     }
 
     private fun initChart() {
+        initLines()
         chart?.description?.text = "步数"
-        mockData()
         chart?.setScaleEnabled(true)
         chart?.data = LineData(lineDataSet)
-        chart?.data?.notifyDataChanged()
-        chart?.notifyDataSetChanged()
     }
 
-    private fun mockData() {
-        var data = ArrayList<Entry>()
-        (0..10).mapTo(data) { Entry(it.toFloat(),Random().nextInt(100).toFloat()) }
-        lineDataSet = LineDataSet(data, "每天运动量")
+    private fun initLines(): Boolean {
+        lineDataSet = LineDataSet(chartRawData, "每天运动量")
         lineDataSet!!.mode = LineDataSet.Mode.CUBIC_BEZIER
         (lineDataSet as LineDataSet).color = Color.BLACK
         lineDataSet!!.setCircleColor(Color.RED)
@@ -61,7 +57,8 @@ class StepHistoryActivity : BaseActivity(), StepViewer {
         lineDataSet!!.highLightColor = Color.RED//设置点击交点后显示交高亮线的颜色
         lineDataSet!!.valueTextSize = 9f//设置显示值的文字大小
         lineDataSet!!.setDrawFilled(true)//设置禁用范围背景填充
-        lineDataSet!!.fillColor = Color.GREEN
+        lineDataSet!!.fillColor = resources.getColor(R.color.yellow)
+        return true
     }
 
     private fun initRv() {
@@ -71,8 +68,28 @@ class StepHistoryActivity : BaseActivity(), StepViewer {
         decoration.setDrawable(resources.getDrawable(R.drawable.div_bg))
         recyclerView?.addItemDecoration(decoration)
         recyclerView?.adapter = adapter
-        for (i in 1..10)
-            adapter?.addData(StepHistoryData().setDate(Date()).setValue(100 + i))
-        adapter?.notifyDataSetChanged()
     }
+
+    override fun fillData(datas: MutableList<StepData>?) {
+        if (datas!!.size == 0) {
+            return
+        }
+        var index = 1
+        datas.asReversed().map {
+            //data for recycler view
+            adapter!!.addData(it)
+            //data for chart
+            chart!!.data.dataSets[0].addEntry(Entry(index.toFloat(), it.step.toFloat()))
+            index += 1
+        }
+        adapter!!.notifyDataSetChanged()
+        chart!!.data.notifyDataChanged()
+        chart!!.notifyDataSetChanged()
+    }
+
+    override fun getContext(): Context {
+        return this
+    }
+
+
 }

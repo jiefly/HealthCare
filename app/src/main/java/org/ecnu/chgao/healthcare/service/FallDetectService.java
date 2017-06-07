@@ -51,12 +51,12 @@ public class FallDetectService extends Service implements FallDetectListener.OnF
         mListener = new FallDetectListener(this).registerListener(this);
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mSensorManager.registerListener(mListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                onFall();
-            }
-        }, 10000);
+//        new Timer().schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                onFall();
+//            }
+//        }, 10000);
     }
 
     private void initReceiver() {

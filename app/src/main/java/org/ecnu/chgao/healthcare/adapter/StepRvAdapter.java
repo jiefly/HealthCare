@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import org.ecnu.chgao.healthcare.bean.StepHistoryData;
 
+import org.ecnu.chgao.healthcare.step.bean.StepData;
 import org.ecnu.chgao.healthcare.view.item.StepHistoryItemView;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.List;
 
 public class StepRvAdapter extends RecyclerView.Adapter<StepRvAdapter.HeartRateVH> {
     private Context mContext;
-    private List<StepHistoryData> datas;
+    private List<StepData> datas;
 
     public StepRvAdapter(Context context) {
         mContext = context;
@@ -36,13 +37,13 @@ public class StepRvAdapter extends RecyclerView.Adapter<StepRvAdapter.HeartRateV
         return datas.size();
     }
 
-    public void addData(StepHistoryData data) {
+    public void addData(StepData data) {
         if (data != null) {
             datas.add(data);
         }
     }
 
-    public void addDatas(List<StepHistoryData> datas) {
+    public void addDatas(List<StepData> datas) {
         if (datas != null) {
             this.datas.addAll(datas);
         }

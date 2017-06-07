@@ -2,12 +2,13 @@ package org.ecnu.chgao.healthcare.view
 
 import android.content.Context
 import android.os.Bundle
+import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import org.ecnu.chgao.healthcare.R
 import org.ecnu.chgao.healthcare.present.RegisterPresent
 
-class RegisterActivity : BaseActivity(), RegisterViewer {
+open class RegisterActivity : BaseActivity(), RegisterViewer {
     val TAG = "RegisterActivity"
     var phoneET: EditText? = null
     var pwdET: EditText? = null
@@ -17,9 +18,18 @@ class RegisterActivity : BaseActivity(), RegisterViewer {
     var present: RegisterPresent? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register)
+        setContentView(getLayoutRes())
+        useCustomToolbar(title = getToolbarTitle())
         initView()
         present = RegisterPresent(this)
+    }
+
+    open protected fun getToolbarTitle(): String {
+        return "注册"
+    }
+
+    open protected fun getLayoutRes(): Int {
+        return R.layout.activity_register
     }
 
     private fun initView() {
@@ -38,7 +48,7 @@ class RegisterActivity : BaseActivity(), RegisterViewer {
 
     override fun onRegisterSuccess() {
         showToast("注册成功")
-        navigate<MainActivity>()
+        navigate<LoginActivity>()
     }
 
     override fun onRegisterFailed(msg: String?) {

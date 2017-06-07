@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import org.ecnu.chgao.healthcare.R;
 import org.ecnu.chgao.healthcare.model.MainMenuClickEvent;
-import org.ecnu.chgao.healthcare.model.NormalMainItemData;
+import org.ecnu.chgao.healthcare.bean.NormalMainItemData;
 import org.ecnu.chgao.healthcare.view.customview.StepArcView;
 import org.ecnu.chgao.healthcare.view.item.NormalMainItemView;
 
@@ -89,6 +89,20 @@ public class MainRvAdapter extends RecyclerView.Adapter<MainRvAdapter.NormalItem
     public void addDatas(List<NormalMainItemData> datas) {
         if (datas != null) {
             this.datas.addAll(datas);
+        }
+    }
+
+    public void removeData(int index) {
+        if (index > 0 && index < datas.size() - 1) {
+            datas.remove(index);
+            notifyItemRemoved(index);
+            refreshDatas();
+        }
+    }
+
+    private void refreshDatas() {
+        for (int i = 0; i < datas.size(); i++) {
+            datas.get(i).setmIndex(i);
         }
     }
 

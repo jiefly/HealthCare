@@ -1,5 +1,7 @@
 package org.ecnu.chgao.healthcare.model;
 
+import org.ecnu.chgao.healthcare.bean.NormalMainItemData;
+
 /**
  * Created by chgao on 17-6-5.
  */

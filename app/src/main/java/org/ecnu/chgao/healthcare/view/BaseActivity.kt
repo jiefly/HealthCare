@@ -45,7 +45,7 @@ abstract class BaseActivity : AppCompatActivity() {
     * should invoke this method after #setContentView()
     * toolbar layout should contain left icon(id:id_tool_bar_left_arrow) and title text view(id:id_tool_bar_title)
     * */
-    inline fun useCustomToolbar(layoutId: Int = R.id.id_normal_tool_bar, title: String, onLeftIconClick: View.OnClickListener) {
+    inline fun useCustomToolbar(layoutId: Int = R.id.id_normal_tool_bar, title: String, onLeftIconClick: View.OnClickListener = View.OnClickListener { onBackPressed() }) {
         val toolbar = findViewById(layoutId) as android.support.v7.widget.Toolbar
         setSupportActionBar(toolbar)
         supportActionBar?.title = ""

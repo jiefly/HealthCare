@@ -6,7 +6,7 @@ import java.util.*
 /**
  * Created by chgao on 17-5-25.
  */
-class StepHistoryData : NormalHistoryData<Int>() {
+class StepHistoryData(data: Date, value: Int) : NormalHistoryData<Int>(data, value) {
     fun setDate(date: Date): StepHistoryData {
         this.date = date
         return this

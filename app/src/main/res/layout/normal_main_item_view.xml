@@ -2,7 +2,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="140dp"
-    android:background="@color/cardview_dark_background"
     android:paddingEnd="4dp"
     android:paddingStart="4dp"
     android:paddingTop="4dp">

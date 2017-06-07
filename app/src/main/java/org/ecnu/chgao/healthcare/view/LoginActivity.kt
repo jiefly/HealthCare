@@ -44,6 +44,7 @@ class LoginActivity : BaseActivity(), LoginViewer {
     override fun loginSuccess() {
         showToast("登陆成功")
         navigate<MainActivity>()
+        finish()
     }
 
     override fun loginFailed(msg: String?) {

@@ -11,6 +11,11 @@ open class NormalHistoryData<D> {
     var date: Date = Date()
     var value: D? = null
 
+    constructor(date: Date, value: D) {
+        this.date = date
+        this.value = value
+    }
+
     fun dateDetail(year: Boolean = false, month: Boolean = true, day: Boolean = true, hour: Boolean = true, min: Boolean = true, second: Boolean = false): String? {
         val formatPatten = StringBuilder()
         if (year)

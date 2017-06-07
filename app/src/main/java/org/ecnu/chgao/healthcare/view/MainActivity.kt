@@ -16,7 +16,7 @@ import android.view.MenuItem
 import org.ecnu.chgao.healthcare.R
 import org.ecnu.chgao.healthcare.adapter.MainRvAdapter
 import org.ecnu.chgao.healthcare.model.MainMenuClickEvent
-import org.ecnu.chgao.healthcare.model.NormalMainItemData
+import org.ecnu.chgao.healthcare.bean.NormalMainItemData
 import org.ecnu.chgao.healthcare.present.MainPresent
 import org.ecnu.chgao.healthcare.service.FallDetectService
 import org.ecnu.chgao.healthcare.step.service.StepService
@@ -119,7 +119,8 @@ class MainActivity : BaseActivity(), MainViewer, NavigationView.OnNavigationItem
         }
 
         adapter!!.positionLongClicks.observeOn(AndroidSchedulers.mainThread()).subscribe {
-            showToast("index:${it.getmIndex()} long clicked")
+            //adapter!!.removeData(it.getmIndex())
+            showAlertDialog("删除卡片", "", { _, _ -> adapter!!.removeData(it.getmIndex()) }, { _, _ -> })
         }
     }
 
