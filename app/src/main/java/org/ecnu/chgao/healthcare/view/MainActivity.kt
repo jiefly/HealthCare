@@ -78,8 +78,12 @@ class MainActivity : BaseActivity(), MainViewer, NavigationView.OnNavigationItem
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        showToast("menu item clicked ,item name:${item.title}")
         drawer!!.closeDrawer(GravityCompat.START)
+        when (item.itemId) {
+            R.id.nav_account -> navigate<UserInfoActivity>()
+            R.id.nav_reset_pwd -> navigate<FindPwdActivity>()
+            else -> showToast("menu item clicked ,item name:${item.title}")
+        }
         return true
     }
 
@@ -114,6 +118,7 @@ class MainActivity : BaseActivity(), MainViewer, NavigationView.OnNavigationItem
                     }
                 }
                 NormalMainItemData.ItemType.LOCATION -> navigate<Amap>()
+                NormalMainItemData.ItemType.FOTTER -> navigate<EditCardActivity>()
                 else -> showToast("index:${it.getmIndex()} clicked")
             }
         }

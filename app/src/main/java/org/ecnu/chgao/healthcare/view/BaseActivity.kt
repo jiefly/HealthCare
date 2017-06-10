@@ -25,8 +25,10 @@ abstract class BaseActivity : AppCompatActivity() {
 
     inline fun showAlertDialog(title: String?, message: String?, positive: DialogInterface.OnClickListener?, negative: DialogInterface.OnClickListener?) {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle(title)
-        builder.setMessage(message)
+        if (!title.isNullOrEmpty())
+            builder.setTitle(title)
+        if (!message.isNullOrEmpty())
+            builder.setMessage(message)
         builder.setNegativeButton("取消", negative)
         builder.setPositiveButton("确定", positive)
         builder.show()

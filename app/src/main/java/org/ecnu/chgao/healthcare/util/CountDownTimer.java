@@ -1,4 +1,4 @@
-package org.ecnu.chgao.healthcare.step.utils;
+package org.ecnu.chgao.healthcare.util;
 
 import android.os.Handler;
 import android.os.Message;

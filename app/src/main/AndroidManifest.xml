@@ -261,6 +261,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".view.UserInfoActivity" />
+        <activity android:name=".view.EditCardActivity"></activity>
     </application>
 
 </manifest>

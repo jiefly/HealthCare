@@ -24,7 +24,7 @@ import org.ecnu.chgao.healthcare.step.UpdateUiCallBack;
 import org.ecnu.chgao.healthcare.step.accelerometer.StepCount;
 import org.ecnu.chgao.healthcare.step.accelerometer.StepValuePassListener;
 import org.ecnu.chgao.healthcare.step.bean.StepData;
-import org.ecnu.chgao.healthcare.step.utils.DbUtils;
+import org.ecnu.chgao.healthcare.util.DbUtils;
 import org.ecnu.chgao.healthcare.view.MainActivity;
 
 import java.text.SimpleDateFormat;

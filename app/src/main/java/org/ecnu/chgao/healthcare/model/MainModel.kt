@@ -1,7 +1,7 @@
 package org.ecnu.chgao.healthcare.model
 
 import android.content.Context
-import org.ecnu.chgao.healthcare.step.utils.SharedPreferencesUtils
+import org.ecnu.chgao.healthcare.util.SharedPreferencesUtils
 
 /**
  * Created by chgao on 17-5-29.
