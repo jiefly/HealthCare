@@ -6,13 +6,14 @@ package org.ecnu.chgao.healthcare.bean;
 
 public class EditCardItemData {
     private String name;
-    private boolean enable;
+    private boolean mChecked;
+    private boolean mEnable;
     private int mIndex;
 
-    public EditCardItemData(int index, String name, boolean enable) {
+    public EditCardItemData(int index, String name, boolean mChecked) {
         mIndex = index;
         this.name = name;
-        this.enable = enable;
+        this.mChecked = mChecked;
     }
 
     public String getName() {
@@ -23,12 +24,12 @@ public class EditCardItemData {
         this.name = name;
     }
 
-    public boolean isEnable() {
-        return enable;
+    public boolean ismChecked() {
+        return mChecked;
     }
 
-    public void setEnable(boolean enable) {
-        this.enable = enable;
+    public void setmChecked(boolean mChecked) {
+        this.mChecked = mChecked;
     }
 
     public int getmIndex() {
@@ -37,5 +38,13 @@ public class EditCardItemData {
 
     public void setmIndex(int mIndex) {
         this.mIndex = mIndex;
+    }
+
+    public boolean ismEnable() {
+        return mEnable;
+    }
+
+    public void setmEnable(boolean mEnable) {
+        this.mEnable = mEnable;
     }
 }

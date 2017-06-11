@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import org.ecnu.chgao.healthcare.R
 import org.ecnu.chgao.healthcare.adapter.EditCardRvAdapter
-import org.ecnu.chgao.healthcare.bean.EditCardItemData
 import org.ecnu.chgao.healthcare.present.EditCardPresent
 import rx.android.schedulers.AndroidSchedulers
 

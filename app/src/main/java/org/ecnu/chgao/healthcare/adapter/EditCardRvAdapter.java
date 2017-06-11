@@ -84,7 +84,8 @@ public class EditCardRvAdapter extends RecyclerView.Adapter<EditCardRvAdapter.Ed
 
         public void resetView(EditCardItemData data) {
             this.data = data;
-            itemView.fillData(data.getName(), data.isEnable());
+            itemView.enableSw(data.ismEnable());
+            itemView.fillData(data.getName(), data.ismChecked());
         }
     }
 }

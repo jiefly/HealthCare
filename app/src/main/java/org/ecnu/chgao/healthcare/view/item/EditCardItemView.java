@@ -5,8 +5,6 @@ import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
-import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -49,10 +47,15 @@ public class EditCardItemView extends RelativeLayout {
         mEnableSw = (Switch) findViewById(R.id.id_edit_card_enable);
     }
 
+    public void enableSw(boolean enable) {
+        mEnableSw.setEnabled(enable);
+    }
+
     public void fillData(String name, boolean enable) {
         mNameTV.setText(name);
         mEnableSw.setChecked(enable);
     }
+
 
     @Override
     public void setOnClickListener(@Nullable OnClickListener l) {

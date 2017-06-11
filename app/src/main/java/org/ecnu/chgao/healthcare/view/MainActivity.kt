@@ -15,8 +15,8 @@ import android.view.Gravity
 import android.view.MenuItem
 import org.ecnu.chgao.healthcare.R
 import org.ecnu.chgao.healthcare.adapter.MainRvAdapter
-import org.ecnu.chgao.healthcare.model.MainMenuClickEvent
 import org.ecnu.chgao.healthcare.bean.NormalMainItemData
+import org.ecnu.chgao.healthcare.model.MainMenuClickEvent
 import org.ecnu.chgao.healthcare.present.MainPresent
 import org.ecnu.chgao.healthcare.service.FallDetectService
 import org.ecnu.chgao.healthcare.step.service.StepService
@@ -95,22 +95,21 @@ class MainActivity : BaseActivity(), MainViewer, NavigationView.OnNavigationItem
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        adapter!!.replaceAllDatas(mainPresent!!.allCards)
+    }
 
     private fun initRv() {
         recyclerView = findViewById(R.id.id_main_rv) as RecyclerView?
         recyclerView!!.layoutManager = LinearLayoutManager(this) as RecyclerView.LayoutManager?
         adapter = MainRvAdapter(this)
         recyclerView!!.adapter = adapter
-        adapter!!.addData(NormalMainItemData().setmItemType(NormalMainItemData.ItemType.HEADER))
-        adapter!!.addData(NormalMainItemData().setmItemType(NormalMainItemData.ItemType.FALL_DOWN).setmItemTitle("跌倒检测").setmIconRes(R.drawable.ic_receipt_blue_50_24dp).setmContent("跌到检测服务正在后台运行。点击可配置相关信息"))
-        adapter!!.addData(NormalMainItemData().setmItemType(NormalMainItemData.ItemType.NOTIFICATION).setmItemTitle("每日提醒").setmIconRes(R.drawable.ic_snooze_white_24dp).setmContent("每一个用户设置的提醒都应该显示为一条Item"))
-        adapter!!.addData(NormalMainItemData().setmItemType(NormalMainItemData.ItemType.EVETY_DAY_HEALTH).setmItemTitle("健康小提示").setmIconRes(R.drawable.ic_receipt_blue_50_24dp).setmContent("这里的消息可以来自于服务端的推送。"))
-        adapter!!.addData(NormalMainItemData().setmItemType(NormalMainItemData.ItemType.LOCATION).setmItemTitle("运动轨迹").setmIconRes(R.drawable.ic_place_white_24dp).setmContent("点击查看运动轨迹"))
-        adapter!!.addData(NormalMainItemData().setmItemType(NormalMainItemData.ItemType.FOTTER))
+        adapter!!.addDatas(mainPresent!!.allCards)
         adapter!!.notifyDataSetChanged()
         adapter!!.positionClicks.observeOn(AndroidSchedulers.mainThread()).subscribe {
             when (it.getmItemType()) {
-                NormalMainItemData.ItemType.HEADER -> {
+                NormalMainItemData.ItemType.STEP -> {
                     if (it is MainMenuClickEvent) {
                         drawer!!.openDrawer(Gravity.START)
                     } else {
@@ -125,7 +124,10 @@ class MainActivity : BaseActivity(), MainViewer, NavigationView.OnNavigationItem
 
         adapter!!.positionLongClicks.observeOn(AndroidSchedulers.mainThread()).subscribe {
             //adapter!!.removeData(it.getmIndex())
-            showAlertDialog("删除卡片", "", { _, _ -> adapter!!.removeData(it.getmIndex()) }, { _, _ -> })
+            showAlertDialog("删除卡片", "", { _, _ ->
+                adapter!!.removeData(it.getmIndex())
+                mainPresent!!.disableCard(it.getmItemType())
+            }, { _, _ -> })
         }
     }
 

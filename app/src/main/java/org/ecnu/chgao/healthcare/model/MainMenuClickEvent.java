@@ -9,6 +9,6 @@ import org.ecnu.chgao.healthcare.bean.NormalMainItemData;
 public class MainMenuClickEvent extends NormalMainItemData {
     @Override
     public ItemType getmItemType() {
-        return ItemType.HEADER;
+        return ItemType.STEP;
     }
 }

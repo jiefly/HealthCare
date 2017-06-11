@@ -27,8 +27,15 @@ public class EditCardModel extends BaseModel {
         }
         sharedPreferencesUtils = new SharedPreferencesUtils(mPresent.getContext().getApplicationContext());
         int i = 0;
+        EditCardItemData data;
         for (CardType cardType : CardType.values()) {
-            mCards.add(new EditCardItemData(i++, cardType.getValue(), (Boolean) sharedPreferencesUtils.getParam(cardType.getValue(), false)));
+            data = new EditCardItemData(i++, cardType.getValue(), (Boolean) sharedPreferencesUtils.getParam(cardType.getValue(), false));
+            if (cardType == CardType.STEP || cardType == CardType.EDIT_CARD) {
+                data.setmEnable(false);
+            } else {
+                data.setmEnable(true);
+            }
+            mCards.add(data);
         }
         return mCards;
     }
@@ -38,12 +45,12 @@ public class EditCardModel extends BaseModel {
             throw new IllegalArgumentException("the card you choose is illegal");
         }
         EditCardItemData data = mCards.get(index);
-        data.setEnable(!data.isEnable());
+        data.setmChecked(!data.ismChecked());
     }
 
     public void update() {
         for (EditCardItemData data : mCards) {
-            sharedPreferencesUtils.setParam(data.getName(), data.isEnable());
+            sharedPreferencesUtils.setParam(data.getName(), data.ismChecked());
         }
     }
 

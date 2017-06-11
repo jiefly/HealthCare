@@ -36,7 +36,7 @@ public class MainRvAdapter extends RecyclerView.Adapter<MainRvAdapter.NormalItem
     @Override
     public NormalItemVH onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (NormalMainItemData.ItemType.getTypeByValue(viewType)) {
-            case HEADER:
+            case STEP:
                 return new MainHeaderItemVH(LayoutInflater.from(mContext).inflate(R.layout.main_item_header_item_view, parent, false)).setOnClickListener(onClickSubject);
             case FOTTER:
                 return new MainFooterItemVH(LayoutInflater.from(mContext).inflate(R.layout.main_item_footer_item_view, parent, false)).setOnClickListener(onClickSubject);
@@ -83,6 +83,14 @@ public class MainRvAdapter extends RecyclerView.Adapter<MainRvAdapter.NormalItem
     public void addData(NormalMainItemData data) {
         if (data != null) {
             datas.add(data);
+        }
+    }
+
+    public void replaceAllDatas(List<NormalMainItemData> datas) {
+        if (datas != null) {
+            this.datas.clear();
+            this.datas.addAll(datas);
+            notifyDataSetChanged();
         }
     }
 

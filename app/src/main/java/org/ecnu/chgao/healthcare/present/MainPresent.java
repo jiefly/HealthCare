@@ -1,9 +1,13 @@
 package org.ecnu.chgao.healthcare.present;
 
+import org.ecnu.chgao.healthcare.bean.NormalMainItemData;
+import org.ecnu.chgao.healthcare.model.EditCardModel;
 import org.ecnu.chgao.healthcare.model.MainModel;
 import org.ecnu.chgao.healthcare.step.UpdateUiCallBack;
 import org.ecnu.chgao.healthcare.step.service.StepService;
 import org.ecnu.chgao.healthcare.view.MainViewer;
+
+import java.util.List;
 
 /**
  * Created by chgao on 17-5-29.
@@ -48,5 +52,13 @@ public class MainPresent extends BasePresent<MainViewer, MainModel> implements U
     public void updateUi(int stepCount) {
         //updateCurrentStep(stepCount);
         mViewer.setStepCount(mModel.getTodayTask(), stepCount);
+    }
+
+    public List<NormalMainItemData> getAllCards() {
+        return mModel.getAllCards();
+    }
+
+    public void disableCard(NormalMainItemData.ItemType type) {
+        mModel.disableCard(EditCardModel.CardType.values()[type.ordinal() + 1]);
     }
 }
