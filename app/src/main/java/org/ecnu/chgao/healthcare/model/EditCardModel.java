@@ -1,5 +1,6 @@
 package org.ecnu.chgao.healthcare.model;
 
+import org.ecnu.chgao.healthcare.application.BaseApplication;
 import org.ecnu.chgao.healthcare.bean.EditCardItemData;
 import org.ecnu.chgao.healthcare.present.EditCardPresent;
 import org.ecnu.chgao.healthcare.util.SharedPreferencesUtils;
@@ -25,7 +26,7 @@ public class EditCardModel extends BaseModel {
         if (mCards.size() != 0) {
             return mCards;
         }
-        sharedPreferencesUtils = new SharedPreferencesUtils(mPresent.getContext().getApplicationContext());
+        sharedPreferencesUtils = ((BaseApplication) mPresent.getContext().getApplicationContext()).getSharedPreferencesUtils();
         int i = 0;
         EditCardItemData data;
         for (CardType cardType : CardType.values()) {

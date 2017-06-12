@@ -64,9 +64,7 @@ class StepHistoryActivity : BaseActivity(), StepViewer {
     private fun initRv() {
         adapter = StepRvAdapter(this)
         recyclerView?.layoutManager = LinearLayoutManager(this) as RecyclerView.LayoutManager?
-        val decoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
-        decoration.setDrawable(resources.getDrawable(R.drawable.div_bg))
-        recyclerView?.addItemDecoration(decoration)
+        recyclerView?.addItemDecoration(getDecoration())
         recyclerView?.adapter = adapter
     }
 

@@ -118,6 +118,7 @@ class MainActivity : BaseActivity(), MainViewer, NavigationView.OnNavigationItem
                 }
                 NormalMainItemData.ItemType.LOCATION -> navigate<Amap>()
                 NormalMainItemData.ItemType.FOTTER -> navigate<EditCardActivity>()
+                NormalMainItemData.ItemType.NOTIFICATION -> navigate<TodoActivity>()
                 else -> showToast("index:${it.getmIndex()} clicked")
             }
         }

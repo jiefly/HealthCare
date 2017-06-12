@@ -49,10 +49,10 @@ public abstract class NormalHistoryItemView<D> extends LinearLayout {
     }
 
     private void initView() {
-        mTimeTv = (TextView) findViewById(R.id.id_record_date);
-        mValueTv = (TextView) findViewById(R.id.id_heart_rate_value);
-        mValueUnitTv = (TextView) findViewById(R.id.id_heart_rate_unit);
-        mLeftArrowIv = (ImageView) findViewById(R.id.id_heart_rate_detail);
+        mTimeTv = (TextView) findViewById(R.id.id_medical_remind_icon);
+        mValueTv = (TextView) findViewById(R.id.id_medical_remind_name);
+        mValueUnitTv = (TextView) findViewById(R.id.id_medical_remind_num);
+        mLeftArrowIv = (ImageView) findViewById(R.id.id_medical_remind_more);
     }
 
     abstract protected int getLayoutRes();

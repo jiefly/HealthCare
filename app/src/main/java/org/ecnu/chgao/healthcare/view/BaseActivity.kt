@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.DividerItemDecoration
 import android.util.Log
 import android.view.View
 import android.widget.TextView
@@ -21,6 +22,12 @@ abstract class BaseActivity : AppCompatActivity() {
 
     inline fun showSnack(view: View, message: String?) {
         Snackbar.make(view, message.toString(), Snackbar.LENGTH_SHORT).show()
+    }
+
+    inline fun getDecoration(bg: Int = R.drawable.div_bg): DividerItemDecoration {
+        val decoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+        decoration.setDrawable(resources.getDrawable(bg))
+        return decoration
     }
 
     inline fun showAlertDialog(title: String?, message: String?, positive: DialogInterface.OnClickListener?, negative: DialogInterface.OnClickListener?) {

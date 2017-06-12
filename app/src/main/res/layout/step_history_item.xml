@@ -2,29 +2,29 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:padding="16dp"
-    android:background="@color/normal_white"
+    android:background="@drawable/normal_item_bg_selector"
     android:layout_height="60dp">
 
     <TextView
-        android:id="@+id/id_record_date"
+        android:id="@+id/id_medical_remind_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:text="2月23日 17:04" />
 
     <TextView
-        android:id="@+id/id_heart_rate_value"
+        android:id="@+id/id_medical_remind_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toStartOf="@+id/id_heart_rate_unit"
+        android:layout_toStartOf="@+id/id_medical_remind_num"
         android:fontFamily="serif-monospace"
         android:text="79"
         android:textSize="23sp"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/id_heart_rate_unit"
+        android:id="@+id/id_medical_remind_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -33,7 +33,7 @@
         android:text="次/分" />
 
     <ImageView
-        android:id="@+id/id_heart_rate_detail"
+        android:id="@+id/id_medical_remind_more"
         android:rotation="180"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

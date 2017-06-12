@@ -2,6 +2,7 @@ package org.ecnu.chgao.healthcare.model
 
 import android.content.Context
 import org.ecnu.chgao.healthcare.R
+import org.ecnu.chgao.healthcare.application.BaseApplication
 import org.ecnu.chgao.healthcare.bean.NormalMainItemData
 import org.ecnu.chgao.healthcare.util.SharedPreferencesUtils
 
@@ -20,7 +21,7 @@ class MainModel(context: Context) : BaseModel() {
         val TODAY_STEP_DEFAULT = "0"
     }
 
-    val spUtil = SharedPreferencesUtils(context.applicationContext)
+    val spUtil = (context.applicationContext as BaseApplication).sharedPreferencesUtils!!
     var todayTask: Int
     var currentStep: Int
 

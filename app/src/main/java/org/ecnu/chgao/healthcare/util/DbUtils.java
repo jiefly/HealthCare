@@ -7,7 +7,9 @@ import com.litesuits.orm.db.assit.QueryBuilder;
 import com.litesuits.orm.db.assit.WhereBuilder;
 import com.litesuits.orm.db.model.ConflictAlgorithm;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by dylan on 2016/1/31.
@@ -16,18 +18,22 @@ public class DbUtils {
 
     public static String DB_NAME;
     public static LiteOrm liteOrm;
+    public static Map<String, LiteOrm> dbMap = new HashMap<>();
 
     public static void createDb(Context _activity, String DB_NAME) {
         DB_NAME = DB_NAME + ".db";
-        if (liteOrm == null) {
+        if (dbMap.get(DB_NAME) == null) {
             liteOrm = LiteOrm.newCascadeInstance(_activity, DB_NAME);
             liteOrm.setDebugged(true);
+            dbMap.put(DB_NAME, liteOrm);
         }
     }
 
 
-    public static LiteOrm getLiteOrm() {
-        return liteOrm;
+    public static LiteOrm getLiteOrm(String DB_NAME) {
+        if (forLastDb(DB_NAME))
+            return liteOrm;
+        return dbMap.get(DB_NAME);
     }
 
     /**
@@ -35,8 +41,17 @@ public class DbUtils {
      *
      * @param t
      */
-    public static <T> void insert(T t) {
-        liteOrm.save(t);
+    public static <T> void insert(T t, String DB_NAME) {
+        if (forLastDb(DB_NAME)) {
+            liteOrm.save(t);
+            return;
+        }
+        dbMap.get(DB_NAME).save(t);
+
+    }
+
+    private static boolean forLastDb(String DB_NAME) {
+        return DB_NAME == null || "".equals(DB_NAME);
     }
 
     /**
@@ -44,8 +59,12 @@ public class DbUtils {
      *
      * @param list
      */
-    public static <T> void insertAll(List<T> list) {
-        liteOrm.save(list);
+    public static <T> void insertAll(List<T> list, String DB_NAME) {
+        if (forLastDb(DB_NAME)) {
+            liteOrm.save(list);
+            return;
+        }
+        dbMap.get(DB_NAME).save(list);
     }
 
     /**
@@ -54,8 +73,10 @@ public class DbUtils {
      * @param cla
      * @return
      */
-    public static <T> List<T> getQueryAll(Class<T> cla) {
-        return liteOrm.query(cla);
+    public static <T> List<T> getQueryAll(Class<T> cla, String DB_NAME) {
+        if (forLastDb(DB_NAME))
+            return liteOrm.query(cla);
+        return dbMap.get(DB_NAME).query(cla);
     }
 
     /**
@@ -66,8 +87,10 @@ public class DbUtils {
      * @param value
      * @return
      */
-    public static <T> List<T> getQueryByWhere(Class<T> cla, String field, String[] value) {
-        return liteOrm.<T>query(new QueryBuilder(cla).where(field + "=?", value));
+    public static <T> List<T> getQueryByWhere(Class<T> cla, String field, String[] value, String DB_Name) {
+        if (forLastDb(DB_Name))
+            return liteOrm.<T>query(new QueryBuilder(cla).where(field + "=?", value));
+        return dbMap.get(DB_Name).<T>query(new QueryBuilder(cla).where(field + "=?", value));
     }
 
     /**
@@ -80,8 +103,10 @@ public class DbUtils {
      * @param length
      * @return
      */
-    public static <T> List<T> getQueryByWhereLength(Class<T> cla, String field, String[] value, int start, int length) {
-        return liteOrm.<T>query(new QueryBuilder(cla).where(field + "=?", value).limit(start, length));
+    public static <T> List<T> getQueryByWhereLength(Class<T> cla, String field, String[] value, int start, int length, String DB_NAME) {
+        if (forLastDb(DB_NAME))
+            return liteOrm.<T>query(new QueryBuilder(cla).where(field + "=?", value).limit(start, length));
+        return dbMap.get(DB_NAME).<T>query(new QueryBuilder(cla).where(field + "=?", value).limit(start, length));
     }
 
     /**
@@ -99,8 +124,10 @@ public class DbUtils {
      *
      * @param cla
      */
-    public static <T> void deleteAll(Class<T> cla) {
+    public static <T> void deleteAll(Class<T> cla, String DB_NAME) {
+        if (forLastDb(DB_NAME))
         liteOrm.deleteAll(cla);
+//        dbMap.get(DB_NAME).
     }
 
     /**

@@ -251,18 +251,19 @@
         </service>
 
         <activity android:name=".view.Amap" />
-        <activity
-            android:name=".view.TestActivity"
-            android:label="@string/title_activity_test"
-            android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+        <receiver android:name=".alarmmanager.LoongggAlarmReceiver">
+            <intent-filter>
+                <action android:name="org.ecnu.healthcare.alarm.clock" />
             </intent-filter>
-        </activity>
+        </receiver>
+
+        <activity
+            android:name=".alarmmanager.ClockAlarmActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".view.UserInfoActivity" />
-        <activity android:name=".view.EditCardActivity"></activity>
+        <activity android:name=".view.EditCardActivity" />
+        <activity android:name=".view.TodoActivity"></activity>
     </application>
 
 </manifest>
