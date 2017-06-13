@@ -7,7 +7,6 @@ import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import org.ecnu.chgao.healthcare.R;
@@ -48,10 +47,10 @@ public class RemindItemView extends RelativeLayout {
 
     private void init(Context context) {
         inflate(context, R.layout.medical_remind_item, this);
-        mLeftIcon = (ImageView) findViewById(R.id.id_medical_remind_icon);
-        mRightIcon = (ImageView) findViewById(R.id.id_medical_remind_more);
-        mRemindName = (TextView) findViewById(R.id.id_medical_remind_name);
-        mRemindDetail = (TextView) findViewById(R.id.id_medical_remind_num);
+        mLeftIcon = (ImageView) findViewById(R.id.id_notification_edit_title);
+        mRightIcon = (ImageView) findViewById(R.id.id_notification_edit_more);
+        mRemindName = (TextView) findViewById(R.id.id_notification_edit_value);
+        mRemindDetail = (TextView) findViewById(R.id.id_notification_edit_value);
         mRemindTime = (TextView) findViewById(R.id.id_medical_remind_time);
     }
 

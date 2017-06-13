@@ -10,11 +10,16 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.util.Log
 import android.view.View
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import org.ecnu.chgao.healthcare.R
 
 abstract class BaseActivity : AppCompatActivity() {
+    interface OnInputAlert {
+        fun onInputDismiss(value: String)
+    }
+
     inline fun showToast(message: String?) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
@@ -41,6 +46,18 @@ abstract class BaseActivity : AppCompatActivity() {
         builder.show()
     }
 
+    inline fun showInputAlertDialog(title: String, onInputAlert: OnInputAlert) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(title)
+        val editText = EditText(this)
+        builder.setView(editText)
+        builder.setNegativeButton("取消", null)
+        builder.setPositiveButton("确定", { _, _ ->
+            onInputAlert.onInputDismiss(editText.text.toString())
+        })
+        builder.show()
+    }
+
     inline fun <reified T : Activity> Activity.navigate(bundle: Bundle? = null) {
         val intent = Intent()
         intent.setClass(this, T::class.java)
@@ -54,12 +71,14 @@ abstract class BaseActivity : AppCompatActivity() {
     * should invoke this method after #setContentView()
     * toolbar layout should contain left icon(id:id_tool_bar_left_arrow) and title text view(id:id_tool_bar_title)
     * */
-    inline fun useCustomToolbar(layoutId: Int = R.id.id_normal_tool_bar, title: String, onLeftIconClick: View.OnClickListener = View.OnClickListener { onBackPressed() }) {
+    inline fun useCustomToolbar(layoutId: Int = R.id.id_normal_tool_bar, title: String, onLeftIconClick: View.OnClickListener = View.OnClickListener { onBackPressed() }, onRightIconClick: View.OnClickListener = View.OnClickListener { onBackPressed() }) {
         val toolbar = findViewById(layoutId) as android.support.v7.widget.Toolbar
         setSupportActionBar(toolbar)
         supportActionBar?.title = ""
         (toolbar.findViewById(R.id.id_tool_bar_title) as TextView).text = title
-        toolbar.findViewById(R.id.id_tool_bar_left_arrow).setOnClickListener { onLeftIconClick.onClick(it) }
+        toolbar.findViewById(R.id.id_tool_bar_left_arrow)?.setOnClickListener { onLeftIconClick.onClick(it) }
+        toolbar.findViewById(R.id.id_tool_bar_right_arrow)?.setOnClickListener { onRightIconClick.onClick(it) }
+
     }
 
     inline fun log(tag: String = "default", msg: String, pr: Int = 0) {

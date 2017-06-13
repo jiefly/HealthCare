@@ -25,7 +25,7 @@ public class DbUtils {
         if (dbMap.get(DB_NAME) == null) {
             liteOrm = LiteOrm.newCascadeInstance(_activity, DB_NAME);
             liteOrm.setDebugged(true);
-            dbMap.put(DB_NAME, liteOrm);
+            dbMap.put(DB_NAME.substring(0, DB_NAME.length() - 3), liteOrm);
         }
     }
 
@@ -126,7 +126,7 @@ public class DbUtils {
      */
     public static <T> void deleteAll(Class<T> cla, String DB_NAME) {
         if (forLastDb(DB_NAME))
-        liteOrm.deleteAll(cla);
+            liteOrm.deleteAll(cla);
 //        dbMap.get(DB_NAME).
     }
 
@@ -137,26 +137,51 @@ public class DbUtils {
      * @param field
      * @param value
      */
-    public static <T> int deleteWhere(Class<T> cla, String field, String[] value) {
-        return liteOrm.delete(cla, new WhereBuilder(cla).where(field + "!=?", value));
+    public static <T> int deleteWhere(Class<T> cla, String field, String[] value, String DB_NAME) {
+        if (forLastDb(DB_NAME))
+            return liteOrm.delete(cla, new WhereBuilder(cla).where(field + "!=?", value));
+        return dbMap.get(DB_NAME).delete(cla, new WhereBuilder(cla).where(field + "!=?", value));
+
     }
 
+    public static <T> void delete(T t, String DB_NAME) {
+        if (forLastDb(DB_NAME)) {
+            liteOrm.delete(t);
+            return;
+        }
+        dbMap.get(DB_NAME).delete(t);
+
+
+    }
     /**
      * 仅在以存在时更新
      *
      * @param t
      */
-    public static <T> void update(T t) {
-        liteOrm.update(t, ConflictAlgorithm.Replace);
+    public static <T> void update(T t, String DB_NAME) {
+        if (forLastDb(DB_NAME)) {
+            liteOrm.update(t, ConflictAlgorithm.Replace);
+            return;
+        }
+        dbMap.get(DB_NAME).update(t, ConflictAlgorithm.Replace);
     }
 
 
-    public static <T> void updateALL(List<T> list) {
-        liteOrm.update(list);
+    public static <T> void updateALL(List<T> list, String DB_NAME) {
+        if (forLastDb(DB_NAME)) {
+            liteOrm.update(list);
+            return;
+        }
+        dbMap.get(DB_NAME).update(list);
     }
 
-    public static void closeDb() {
-        liteOrm.close();
+    public static void closeDb(String DB_NAME) {
+        if (forLastDb(DB_NAME)) {
+            liteOrm.close();
+            return;
+        }
+        dbMap.get(DB_NAME).close();
+        dbMap.remove(DB_NAME);
     }
 
 }

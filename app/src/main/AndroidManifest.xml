@@ -263,7 +263,8 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".view.UserInfoActivity" />
         <activity android:name=".view.EditCardActivity" />
-        <activity android:name=".view.TodoActivity"></activity>
+        <activity android:name=".view.TodoActivity" />
+        <activity android:name=".view.NotificationEditActivity"></activity>
     </application>
 
 </manifest>

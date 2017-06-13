@@ -33,6 +33,7 @@ import java.util.List;
 
 
 public class StepService extends Service implements SensorEventListener {
+    public static final String DB_NAME = "DylanStepCount";
     /**
      * 默认为30秒进行一次存储
      */
@@ -155,10 +156,10 @@ public class StepService extends Service implements SensorEventListener {
      */
     private void initTodayData() {
         CURRENT_DATE = getTodayDate();
-        DbUtils.createDb(this, "DylanStepCount");
-        DbUtils.getLiteOrm().setDebugged(false);
+        DbUtils.createDb(this, DB_NAME);
+        DbUtils.getLiteOrm(DB_NAME).setDebugged(false);
         //获取当天的数据，用于展示
-        List<StepData> list = DbUtils.getQueryByWhere(StepData.class, "today", new String[]{CURRENT_DATE});
+        List<StepData> list = DbUtils.getQueryByWhere(StepData.class, "today", new String[]{CURRENT_DATE}, DB_NAME);
         if (list.size() == 0 || list.isEmpty()) {
             CURRENT_STEP = 0;
         } else if (list.size() == 1) {
@@ -490,16 +491,16 @@ public class StepService extends Service implements SensorEventListener {
     private void save() {
         int tempStep = CURRENT_STEP;
 
-        List<StepData> list = DbUtils.getQueryByWhere(StepData.class, "today", new String[]{CURRENT_DATE});
+        List<StepData> list = DbUtils.getQueryByWhere(StepData.class, "today", new String[]{CURRENT_DATE}, DB_NAME);
         if (list.size() == 0 || list.isEmpty()) {
             StepData data = new StepData();
             data.setToday(CURRENT_DATE);
             data.setStep(tempStep + "");
-            DbUtils.insert(data);
+            DbUtils.insert(data, DB_NAME);
         } else if (list.size() == 1) {
             StepData data = list.get(0);
             data.setStep(tempStep + "");
-            DbUtils.update(data);
+            DbUtils.update(data, DB_NAME);
         } else {
         }
     }
@@ -509,7 +510,7 @@ public class StepService extends Service implements SensorEventListener {
         super.onDestroy();
         //取消前台进程
         stopForeground(true);
-        DbUtils.closeDb();
+        DbUtils.closeDb(DB_NAME);
         unregisterReceiver(mBatInfoReceiver);
         Log.d(TAG, "stepService关闭");
     }

@@ -6,7 +6,7 @@
     android:padding="10dp">
 
     <ImageView
-        android:id="@+id/id_medical_remind_icon"
+        android:id="@+id/id_notification_edit_title"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_centerVertical="true"
@@ -17,11 +17,11 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginStart="32dp"
-        android:layout_toEndOf="@id/id_medical_remind_icon"
+        android:layout_toEndOf="@id/id_notification_edit_title"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/id_medical_remind_name"
+            android:id="@+id/id_notification_edit_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="serif"
@@ -30,7 +30,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/id_medical_remind_num"
+            android:id="@+id/id_notification_edit_value"
             android:layout_width="wrap_content"
             android:textSize="14sp"
             android:layout_height="wrap_content"
@@ -42,14 +42,14 @@
         android:layout_width="wrap_content"
         android:textSize="18sp"
         android:text="08:00"
-        android:layout_toStartOf="@+id/id_medical_remind_more"
+        android:layout_toStartOf="@+id/id_notification_edit_more"
         android:layout_centerVertical="true"
         android:layout_marginEnd="32dp"
         android:layout_height="wrap_content" />
 
 
     <ImageView
-        android:id="@+id/id_medical_remind_more"
+        android:id="@+id/id_notification_edit_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

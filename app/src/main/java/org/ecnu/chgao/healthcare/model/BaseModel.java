@@ -5,4 +5,8 @@ package org.ecnu.chgao.healthcare.model;
  */
 
 public class BaseModel {
+    public String getDbName() {
+        return this.getClass().getSimpleName();
+    }
+
 }

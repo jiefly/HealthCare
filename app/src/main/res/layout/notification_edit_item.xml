@@ -10,18 +10,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:text="2月23日 17:04" />
+        android:text="频率" />
 
-    <TextView
-        android:id="@+id/id_notification_edit_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toStartOf="@+id/id_notification_edit_value"
-        android:fontFamily="serif-monospace"
-        android:text="79"
-        android:textSize="23sp"
-        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/id_notification_edit_value"
@@ -30,7 +20,7 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="30dp"
-        android:text="次/分" />
+        android:text="2 次/天" />
 
     <ImageView
         android:id="@+id/id_notification_edit_more"

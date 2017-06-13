@@ -15,20 +15,33 @@ public class TodoModel extends BaseModel {
 
     public TodoModel(ToDoPresent present) {
         mPresent = present;
+        DbUtils.createDb(mPresent.getContext(), getDbName());
     }
 
     public List<RemindData> getAllRemind() {
-        if (DbUtils.getLiteOrm() == null) {
-            DbUtils.createDb(mPresent.getContext(), "Remind");
+        if (DbUtils.getLiteOrm(getDbName()) == null) {
+            DbUtils.createDb(mPresent.getContext(), getDbName());
         }
-        return DbUtils.getQueryAll(RemindData.class);
+        return DbUtils.getQueryAll(RemindData.class, getDbName());
+    }
+
+    public void addAll(List<RemindData> datas) {
+        DbUtils.insertAll(datas, getDbName());
+    }
+
+    public void addData(RemindData data) {
+        DbUtils.insert(data, getDbName());
     }
 
     public void updateRemind(RemindData data) {
-        DbUtils
+        DbUtils.update(data, getDbName());
+    }
+
+    public void deleteRemind(RemindData data) {
+        DbUtils.delete(data, getDbName());
     }
 
     public void onDestroy() {
-        DbUtils.closeDb();
+        DbUtils.closeDb(getDbName());
     }
 }
