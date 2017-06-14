@@ -18,7 +18,7 @@ public abstract class BaseRvAdapter extends RecyclerView.Adapter<BaseRvAdapter.B
     protected final PublishSubject<BaseItemData> onLongClickSubject = PublishSubject.create();
 
     protected Context mContext;
-    protected List<BaseItemData> datas;
+    protected final List<BaseItemData> datas;
 
     public BaseRvAdapter(Context context) {
         mContext = context;
@@ -48,6 +48,10 @@ public abstract class BaseRvAdapter extends RecyclerView.Adapter<BaseRvAdapter.B
         if (data != null) {
             datas.add(data);
         }
+    }
+
+    public List<BaseItemData> getAllDatas() {
+        return datas;
     }
 
     public void addDatas(List<BaseItemData> datas) {

@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
+    android:layout_height="90dp"
     android:background="@drawable/normal_item_bg_selector"
-    android:padding="10dp">
+    android:padding="4dp">
 
     <ImageView
-        android:id="@+id/id_notification_edit_title"
+        android:id="@+id/id_remind_icon"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:layout_marginStart="16dp"
         android:layout_centerVertical="true"
         android:background="@drawable/ic_pill" />
 
@@ -16,12 +17,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginStart="32dp"
-        android:layout_toEndOf="@id/id_notification_edit_title"
+        android:layout_marginStart="16dp"
+        android:layout_toEndOf="@id/id_remind_icon"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/id_notification_edit_value"
+            android:id="@+id/id_remind_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="serif"
@@ -30,26 +31,40 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/id_notification_edit_value"
+            android:id="@+id/id_remind_addition"
             android:layout_width="wrap_content"
-            android:textSize="14sp"
             android:layout_height="wrap_content"
-            android:text="2 片" />
+            android:text="2 片"
+            android:textSize="14sp" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/id_medical_remind_time"
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:textSize="18sp"
-        android:text="08:00"
-        android:layout_toStartOf="@+id/id_notification_edit_more"
+        android:orientation="vertical"
+        android:layout_toStartOf="@+id/id_remind_more"
+        android:layout_marginEnd="16dp"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="32dp"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/id_medical_remind_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:layout_gravity=""
+            android:text="08:00"
+            android:textSize="32sp" />
+
+        <TextView
+            android:id="@+id/id_medical_remind_repeat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="每隔 4 小时服用一次" />
+    </LinearLayout>
 
 
     <ImageView
-        android:id="@+id/id_notification_edit_more"
+        android:id="@+id/id_remind_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

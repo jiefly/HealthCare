@@ -20,12 +20,12 @@ fun dateDetail(date: Date, year: Boolean = false, month: Boolean = true, day: Bo
     if (hour) {
         if (formatPatten.isNotEmpty())
             formatPatten.append(" ")
-        formatPatten.append("HH时")
+        formatPatten.append("HH:")
     }
     if (min)
-        formatPatten.append("mm分")
+        formatPatten.append("mm")
     if (second)
-        formatPatten.append("ss秒")
+        formatPatten.append("ss")
 
     @SuppressLint("SimpleDateFormat")
     val dateFormat = SimpleDateFormat(formatPatten.toString())

@@ -6,34 +6,34 @@
     android:layout_height="60dp">
 
     <TextView
-        android:id="@+id/id_notification_edit_title"
+        android:id="@+id/id_step_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:text="2月23日 17:04" />
 
     <TextView
-        android:id="@+id/id_notification_edit_value"
+        android:id="@+id/id_step_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toStartOf="@+id/id_notification_edit_value"
+        android:layout_toStartOf="@+id/id_step_unit"
         android:fontFamily="serif-monospace"
         android:text="79"
         android:textSize="23sp"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/id_notification_edit_value"
+        android:id="@+id/id_step_unit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="30dp"
-        android:text="次/分" />
+        android:text="步" />
 
     <ImageView
-        android:id="@+id/id_notification_edit_more"
+        android:id="@+id/id_step_more"
         android:rotation="180"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

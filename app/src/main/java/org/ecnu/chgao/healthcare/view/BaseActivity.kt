@@ -50,7 +50,9 @@ abstract class BaseActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle(title)
         val editText = EditText(this)
-        builder.setView(editText)
+        builder.setView(editText, 20, 20, 20, 20)
+//        builder.setView(R.layout.view_input_alert_edit_text)
+
         builder.setNegativeButton("取消", null)
         builder.setPositiveButton("确定", { _, _ ->
             onInputAlert.onInputDismiss(editText.text.toString())

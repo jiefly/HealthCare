@@ -19,7 +19,7 @@ public class TodoRvAdapter extends RecyclerView.Adapter<TodoRvAdapter.TodoVH> {
     private final PublishSubject<NormalRemindItemData> onLongClickSubject = PublishSubject.create();
 
     private Context mContext;
-    private List<NormalRemindItemData> datas;
+    private final List<NormalRemindItemData> datas;
 
     public TodoRvAdapter(Context context) {
         mContext = context;
@@ -35,6 +35,10 @@ public class TodoRvAdapter extends RecyclerView.Adapter<TodoRvAdapter.TodoVH> {
     public void onBindViewHolder(TodoVH holder, int position) {
         datas.get(position).setIndex(position);
         holder.resetView(datas.get(position));
+    }
+
+    public List<NormalRemindItemData> getDatas() {
+        return datas;
     }
 
     public void removeData(int index) {

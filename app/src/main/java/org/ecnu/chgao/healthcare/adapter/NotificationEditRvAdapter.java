@@ -26,8 +26,9 @@ public class NotificationEditRvAdapter extends BaseRvAdapter {
         holder.resetView(datas.get(position));
     }
 
-    public void onItemChange(int index, NotificationEditItemData data) {
-
+    public void onItemChange(int index, String value) {
+        ((NotificationEditItemData) datas.get(index)).setValue(value);
+        notifyItemChanged(index);
     }
 
 }

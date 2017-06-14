@@ -13,6 +13,7 @@ import android.widget.TextView;
  */
 
 public abstract class BaseItemView<D> extends RelativeLayout {
+    protected Context mContext;
     protected ImageView mLeftIcon;
     protected ImageView mRightIcon;
     protected TextView mName;
@@ -46,6 +47,7 @@ public abstract class BaseItemView<D> extends RelativeLayout {
 
     protected void init(Context context) {
         inflate(context, getLayoutRes(), this);
+        mContext = context;
     }
 
     protected abstract int getLayoutRes();

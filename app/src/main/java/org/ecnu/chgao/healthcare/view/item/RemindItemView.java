@@ -22,6 +22,7 @@ public class RemindItemView extends RelativeLayout {
     private TextView mRemindName;
     private TextView mRemindDetail;
     private TextView mRemindTime;
+    private TextView mExtend;
 
     public RemindItemView(Context context) {
         super(context);
@@ -47,17 +48,19 @@ public class RemindItemView extends RelativeLayout {
 
     private void init(Context context) {
         inflate(context, R.layout.medical_remind_item, this);
-        mLeftIcon = (ImageView) findViewById(R.id.id_notification_edit_title);
-        mRightIcon = (ImageView) findViewById(R.id.id_notification_edit_more);
-        mRemindName = (TextView) findViewById(R.id.id_notification_edit_value);
-        mRemindDetail = (TextView) findViewById(R.id.id_notification_edit_value);
+        mLeftIcon = (ImageView) findViewById(R.id.id_remind_icon);
+        mRightIcon = (ImageView) findViewById(R.id.id_remind_more);
+        mRemindName = (TextView) findViewById(R.id.id_remind_value);
+        mRemindDetail = (TextView) findViewById(R.id.id_remind_addition);
         mRemindTime = (TextView) findViewById(R.id.id_medical_remind_time);
+        mExtend = (TextView) findViewById(R.id.id_medical_remind_repeat);
     }
 
     public void fillData(NormalRemindItemData data) {
         mRemindName.setText(data.getName());
         mRemindTime.setText(data.getTime());
         mRemindDetail.setText(data.getDetail());
+        mExtend.setText(data.getExtention());
     }
 
 }

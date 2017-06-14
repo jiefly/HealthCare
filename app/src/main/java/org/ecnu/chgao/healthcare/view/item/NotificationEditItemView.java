@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.ecnu.chgao.healthcare.R;
+import org.ecnu.chgao.healthcare.bean.MedicalNotificationEditItemData;
 import org.ecnu.chgao.healthcare.bean.NotificationEditItemData;
 
 /**
@@ -45,7 +46,24 @@ public class NotificationEditItemView extends BaseItemView<NotificationEditItemD
     @Override
     public void fillData(NotificationEditItemData notificationEditItemData) {
         mName.setText(notificationEditItemData.getName());
+        if (notificationEditItemData instanceof MedicalNotificationEditItemData) {
+            switch (((MedicalNotificationEditItemData) notificationEditItemData).getmType()) {
+                case TIMES_PERDAY:
+                    mValue.setText(mContext.getString(R.string.times_format, Integer.parseInt(notificationEditItemData.getValue())));
+                    return;
+                case DOURATION:
+                    mValue.setText(mContext.getString(R.string.day_format, Integer.parseInt(notificationEditItemData.getValue())));
+                    return;
+                case PILL_PERTIME:
+                    mValue.setText(mContext.getString(R.string.pill_format, Integer.parseInt(notificationEditItemData.getValue())));
+                    return;
+                case INTEVAL:
+                    mValue.setText(mContext.getString(R.string.hour_format, notificationEditItemData.getValue()));
+                    return;
+            }
+        }
         mValue.setText(notificationEditItemData.getValue());
+
     }
 
     @Override

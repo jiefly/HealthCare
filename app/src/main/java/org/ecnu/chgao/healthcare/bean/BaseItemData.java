@@ -5,7 +5,7 @@ package org.ecnu.chgao.healthcare.bean;
  */
 
 public class BaseItemData {
-    private int mIndex;
+    protected int mIndex;
 
     public int getIndex() {
         return mIndex;

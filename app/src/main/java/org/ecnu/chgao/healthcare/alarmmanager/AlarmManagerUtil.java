@@ -12,7 +12,7 @@ import java.util.Calendar;
  * Created by loonggg on 2016/3/21.
  */
 public class AlarmManagerUtil {
-    public static final String ALARM_ACTION = "com.loonggg.alarm.clock";
+    public static final String ALARM_ACTION = "org.ecnu.healthcare.alarm.clock";
 
     public static void setAlarmTime(Context context, long timeInMillis, Intent intent) {
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -73,6 +73,25 @@ public class AlarmManagerUtil {
                 am.setRepeating(AlarmManager.RTC_WAKEUP, calMethod(week, calendar.getTimeInMillis
                         ()), intervalMillis, sender);
             }
+        }
+    }
+
+    public static void setAlarmByDetailTime(Context context, String title, String tips, long time, int id, int soundOrVibrator) {
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(ALARM_ACTION);
+        long intervalMillis = 0;
+        intent.putExtra("intervalMillis", intervalMillis);
+        intent.putExtra("msg", tips);
+        intent.putExtra("id", id);
+        intent.putExtra("title", title);
+        intent.putExtra("soundOrVibrator", soundOrVibrator);
+        PendingIntent sender = PendingIntent.getBroadcast(context, id, intent, PendingIntent
+                .FLAG_CANCEL_CURRENT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            am.setWindow(AlarmManager.RTC_WAKEUP, time,
+                    intervalMillis, sender);
+        } else {
+            am.set(AlarmManager.RTC_WAKEUP, time, sender);
         }
     }
 

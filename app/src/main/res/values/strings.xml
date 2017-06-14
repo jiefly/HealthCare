@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">HealthCare</string>
     <string name="today_task_format">今日计划：%d 步</string>
+    <string name="day_format">%d 天</string>
+    <string name="times_format">%d 次</string>
+    <string name="pill_format">%d 片</string>
+    <string name="ml_format">%d 毫升</string>
+    <string name="hour_format">%s 小时</string>
     <string name="title_activity_test">TestActivity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>

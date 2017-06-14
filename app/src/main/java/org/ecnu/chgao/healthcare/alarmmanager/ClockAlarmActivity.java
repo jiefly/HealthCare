@@ -20,10 +20,10 @@ public class ClockAlarmActivity extends Activity {
         setContentView(R.layout.activity_clock_alarm);
         String message = this.getIntent().getStringExtra("msg");
         int flag = this.getIntent().getIntExtra("flag", 0);
-        showDialogInBroadcastReceiver(message, flag);
+        showDialogInBroadcastReceiver(getIntent().getStringExtra("title"), message, flag);
     }
 
-    private void showDialogInBroadcastReceiver(String message, final int flag) {
+    private void showDialogInBroadcastReceiver(String title, String message, final int flag) {
         if (flag == 1 || flag == 2) {
             mediaPlayer = MediaPlayer.create(this, R.raw.in_call_alarm);
             mediaPlayer.setLooping(true);
@@ -38,7 +38,7 @@ public class ClockAlarmActivity extends Activity {
 
         final SimpleDialog dialog = new SimpleDialog(this, R.style.Theme_dialog);
         dialog.show();
-        dialog.setTitle("闹钟提醒");
+        dialog.setTitle(title);
         dialog.setMessage(message);
         dialog.setClickListener(new View.OnClickListener() {
             @Override

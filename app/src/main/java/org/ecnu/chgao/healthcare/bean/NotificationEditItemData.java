@@ -8,7 +8,6 @@ public class NotificationEditItemData extends BaseItemData {
     protected String name;
     protected String value;
 
-
     public String getName() {
         return name;
     }

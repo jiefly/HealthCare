@@ -13,4 +13,6 @@ public interface ToDoViewer extends Viewer<ToDoPresent> {
     void onItemAdded(NormalRemindItemData data);
 
     void onRangeItemAdded(List<NormalRemindItemData> datas);
+
+    void onItemChanged(int index, NormalRemindItemData data);
 }
