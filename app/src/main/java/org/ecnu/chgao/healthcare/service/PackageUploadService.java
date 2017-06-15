@@ -1,0 +1,127 @@
+package org.ecnu.chgao.healthcare.service;
+
+import android.app.IntentService;
+import android.content.Intent;
+import android.util.Log;
+
+import org.ecnu.chgao.healthcare.bean.AccountInfo;
+import org.ecnu.chgao.healthcare.bean.LocationUploadBean;
+import org.ecnu.chgao.healthcare.bean.StepUploadBean;
+import org.ecnu.chgao.healthcare.bean.UploadPackage;
+import org.ecnu.chgao.healthcare.connection.http.HttpMethod;
+import org.ecnu.chgao.healthcare.connection.http.Netconnection;
+import org.ecnu.chgao.healthcare.step.bean.StepData;
+import org.ecnu.chgao.healthcare.step.service.StepService;
+import org.ecnu.chgao.healthcare.util.Config;
+import org.ecnu.chgao.healthcare.util.DbUtils;
+import org.ecnu.chgao.healthcare.util.NetworkUtil;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.List;
+
+import static org.ecnu.chgao.healthcare.util.Config.ACTION_UPLOAD;
+import static org.ecnu.chgao.healthcare.util.DateUtilKt.getTodayDate;
+
+
+/**
+ * An {@link IntentService} subclass for handling asynchronous task requests in
+ * a service on a separate handler thread.
+ * <p>
+ */
+public class PackageUploadService extends IntentService {
+    private static final String TAG = "PackageUploadService";
+
+    public PackageUploadService() {
+        super("PackageUploadService");
+    }
+
+    @Override
+    protected void onHandleIntent(Intent intent) {
+        if (intent != null) {
+            storeStepUploadBean();
+        }
+    }
+
+    public void storeStepUploadBean() {
+        List<StepData> list = DbUtils.getQueryByWhere(StepData.class, "today", new String[]{getTodayDate()}, StepService.DB_NAME);
+        int step = 0;
+        if (list.size() == 0 || list.isEmpty()) {
+            Log.i(TAG, "未查询到当日运动信息");
+        } else if (list.size() == 1) {
+            step = Integer.parseInt(list.get(0).getStep());
+        } else {
+            Log.v(TAG, "出错了！");
+        }
+        StepUploadBean stepUploadBean = new StepUploadBean(System.currentTimeMillis());
+        stepUploadBean.setmTask(7000);
+        stepUploadBean.setmStep(step);
+        generateAndStoreUploadPackage(stepUploadBean);
+        //query packages,if packages number is more than 6,will send data to server
+        handlePackage();
+    }
+
+    private void handlePackage() {
+        NetworkUtil.NetworkType connection = NetworkUtil.getNetworkConnectionType(this);
+        if (connection.equals(NetworkUtil.NetworkType.NO_CONNECTION)) {
+            return;
+        }
+        List<UploadPackage> packages = DbUtils.getQueryAll(UploadPackage.class, StepService.DB_NAME);
+        if (packages == null || packages.size() == 0) {
+            Log.e(TAG, "no upload packages");
+            return;
+        }
+
+        if (connection.equals(NetworkUtil.NetworkType.CONNNECTION_WIFI)) {
+            uploadPackages(packages);
+            //plz clear database after upload packages success
+            return;
+        }
+
+        if (packages.size() > 10) {
+            uploadPackages(packages);
+        }
+    }
+
+    private void uploadPackages(List<UploadPackage> packages) {
+        JSONObject object = new JSONObject();
+        try {
+            object.put(AccountInfo.USER, "1");
+            object.put("packages", packages);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        new Netconnection(this, Config.GATE_URL, HttpMethod.POST,
+                new Netconnection.SuccessCallback() {
+
+                    @Override
+                    public void onSuccess(String result) {
+                        if ("success".equals(result)) {
+                            clearDB();
+                        } else {
+                            Log.e(TAG, "upload packages failed");
+                        }
+                    }
+                }, new Netconnection.FailCallback() {
+
+            @Override
+            public void onFail(int status, int reason) {
+                Log.e(TAG, "upload packages failed");
+            }
+        }, ACTION_UPLOAD, object.toString());
+    }
+
+    private void clearDB() {
+        DbUtils.deleteAll(UploadPackage.class, StepService.DB_NAME);
+    }
+
+    private void generateAndStoreUploadPackage(StepUploadBean stepUploadBean) {
+        List<LocationUploadBean> locations = DbUtils.getQueryAll(LocationUploadBean.class, StepService.DB_NAME);
+        //remove locations in db
+        DbUtils.deleteAll(LocationUploadBean.class, StepService.DB_NAME);
+        UploadPackage uploadPackage = new UploadPackage(System.currentTimeMillis());
+        uploadPackage.setStep(stepUploadBean, locations);
+        DbUtils.insert(uploadPackage, StepService.DB_NAME);
+        Log.i(TAG, uploadPackage.toJson());
+    }
+}

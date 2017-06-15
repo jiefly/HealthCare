@@ -68,10 +68,10 @@ public class RemindData {
         //2.times per day(3 times/day)
         //
         for (int i = 0; i < days; i++) {
-            startTime += DAY;
             for (int j = 0; j < times; j++) {
                 remindTime.put((int) (mCreateDate.getTime() + i * 24 + j), (long) (startTime + j * HOURS * inteval));
             }
+            startTime += DAY;
         }
     }
 

@@ -15,6 +15,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import static org.ecnu.chgao.healthcare.alarmmanager.AlarmManagerUtil.ALARM_ACTION;
+
 /**
  * Created by chgao on 17-6-12.
  */
@@ -44,7 +46,10 @@ public class ToDoPresent extends BasePresent<ToDoViewer, TodoModel> {
     }
 
     private void cancelAlarm(RemindData remindData) {
-
+        //cancel all alarm set by this remind data
+        for (int key : remindData.getRemindTime().keySet()) {
+            AlarmManagerUtil.cancelAlarm(mViewer.getContext(), ALARM_ACTION, key);
+        }
     }
 
     public void addItem(RemindData remindData) {
@@ -72,7 +77,7 @@ public class ToDoPresent extends BasePresent<ToDoViewer, TodoModel> {
     }
 
     private void changeAlarm(RemindData dstData) {
-
+        setAlarm(dstData);
     }
 
     private void addDataToDB(RemindData remindData) {

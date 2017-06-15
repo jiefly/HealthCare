@@ -1,5 +1,8 @@
 package org.ecnu.chgao.healthcare.view;
 
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
+
 import org.ecnu.chgao.healthcare.present.MainPresent;
 
 /**
@@ -9,5 +12,8 @@ import org.ecnu.chgao.healthcare.present.MainPresent;
 public interface MainViewer extends Viewer<MainPresent> {
     void setStepCount(int totalCount, int currentCount);
 
+    void startLocation(AMapLocationClientOption option, AMapLocationListener listener);
+
+    void stopLocation();
     void bindStepService();
 }

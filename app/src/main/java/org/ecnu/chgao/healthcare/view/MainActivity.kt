@@ -13,6 +13,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.Gravity
 import android.view.MenuItem
+import com.amap.api.location.AMapLocationClient
+import com.amap.api.location.AMapLocationClientOption
+import com.amap.api.location.AMapLocationListener
 import org.ecnu.chgao.healthcare.R
 import org.ecnu.chgao.healthcare.adapter.MainRvAdapter
 import org.ecnu.chgao.healthcare.bean.NormalMainItemData
@@ -28,6 +31,7 @@ class MainActivity : BaseActivity(), MainViewer, NavigationView.OnNavigationItem
     var adapter: MainRvAdapter? = null
     var drawer: DrawerLayout? = null
     var navigationView: NavigationView? = null
+    private lateinit var locationClient: AMapLocationClient
     val serviceConnection = object : ServiceConnection {
 
 
@@ -64,6 +68,8 @@ class MainActivity : BaseActivity(), MainViewer, NavigationView.OnNavigationItem
     override fun onDestroy() {
         super.onDestroy()
         unbindService(serviceConnection)
+        stopLocation()
+
     }
 
     private fun initView() {
@@ -97,7 +103,7 @@ class MainActivity : BaseActivity(), MainViewer, NavigationView.OnNavigationItem
 
     override fun onResume() {
         super.onResume()
-        adapter!!.replaceAllDatas(mainPresent!!.allCards)
+        mainPresent!!.updateUi()
     }
 
     private fun initRv() {
@@ -131,6 +137,21 @@ class MainActivity : BaseActivity(), MainViewer, NavigationView.OnNavigationItem
             }, { _, _ -> })
         }
     }
+
+    override fun startLocation(option: AMapLocationClientOption, locationListener: AMapLocationListener) {
+        locationClient = AMapLocationClient(this.applicationContext)
+        locationClient.setLocationOption(option)
+        locationClient.setLocationListener(locationListener)
+        locationClient.startLocation()
+    }
+
+    override fun stopLocation() {
+        locationClient.let {
+            locationClient.stopLocation()
+            locationClient.onDestroy()
+        }
+    }
+
 
     override fun getContext(): Context {
         return this

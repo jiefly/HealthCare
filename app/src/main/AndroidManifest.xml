@@ -264,7 +264,20 @@
         <activity android:name=".view.UserInfoActivity" />
         <activity android:name=".view.EditCardActivity" />
         <activity android:name=".view.TodoActivity" />
-        <activity android:name=".view.NotificationEditActivity"></activity>
+        <activity android:name=".view.NotificationEditActivity" />
+
+        <receiver
+            android:name=".receiver.PackageUploadDataReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="org.ecnu.healthcare.store" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".service.PackageUploadService"
+            android:exported="false"></service>
     </application>
 
 </manifest>

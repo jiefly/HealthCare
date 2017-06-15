@@ -13,6 +13,7 @@ import java.util.Calendar;
  */
 public class AlarmManagerUtil {
     public static final String ALARM_ACTION = "org.ecnu.healthcare.alarm.clock";
+    public static final String STORE_PACKAGE_ACTION = "org.ecnu.healthcare.store";
 
     public static void setAlarmTime(Context context, long timeInMillis, Intent intent) {
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -92,6 +93,20 @@ public class AlarmManagerUtil {
                     intervalMillis, sender);
         } else {
             am.set(AlarmManager.RTC_WAKEUP, time, sender);
+        }
+    }
+
+    public static void setAlarmByStoreUploadPackage(Context context, int id, long interval) {
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(STORE_PACKAGE_ACTION);
+        intent.putExtra("intervalMillis", interval);
+        PendingIntent sender = PendingIntent.getBroadcast(context, id, intent, PendingIntent
+                .FLAG_CANCEL_CURRENT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            am.setWindow(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
+                    interval, sender);
+        } else {
+            am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), sender);
         }
     }
 

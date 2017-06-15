@@ -31,3 +31,9 @@ fun dateDetail(date: Date, year: Boolean = false, month: Boolean = true, day: Bo
     val dateFormat = SimpleDateFormat(formatPatten.toString())
     return dateFormat.format(date)
 }
+
+fun getTodayDate(): String {
+    val date = Date(System.currentTimeMillis())
+    val sdf = SimpleDateFormat("yyyy-MM-dd")
+    return sdf.format(date)
+}

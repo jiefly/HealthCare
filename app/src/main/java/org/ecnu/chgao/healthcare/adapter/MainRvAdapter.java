@@ -9,8 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.ecnu.chgao.healthcare.R;
-import org.ecnu.chgao.healthcare.model.MainMenuClickEvent;
 import org.ecnu.chgao.healthcare.bean.NormalMainItemData;
+import org.ecnu.chgao.healthcare.model.MainMenuClickEvent;
 import org.ecnu.chgao.healthcare.view.customview.StepArcView;
 import org.ecnu.chgao.healthcare.view.item.NormalMainItemView;
 
@@ -27,6 +27,7 @@ public class MainRvAdapter extends RecyclerView.Adapter<MainRvAdapter.NormalItem
     private final PublishSubject<NormalMainItemData> onLongClickSubject = PublishSubject.create();
     private Context mContext;
     private List<NormalMainItemData> datas;
+    private MainHeaderItemVH mHeaderVH;
 
     public MainRvAdapter(Context context) {
         mContext = context;
@@ -37,7 +38,8 @@ public class MainRvAdapter extends RecyclerView.Adapter<MainRvAdapter.NormalItem
     public NormalItemVH onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (NormalMainItemData.ItemType.getTypeByValue(viewType)) {
             case STEP:
-                return new MainHeaderItemVH(LayoutInflater.from(mContext).inflate(R.layout.main_item_header_item_view, parent, false)).setOnClickListener(onClickSubject);
+                mHeaderVH = new MainHeaderItemVH(LayoutInflater.from(mContext).inflate(R.layout.main_item_header_item_view, parent, false)).setOnClickListener(onClickSubject);
+                return mHeaderVH;
             case FOTTER:
                 return new MainFooterItemVH(LayoutInflater.from(mContext).inflate(R.layout.main_item_footer_item_view, parent, false)).setOnClickListener(onClickSubject);
             default:
@@ -69,7 +71,9 @@ public class MainRvAdapter extends RecyclerView.Adapter<MainRvAdapter.NormalItem
     public void setStep(int totalStep, int currentStep) {
         datas.get(0).setmCurrentStep(currentStep);
         datas.get(0).setmTotalStep(totalStep);
-        notifyItemChanged(0);
+        if (mHeaderVH != null) {
+            mHeaderVH.resetView(datas.get(0));
+        }
     }
 
     public Observable<? extends NormalMainItemData> getPositionClicks() {

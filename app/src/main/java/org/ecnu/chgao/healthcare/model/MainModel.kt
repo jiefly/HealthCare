@@ -1,14 +1,20 @@
 package org.ecnu.chgao.healthcare.model
 
 import android.content.Context
+import android.util.Log
 import org.ecnu.chgao.healthcare.R
 import org.ecnu.chgao.healthcare.application.BaseApplication
+import org.ecnu.chgao.healthcare.bean.LocationUploadBean
 import org.ecnu.chgao.healthcare.bean.NormalMainItemData
+import org.ecnu.chgao.healthcare.step.bean.StepData
+import org.ecnu.chgao.healthcare.step.service.StepService
+import org.ecnu.chgao.healthcare.util.DbUtils
+import org.ecnu.chgao.healthcare.util.getTodayDate
 
 /**
  * Created by chgao on 17-5-29.
  */
-class MainModel(context: Context) : BaseModel() {
+class MainModel(val context: Context) : BaseModel() {
     companion object {
         @JvmField
         val TODAY_TASK_STEP = "today_task_step"
@@ -18,15 +24,23 @@ class MainModel(context: Context) : BaseModel() {
         val TODAY_STEP = "today_step"
         @JvmField
         val TODAY_STEP_DEFAULT = "0"
+        @JvmField
+        val TAG = "MainModel"
     }
 
     val spUtil = (context.applicationContext as BaseApplication).sharedPreferencesUtils!!
     var todayTask: Int
-    var currentStep: Int
 
     init {
         todayTask = (spUtil.getParam(TODAY_TASK_STEP, TODAY_TASK_STEP_DEFAULT) as String).toInt()
-        currentStep = (spUtil.getParam(TODAY_STEP, TODAY_STEP_DEFAULT) as String).toInt()
+        //init db
+        initDb()
+    }
+
+    private fun initDb() {
+        if (DbUtils.getLiteOrm(StepService.DB_NAME) == null) {
+            DbUtils.createDb(context.applicationContext, StepService.DB_NAME)
+        }
     }
 
     fun updateTodayTask(todayStep: Int) {
@@ -39,9 +53,13 @@ class MainModel(context: Context) : BaseModel() {
         spUtil.setParam(TODAY_STEP, step.toString())
     }
 
+    fun storeLocation(location: LocationUploadBean) {
+        DbUtils.insert(location, StepService.DB_NAME)
+    }
+
     fun getAllCards(): List<NormalMainItemData> {
         val mCards = ArrayList<NormalMainItemData>()
-        mCards.add(NormalMainItemData().setmItemType(NormalMainItemData.ItemType.STEP).setmCurrentStep(currentStep).setmTotalStep(todayTask))
+        mCards.add(NormalMainItemData().setmItemType(NormalMainItemData.ItemType.STEP).setmCurrentStep(getCurrentStep()).setmTotalStep(todayTask))
         if (spUtil.getParam(EditCardModel.CardType.FALL_DOWN.value, true) as Boolean)
             mCards.add(NormalMainItemData().setmItemType(NormalMainItemData.ItemType.FALL_DOWN).setmItemTitle("跌倒检测").setmIconRes(R.drawable.ic_receipt_blue_50_24dp).setmContent("跌到检测服务正在后台运行。点击可配置相关信息"))
         if (spUtil.getParam(EditCardModel.CardType.NOTIFICATION.value, true) as Boolean)
@@ -58,5 +76,19 @@ class MainModel(context: Context) : BaseModel() {
         spUtil.setParam(cardType.value, false)
     }
 
+    fun getCurrentStep(): Int {
+        initDb()
+        val list = DbUtils.getQueryByWhere(StepData::class.java, "today", arrayOf(getTodayDate()), StepService.DB_NAME)
+        if (list.size == 0 || list.isEmpty()) {
+            Log.v(TAG, "未查询到当日步数信息")
+            return 0
+        } else if (list.size == 1) {
+            Log.v(TAG, "StepData=" + list[0].toString())
+            return Integer.parseInt(list[0].step)
+        } else {
+            Log.v(TAG, "出错了！")
+            return 0
+        }
 
+    }
 }
