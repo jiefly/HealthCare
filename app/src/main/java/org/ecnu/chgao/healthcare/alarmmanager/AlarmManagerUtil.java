@@ -103,10 +103,10 @@ public class AlarmManagerUtil {
         PendingIntent sender = PendingIntent.getBroadcast(context, id, intent, PendingIntent
                 .FLAG_CANCEL_CURRENT);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            am.setWindow(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
+            am.setWindow(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + interval,
                     interval, sender);
         } else {
-            am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), sender);
+            am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + interval, sender);
         }
     }
 

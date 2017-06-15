@@ -16,4 +16,6 @@ public interface MainViewer extends Viewer<MainPresent> {
 
     void stopLocation();
     void bindStepService();
+
+    void jumpToLogin();
 }

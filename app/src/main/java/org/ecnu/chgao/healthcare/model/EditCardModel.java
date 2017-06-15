@@ -30,7 +30,7 @@ public class EditCardModel extends BaseModel {
         int i = 0;
         EditCardItemData data;
         for (CardType cardType : CardType.values()) {
-            data = new EditCardItemData(i++, cardType.getValue(), (Boolean) sharedPreferencesUtils.getParam(cardType.getValue(), false));
+            data = new EditCardItemData(i++, cardType.getValue(), (Boolean) sharedPreferencesUtils.getParam(cardType.getValue(), true));
             if (cardType == CardType.STEP || cardType == CardType.EDIT_CARD) {
                 data.setmEnable(false);
             } else {
@@ -56,7 +56,7 @@ public class EditCardModel extends BaseModel {
     }
 
     public enum CardType {
-        STEP("每日运动"), LOCATION("运动轨迹"), FALL_DOWN("跌倒检测"), NOTIFICATION("每日提醒"), EVETY_DAY_HEALTH("健康小提示"), EDIT_CARD("卡片管理");
+        STEP("每日运动"), FALL_DOWN("跌倒检测"), NOTIFICATION("每日提醒"), EVERY_DAY_HEALTH("健康小提示"), LOCATION("运动轨迹"), EDIT_CARD("卡片管理");
         String value;
 
         CardType(String value) {

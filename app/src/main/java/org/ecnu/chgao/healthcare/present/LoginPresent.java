@@ -1,5 +1,7 @@
 package org.ecnu.chgao.healthcare.present;
 
+import android.content.Context;
+
 import org.ecnu.chgao.healthcare.bean.UserAction;
 import org.ecnu.chgao.healthcare.model.LoginModel;
 import org.ecnu.chgao.healthcare.util.Config;
@@ -20,9 +22,18 @@ public class LoginPresent extends BasePresent<LoginViewer, LoginModel> {
 
     public LoginPresent(LoginViewer viewer) {
         this.mViewer = viewer;
+        mModel = new LoginModel(this);
+        mViewer.setAccountInfo(mModel.getUserAccount(), mModel.getPwd());
+    }
+
+    public Context getContext() {
+        return mViewer.getContext();
     }
 
     public void onLoginClick(String account, String pwd) {
+        mModel.updateAccount(account);
+        mModel.updatePwd(pwd);
+        mViewer.showProgress("登陆中...");
         UserAction action = new UserAction(mViewer.getContext());
         try {
             action.login(account, pwd, Config.ACTION_LOGIN,
@@ -32,9 +43,11 @@ public class LoginPresent extends BasePresent<LoginViewer, LoginModel> {
                             try {
                                 JSONObject result = new JSONObject(jsonResult);
                                 if ("success".equals(result.getString("result"))) {
+                                    mViewer.dismissProgress();
                                     mViewer.loginSuccess();
                                     // TODO:save user account && pwd
                                 } else {
+                                    mViewer.dismissProgress();
                                     mViewer.loginFailed(result.getString("message"));
                                 }
                             } catch (JSONException e) {
@@ -46,6 +59,7 @@ public class LoginPresent extends BasePresent<LoginViewer, LoginModel> {
                     new UserAction.FailCallback() {
                         @Override
                         public void onFail(int status, int reason) {
+                            mViewer.dismissProgress();
                             mViewer.loginFailed("登录失败");
                         }
                     });

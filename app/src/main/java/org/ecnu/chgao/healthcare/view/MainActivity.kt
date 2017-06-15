@@ -81,6 +81,9 @@ class MainActivity : BaseActivity(), MainViewer, NavigationView.OnNavigationItem
         drawer = findViewById(R.id.drawer_layout) as DrawerLayout
         navigationView = findViewById(R.id.nav_view) as NavigationView
         navigationView!!.setNavigationItemSelectedListener(this)
+        navigationView!!.findViewById(R.id.id_main_logout).setOnClickListener {
+            mainPresent!!.logout()
+        }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -103,6 +106,7 @@ class MainActivity : BaseActivity(), MainViewer, NavigationView.OnNavigationItem
 
     override fun onResume() {
         super.onResume()
+        adapter!!.replaceAllDatas(mainPresent!!.allCards)
         mainPresent!!.updateUi()
     }
 
@@ -136,6 +140,11 @@ class MainActivity : BaseActivity(), MainViewer, NavigationView.OnNavigationItem
                 mainPresent!!.disableCard(it.getmItemType())
             }, { _, _ -> })
         }
+    }
+
+    override fun jumpToLogin() {
+        navigate<LoginActivity>()
+        finish()
     }
 
     override fun startLocation(option: AMapLocationClientOption, locationListener: AMapLocationListener) {

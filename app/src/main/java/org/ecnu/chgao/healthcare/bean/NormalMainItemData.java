@@ -2,8 +2,6 @@ package org.ecnu.chgao.healthcare.bean;
 
 import android.support.annotation.DrawableRes;
 
-import org.ecnu.chgao.healthcare.model.EditCardModel;
-
 /**
  * Created by chgao on 17-6-5.
  */
@@ -93,7 +91,7 @@ public class NormalMainItemData {
     }
 
     public enum ItemType {
-        UNKNOW(0), STEP(1), LOCATION(2), FALL_DOWN(3), NOTIFICATION(4), EVETY_DAY_HEALTH(5), FOTTER(6);
+        UNKNOW(0), STEP(1), FALL_DOWN(2), NOTIFICATION(3), EVERY_DAY_HEALTH(4), LOCATION(5), FOTTER(6);
         int value;
 
         ItemType(int value) {

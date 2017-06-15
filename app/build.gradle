@@ -36,7 +36,7 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile files('libs/jsms_android-1.1.0.jar')
     compile files('libs/lite-orm-1.7.0.jar')
-
+    compile 'com.github.d-max:spots-dialog:0.7@aar'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'cn.jiguang.sdk:jpush:3.0.5'
     compile 'cn.jiguang.sdk:jcore:1.1.2'

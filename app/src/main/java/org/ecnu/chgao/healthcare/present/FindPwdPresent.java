@@ -23,6 +23,7 @@ public class FindPwdPresent extends RegisterPresent {
     @Override
     public void onRegisterClick(String phone, String smsCode, String pwd) {
         if (DEBUG) {
+            mViewer.showProgress("重置中...");
             UserAction ua = new UserAction(mViewer.getContext());
             try {
                 ua.register(phone, pwd, smsCode, Config.ACTION_CHANGE_PASSWORD, new UserAction.SuccessCallback() {
@@ -32,8 +33,10 @@ public class FindPwdPresent extends RegisterPresent {
                             JSONObject jsonObject = new JSONObject(jsonResult);
                             if ("success".equals(jsonObject.getString("result"))) {
                                 //if register success,loginSuccess and jump to main activity
+                                mViewer.dismissProgress();
                                 mViewer.onRegisterSuccess();
                             } else {
+                                mViewer.dismissProgress();
                                 mViewer.onRegisterFailed(jsonObject.getString("message"));
                             }
                         } catch (JSONException e) {
@@ -45,6 +48,7 @@ public class FindPwdPresent extends RegisterPresent {
                     @Override
                     public void onFail(int status, int reason) {
                         //tell user register failed
+                        mViewer.dismissProgress();
                         mViewer.onRegisterFailed("重置密码失败");
                     }
                 });

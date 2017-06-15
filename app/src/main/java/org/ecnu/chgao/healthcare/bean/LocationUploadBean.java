@@ -11,7 +11,7 @@ import java.util.Date;
  */
 
 public class LocationUploadBean extends BaseUploadBean implements Serializable {
-    public static final int FREQUENCY = 2 * 1000;//ms
+    public static final int FREQUENCY = 60 * 1000;//ms
     private double mLatitude;
     private double mLongitude;
     private float mAccuracy;

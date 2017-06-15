@@ -27,7 +27,6 @@ public class SimpleDialog extends Dialog {
     protected Context mContext;
     private View.OnClickListener listener;
     private View customView;
-    //	@Bind(R.id.icon)
     ImageView icon;
 
 

@@ -20,20 +20,14 @@ public class RemindData {
     private static final long DAY = 24 * HOURS;//ms
     @PrimaryKey(AssignType.AUTO_INCREMENT)
     private int id;
-    @Column("type")
     private Type mRemindType;
-    @Column("create_date")
     private Date mCreateDate;
-    @Column("remind_date")
     //start
     private Date mRemindDate;
-    @Column("show_remind_time")
     private String mShowRemindTime;
     @Column("name")
     private String mRemindName;
-    @Column("addition")
     private String mRemindAddition;
-    @Column("extend")
     private Map<Integer, String> extend = new HashMap<>();
     private Map<Integer, Long> remindTime = new HashMap<>();
 

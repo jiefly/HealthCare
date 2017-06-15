@@ -66,12 +66,14 @@ public class RegisterPresent extends BasePresent<RegisterViewer, RegisterModel> 
 
     public void onRegisterClick(final String phone, final String smsCode, final String pwd) {
         if (DEBUG) {
+            mViewer.showProgress("注册中...");
             UserAction ua = new UserAction(mViewer.getContext());
             try {
                 ua.register(phone, pwd, smsCode, Config.ACTION_REGISTER, new UserAction.SuccessCallback() {
                     @Override
                     public void onSuccess(String jsonResult) {
                         try {
+                            mViewer.dismissProgress();
                             JSONObject jsonObject = new JSONObject(jsonResult);
                             if ("success".equals(jsonObject.getString("result"))) {
                                 //if register success,loginSuccess and jump to main activity
@@ -87,6 +89,7 @@ public class RegisterPresent extends BasePresent<RegisterViewer, RegisterModel> 
 
                     @Override
                     public void onFail(int status, int reason) {
+                        mViewer.dismissProgress();
                         //tell user register failed
                         mViewer.onRegisterFailed("注册失败");
                     }

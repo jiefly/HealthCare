@@ -125,9 +125,11 @@ public class DbUtils {
      * @param cla
      */
     public static <T> void deleteAll(Class<T> cla, String DB_NAME) {
-        if (forLastDb(DB_NAME))
+        if (forLastDb(DB_NAME)) {
             liteOrm.deleteAll(cla);
-//        dbMap.get(DB_NAME).
+            return;
+        }
+        dbMap.get(DB_NAME).deleteAll(cla);
     }
 
     /**

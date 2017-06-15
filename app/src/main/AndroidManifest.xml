@@ -219,7 +219,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.FindPwdActivity" />
-        <activity android:name=".view.MainActivity" />
+        <activity
+            android:name=".view.MainActivity"
+            android:launchMode="singleInstance">
+
+        </activity>
         <activity android:name=".view.RegisterActivity" />
         <activity android:name=".view.StepHistoryActivity" />
 

@@ -77,13 +77,14 @@ public class PackageUploadService extends IntentService {
             //plz clear database after upload packages success
             return;
         }
-
+        //upload by mobile network
         if (packages.size() > 10) {
             uploadPackages(packages);
         }
     }
 
     private void uploadPackages(List<UploadPackage> packages) {
+        Log.i(TAG, "uploadPackages,package size:" + packages.size());
         JSONObject object = new JSONObject();
         try {
             object.put(AccountInfo.USER, "1");

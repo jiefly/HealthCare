@@ -9,13 +9,13 @@ import com.amap.api.location.AMapLocationListener;
 import org.ecnu.chgao.healthcare.alarmmanager.AlarmManagerUtil;
 import org.ecnu.chgao.healthcare.bean.LocationUploadBean;
 import org.ecnu.chgao.healthcare.bean.NormalMainItemData;
+import org.ecnu.chgao.healthcare.bean.StepUploadBean;
 import org.ecnu.chgao.healthcare.model.EditCardModel;
 import org.ecnu.chgao.healthcare.model.MainModel;
 import org.ecnu.chgao.healthcare.step.UpdateUiCallBack;
 import org.ecnu.chgao.healthcare.step.service.StepService;
 import org.ecnu.chgao.healthcare.view.MainViewer;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,7 +32,12 @@ public class MainPresent extends BasePresent<MainViewer, MainModel> implements U
         this.mViewer = viewer;
         mModel = new MainModel(mViewer.getContext().getApplicationContext());
         mViewer.startLocation(buildLocationOption(), this);
-        AlarmManagerUtil.setAlarmByStoreUploadPackage(mViewer.getContext().getApplicationContext(), 19930918, 60 * 1000);
+        AlarmManagerUtil.setAlarmByStoreUploadPackage(mViewer.getContext().getApplicationContext(), 19930918, StepUploadBean.FREQUENCY);
+    }
+
+    public void logout() {
+        mModel.clearPwd();
+        mViewer.jumpToLogin();
     }
 
     public void onStepServiceConnected(StepService service) {
@@ -66,7 +71,7 @@ public class MainPresent extends BasePresent<MainViewer, MainModel> implements U
     }
 
     public void disableCard(NormalMainItemData.ItemType type) {
-        mModel.disableCard(EditCardModel.CardType.values()[type.ordinal() + 1]);
+        mModel.disableCard(EditCardModel.CardType.values()[type.ordinal() - 1]);
     }
 
     @Override
@@ -74,7 +79,7 @@ public class MainPresent extends BasePresent<MainViewer, MainModel> implements U
         if (aMapLocation != null) {
             if (aMapLocation.getErrorCode() == 0) {
                 handleLocation(aMapLocation);
-                StringBuilder sb = new StringBuilder();
+                /*StringBuilder sb = new StringBuilder();
                 sb.append("结果来源：").append(aMapLocation.getLocationType());
                 sb.append("纬度：").append(aMapLocation.getLatitude());
                 sb.append("经度:").append(aMapLocation.getLongitude());
@@ -92,7 +97,7 @@ public class MainPresent extends BasePresent<MainViewer, MainModel> implements U
                 sb.append("建筑物Id:").append(aMapLocation.getBuildingId());
                 sb.append("楼层:").append(aMapLocation.getFloor());
                 sb.append("定位时间:").append(new Date(aMapLocation.getTime()).toGMTString());
-                Log.i("info", sb.toString());
+                Log.i("info", sb.toString());*/
             } else {
                 Log.e("AmapError", "location Error, ErrCode:"
                         + aMapLocation.getErrorCode() + ", errInfo:"

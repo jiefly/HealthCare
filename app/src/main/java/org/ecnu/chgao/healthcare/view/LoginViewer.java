@@ -14,4 +14,6 @@ public interface LoginViewer extends Viewer<LoginPresent> {
     void jumpToRegister();
 
     void jumpToFindPwd();
+
+    void setAccountInfo(String account, String pwd);
 }

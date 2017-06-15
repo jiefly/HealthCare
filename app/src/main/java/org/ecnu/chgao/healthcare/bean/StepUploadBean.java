@@ -12,7 +12,7 @@ import java.util.Date;
 
 public class StepUploadBean extends BaseUploadBean implements Serializable {
     //6 bean/Hour
-    private static final int FREQUENCY = 10 * 60 * 1000;//ms
+    public static final int FREQUENCY = 10 * 60 * 1000;//ms
     private int mStep;
     private int mTask;
 

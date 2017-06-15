@@ -199,7 +199,7 @@
         android:layout_height="50dp">
 
         <TextView
-            android:background="@color/cardview_dark_background"
+            android:background="@drawable/register_button_selector"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:text="取消"
@@ -211,7 +211,7 @@
 
         <TextView
             android:layout_marginStart="32dp"
-            android:background="@color/cardview_dark_background"
+            android:background="@drawable/register_button_selector"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:textSize="19sp"

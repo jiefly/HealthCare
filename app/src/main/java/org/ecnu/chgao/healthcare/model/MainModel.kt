@@ -64,8 +64,8 @@ class MainModel(val context: Context) : BaseModel() {
             mCards.add(NormalMainItemData().setmItemType(NormalMainItemData.ItemType.FALL_DOWN).setmItemTitle("跌倒检测").setmIconRes(R.drawable.ic_receipt_blue_50_24dp).setmContent("跌到检测服务正在后台运行。点击可配置相关信息"))
         if (spUtil.getParam(EditCardModel.CardType.NOTIFICATION.value, true) as Boolean)
             mCards.add(NormalMainItemData().setmItemType(NormalMainItemData.ItemType.NOTIFICATION).setmItemTitle("每日提醒").setmIconRes(R.drawable.ic_snooze_white_24dp).setmContent("每一个用户设置的提醒都应该显示为一条Item"))
-        if (spUtil.getParam(EditCardModel.CardType.EVETY_DAY_HEALTH.value, true) as Boolean)
-            mCards.add(NormalMainItemData().setmItemType(NormalMainItemData.ItemType.EVETY_DAY_HEALTH).setmItemTitle("健康小提示").setmIconRes(R.drawable.ic_receipt_blue_50_24dp).setmContent("这里的消息可以来自于服务端的推送。"))
+        if (spUtil.getParam(EditCardModel.CardType.EVERY_DAY_HEALTH.value, true) as Boolean)
+            mCards.add(NormalMainItemData().setmItemType(NormalMainItemData.ItemType.EVERY_DAY_HEALTH).setmItemTitle("健康小提示").setmIconRes(R.drawable.ic_receipt_blue_50_24dp).setmContent("这里的消息可以来自于服务端的推送。"))
         if (spUtil.getParam(EditCardModel.CardType.LOCATION.value, true) as Boolean)
             mCards.add(NormalMainItemData().setmItemType(NormalMainItemData.ItemType.LOCATION).setmItemTitle("运动轨迹").setmIconRes(R.drawable.ic_place_white_24dp).setmContent("点击查看运动轨迹"))
         mCards.add(NormalMainItemData().setmItemType(NormalMainItemData.ItemType.FOTTER))
@@ -74,6 +74,10 @@ class MainModel(val context: Context) : BaseModel() {
 
     fun disableCard(cardType: EditCardModel.CardType) {
         spUtil.setParam(cardType.value, false)
+    }
+
+    fun clearPwd() {
+        spUtil.remove(LoginModel.PWD_KEY)
     }
 
     fun getCurrentStep(): Int {

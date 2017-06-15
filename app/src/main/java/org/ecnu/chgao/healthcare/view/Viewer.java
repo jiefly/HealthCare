@@ -16,5 +16,9 @@ public interface Viewer<P> {
 
     void showSnack(View view, String message);
 
+    void showProgress(String title);
+
+    void dismissProgress();
+
     void showAlertDialog(String title, String message, DialogInterface.OnClickListener positive, DialogInterface.OnClickListener negative);
 }

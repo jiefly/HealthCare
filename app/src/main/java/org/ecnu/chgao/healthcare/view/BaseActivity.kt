@@ -13,9 +13,12 @@ import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import dmax.dialog.SpotsDialog
 import org.ecnu.chgao.healthcare.R
 
 abstract class BaseActivity : AppCompatActivity() {
+    var dialog: SpotsDialog? = null
+
     interface OnInputAlert {
         fun onInputDismiss(value: String)
     }
@@ -23,6 +26,11 @@ abstract class BaseActivity : AppCompatActivity() {
     inline fun showToast(message: String?) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        dismissProgress()
     }
 
     inline fun showSnack(view: View, message: String?) {
@@ -44,6 +52,17 @@ abstract class BaseActivity : AppCompatActivity() {
         builder.setNegativeButton("取消", negative)
         builder.setPositiveButton("确定", positive)
         builder.show()
+    }
+
+    inline fun showProgress(title: String) {
+        if (dialog == null) {
+            dialog = SpotsDialog(this, title)
+        }
+        dialog!!.show()
+    }
+
+    inline fun dismissProgress() {
+        dialog?.let { it.dismiss() }
     }
 
     inline fun showInputAlertDialog(title: String, onInputAlert: OnInputAlert) {

@@ -17,14 +17,12 @@ class LoginActivity : BaseActivity(), LoginViewer {
     var forgotPwdTv: TextView? = null
     var present: LoginPresent? = null
 
-    init {
-        present = LoginPresent(this)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         initView()
+        present = LoginPresent(this)
     }
 
     private fun initView() {
@@ -39,6 +37,12 @@ class LoginActivity : BaseActivity(), LoginViewer {
         forgotPwdTv?.setOnClickListener { present?.onForgotPdwClick() }
     }
 
+    override fun setAccountInfo(account: String, pwd: String) {
+        account.isNullOrBlank().let {
+            accountET!!.setText(account)
+        }
+        pwd.isNullOrBlank().let { pwdET!!.setText(pwd) }
+    }
 
     //loginSuccess success will invoke this method
     override fun loginSuccess() {
