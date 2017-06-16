@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:textSize="16sp"
-            android:text="新建提醒"
+            android:text="toolbar标题"
             android:textColor="#fff" />
 
         <ImageView

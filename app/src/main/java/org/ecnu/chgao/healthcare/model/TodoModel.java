@@ -10,11 +10,10 @@ import java.util.List;
  * Created by chgao on 17-6-12.
  */
 
-public class TodoModel extends BaseModel {
-    private ToDoPresent mPresent;
+public class TodoModel extends BaseModel<ToDoPresent> {
 
     public TodoModel(ToDoPresent present) {
-        mPresent = present;
+        super(present);
         DbUtils.createDb(mPresent.getContext(), getDbName());
     }
 

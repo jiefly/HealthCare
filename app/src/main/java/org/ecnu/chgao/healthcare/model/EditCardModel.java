@@ -12,13 +12,12 @@ import java.util.List;
  * Created by chgao on 17-6-10.
  */
 
-public class EditCardModel extends BaseModel {
+public class EditCardModel extends BaseModel<EditCardPresent> {
     List<EditCardItemData> mCards;
     SharedPreferencesUtils sharedPreferencesUtils;
-    private EditCardPresent mPresent;
 
     public EditCardModel(EditCardPresent present) {
-        mPresent = present;
+        super(present);
         mCards = new ArrayList<>();
     }
 

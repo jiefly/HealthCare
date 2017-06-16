@@ -19,7 +19,7 @@ import com.amap.api.location.AMapLocationListener
 import org.ecnu.chgao.healthcare.R
 import org.ecnu.chgao.healthcare.adapter.MainRvAdapter
 import org.ecnu.chgao.healthcare.bean.NormalMainItemData
-import org.ecnu.chgao.healthcare.model.MainMenuClickEvent
+import org.ecnu.chgao.healthcare.bean.MainMenuClickEvent
 import org.ecnu.chgao.healthcare.present.MainPresent
 import org.ecnu.chgao.healthcare.service.FallDetectService
 import org.ecnu.chgao.healthcare.step.service.StepService
@@ -75,6 +75,15 @@ class MainActivity : BaseActivity(), MainViewer, NavigationView.OnNavigationItem
     private fun initView() {
         initDrawer()
         initRv()
+        """
+        |fdsfdsajkfl
+        |fdsafkfdsj
+        |sfdasff
+        |sdafdsfksfjsaf
+        |dasfjasdldfjasdf
+        |asdfasdlfjasdf
+        |sdjfklasdjfasdfjdskf
+        """.trimMargin()
     }
 
     private fun initDrawer() {

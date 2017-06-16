@@ -6,6 +6,7 @@ import org.ecnu.chgao.healthcare.R
 import org.ecnu.chgao.healthcare.application.BaseApplication
 import org.ecnu.chgao.healthcare.bean.LocationUploadBean
 import org.ecnu.chgao.healthcare.bean.NormalMainItemData
+import org.ecnu.chgao.healthcare.present.MainPresent
 import org.ecnu.chgao.healthcare.step.bean.StepData
 import org.ecnu.chgao.healthcare.step.service.StepService
 import org.ecnu.chgao.healthcare.util.DbUtils
@@ -14,7 +15,7 @@ import org.ecnu.chgao.healthcare.util.getTodayDate
 /**
  * Created by chgao on 17-5-29.
  */
-class MainModel(val context: Context) : BaseModel() {
+class MainModel(val present: MainPresent) : BaseModel<MainPresent>(present) {
     companion object {
         @JvmField
         val TODAY_TASK_STEP = "today_task_step"
@@ -24,11 +25,9 @@ class MainModel(val context: Context) : BaseModel() {
         val TODAY_STEP = "today_step"
         @JvmField
         val TODAY_STEP_DEFAULT = "0"
-        @JvmField
-        val TAG = "MainModel"
     }
 
-    val spUtil = (context.applicationContext as BaseApplication).sharedPreferencesUtils!!
+    val spUtil = (present.applicationContext as BaseApplication).sharedPreferencesUtils!!
     var todayTask: Int
 
     init {
@@ -39,7 +38,7 @@ class MainModel(val context: Context) : BaseModel() {
 
     private fun initDb() {
         if (DbUtils.getLiteOrm(StepService.DB_NAME) == null) {
-            DbUtils.createDb(context.applicationContext, StepService.DB_NAME)
+            DbUtils.createDb(present.applicationContext, StepService.DB_NAME)
         }
     }
 

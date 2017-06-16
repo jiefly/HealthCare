@@ -7,78 +7,79 @@
     android:orientation="vertical"
     tools:context="org.ecnu.chgao.healthcare.view.UserInfoActivity">
 
-    <include layout="@layout/normal_tool_bar" />
+    <include layout="@layout/double_icon_tool_bar" />
 
     <LinearLayout
-        android:gravity="center_vertical"
-        android:background="@color/white"
         android:id="@+id/id_user_info_ll"
         android:layout_width="match_parent"
         android:layout_height="110dp"
         android:layout_marginTop="30dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
             android:layout_gravity="center"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="姓名"
-                android:textSize="16sp"
                 android:textColor="@color/black"
-                android:layout_height="wrap_content" />
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/id_user_info_name_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:hint="请输入您的姓名"
-                android:textSize="16sp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
             android:layout_gravity="center"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="性别"
-                android:textSize="16sp"
                 android:textColor="@color/black"
-                android:layout_height="wrap_content" />
+                android:textSize="16sp" />
 
             <RadioGroup
-                android:layout_marginStart="16dp"
-                android:orientation="horizontal"
+                android:id="@+id/id_user_info_rg"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
                 android:gravity="center_vertical"
-                android:layout_height="match_parent">
+                android:orientation="horizontal">
 
                 <RadioButton
-                    android:checked="true"
                     android:id="@+id/id_user_info_sex_male"
                     android:layout_width="wrap_content"
-                    android:text="男"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="男" />
 
                 <RadioButton
                     android:id="@+id/id_user_info_sex_female"
-                    android:layout_marginStart="32dp"
                     android:layout_width="wrap_content"
-                    android:text="女"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:text="女" />
             </RadioGroup>
 
         </LinearLayout>
@@ -90,100 +91,101 @@
         android:id="@+id/id_user_info_emergency_ll"
         android:layout_width="match_parent"
         android:layout_height="160dp"
-        android:gravity="center_vertical"
-        android:background="@color/white"
         android:layout_marginTop="30dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
             android:layout_gravity="center"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="姓名"
-                android:textSize="16sp"
                 android:textColor="@color/black"
-                android:layout_height="wrap_content" />
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/id_user_info_emergency_name_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:hint="请输入紧急联系人姓名"
-                android:textSize="16sp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:textSize="16sp" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
             android:layout_gravity="center"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="电话"
-                android:textSize="16sp"
                 android:textColor="@color/black"
-                android:layout_height="wrap_content" />
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/id_user_info_emergency_phone_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:hint="请输入紧急联系人联系电话"
-                android:textSize="16sp"
                 android:inputType="phone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:textSize="16sp" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
             android:layout_gravity="center"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="性别"
-                android:textSize="16sp"
                 android:textColor="@color/black"
-                android:layout_height="wrap_content" />
+                android:textSize="16sp" />
 
             <RadioGroup
-                android:layout_marginStart="16dp"
-                android:orientation="horizontal"
+                android:id="@+id/id_user_info_emergency_rg"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
                 android:gravity="center_vertical"
-                android:layout_height="match_parent">
+                android:orientation="horizontal">
 
                 <RadioButton
                     android:id="@+id/id_user_info_emergency_sex_male"
                     android:layout_width="wrap_content"
-                    android:text="男"
+                    android:layout_height="wrap_content"
                     android:checked="true"
-                    android:layout_height="wrap_content" />
+                    android:text="男" />
 
                 <RadioButton
                     android:id="@+id/id_user_info_emergency_sex_female"
-                    android:layout_marginStart="32dp"
                     android:layout_width="wrap_content"
-                    android:text="女"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:text="女" />
             </RadioGroup>
 
         </LinearLayout>
@@ -191,34 +193,36 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_marginTop="32dp"
         android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="32dp"
         android:orientation="horizontal"
-        android:paddingStart="32dp"
         android:paddingEnd="32dp"
-        android:layout_height="50dp">
+        android:paddingStart="32dp">
 
         <TextView
-            android:background="@drawable/register_button_selector"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="65dp"
             android:layout_weight="1"
+            android:background="@drawable/register_button_selector"
+            android:clickable="true"
+            android:gravity="center"
             android:text="取消"
             android:textColor="@color/white"
-            android:gravity="center"
-            android:textSize="18sp"
-            android:layout_marginEnd="32dp"
-            android:layout_height="match_parent" />
+            android:textSize="18sp" />
 
         <TextView
-            android:layout_marginStart="32dp"
-            android:background="@drawable/register_button_selector"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="65dp"
             android:layout_weight="1"
-            android:textSize="19sp"
+            android:background="@drawable/register_button_selector"
+            android:clickable="true"
+            android:gravity="center"
             android:text="确定"
             android:textColor="@color/white"
-            android:gravity="center"
-            android:layout_height="match_parent" />
+            android:textSize="19sp" />
 
     </LinearLayout>
 

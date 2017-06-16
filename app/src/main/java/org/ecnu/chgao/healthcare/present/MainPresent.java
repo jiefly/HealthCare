@@ -30,7 +30,7 @@ public class MainPresent extends BasePresent<MainViewer, MainModel> implements U
 
     public MainPresent(MainViewer viewer) {
         this.mViewer = viewer;
-        mModel = new MainModel(mViewer.getContext().getApplicationContext());
+        mModel = new MainModel(this);
         mViewer.startLocation(buildLocationOption(), this);
         AlarmManagerUtil.setAlarmByStoreUploadPackage(mViewer.getContext().getApplicationContext(), 19930918, StepUploadBean.FREQUENCY);
     }

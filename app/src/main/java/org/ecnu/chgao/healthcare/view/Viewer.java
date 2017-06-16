@@ -20,5 +20,7 @@ public interface Viewer<P> {
 
     void dismissProgress();
 
+    void finish();
+
     void showAlertDialog(String title, String message, DialogInterface.OnClickListener positive, DialogInterface.OnClickListener negative);
 }

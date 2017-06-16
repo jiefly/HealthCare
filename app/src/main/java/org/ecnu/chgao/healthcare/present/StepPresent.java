@@ -10,7 +10,7 @@ import org.ecnu.chgao.healthcare.view.StepViewer;
 public class StepPresent extends BasePresent<StepViewer, StepModel> {
     public StepPresent(StepViewer viewer) {
         this.mViewer = viewer;
-        this.mModel = new StepModel();
+        this.mModel = new StepModel(this);
     }
 
     public void fetchData() {

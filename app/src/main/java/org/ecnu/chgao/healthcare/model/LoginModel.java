@@ -8,14 +8,13 @@ import org.ecnu.chgao.healthcare.util.SharedPreferencesUtils;
  * Created by chgao on 17-5-26.
  */
 
-public class LoginModel extends BaseModel {
+public class LoginModel extends BaseModel<LoginPresent> {
     public static final String ACCOUNT_KEY = "account_key";
     public static final String PWD_KEY = "pwd_key";
-    private LoginPresent mPresent;
     private SharedPreferencesUtils sharedPreferencesUtils;
 
     public LoginModel(LoginPresent present) {
-        mPresent = present;
+        super(present);
         sharedPreferencesUtils = ((BaseApplication) mPresent.getContext().getApplicationContext()).getSharedPreferencesUtils();
 
     }

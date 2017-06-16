@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import org.ecnu.chgao.healthcare.R;
 import org.ecnu.chgao.healthcare.bean.NormalMainItemData;
-import org.ecnu.chgao.healthcare.model.MainMenuClickEvent;
+import org.ecnu.chgao.healthcare.bean.MainMenuClickEvent;
 import org.ecnu.chgao.healthcare.view.customview.StepArcView;
 import org.ecnu.chgao.healthcare.view.item.NormalMainItemView;
 

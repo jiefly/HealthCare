@@ -5,6 +5,7 @@ import android.content.Context;
 import org.ecnu.chgao.healthcare.bean.LocationUploadBean;
 import org.ecnu.chgao.healthcare.bean.StepUploadBean;
 import org.ecnu.chgao.healthcare.bean.UploadPackage;
+import org.ecnu.chgao.healthcare.present.StepPresent;
 import org.ecnu.chgao.healthcare.step.bean.StepData;
 import org.ecnu.chgao.healthcare.step.service.StepService;
 import org.ecnu.chgao.healthcare.util.DbUtils;
@@ -16,8 +17,10 @@ import java.util.List;
  * Created by chgao on 17-5-29.
  */
 
-public class StepModel extends BaseModel {
-    private static final String TAG = "StepModel";
+public class StepModel extends BaseModel<StepPresent> {
+    public StepModel(StepPresent stepPresent) {
+        super(stepPresent);
+    }
 
     public List<StepData> getAllData(Context context) {
         if (DbUtils.getLiteOrm(StepService.DB_NAME) == null) {
