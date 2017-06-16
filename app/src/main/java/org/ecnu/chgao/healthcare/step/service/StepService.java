@@ -490,7 +490,9 @@ public class StepService extends Service implements SensorEventListener {
      */
     private void save() {
         int tempStep = CURRENT_STEP;
-
+        if (DbUtils.getLiteOrm(DB_NAME) == null) {
+            DbUtils.createDb(this, DB_NAME);
+        }
         List<StepData> list = DbUtils.getQueryByWhere(StepData.class, "today", new String[]{CURRENT_DATE}, DB_NAME);
         if (list.size() == 0 || list.isEmpty()) {
             StepData data = new StepData();

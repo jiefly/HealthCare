@@ -2,6 +2,8 @@ package org.ecnu.chgao.healthcare.application;
 
 import android.app.Application;
 
+import com.tencent.bugly.crashreport.CrashReport;
+
 import org.ecnu.chgao.healthcare.util.SharedPreferencesUtils;
 
 import cn.jpush.android.api.JPushInterface;
@@ -19,6 +21,8 @@ public class BaseApplication extends Application {
         JPushInterface.init(this);
         SMSSDK.getInstance().initSdk(this);
         sharedPreferencesUtils = new SharedPreferencesUtils(this);
+        //bugly
+        CrashReport.initCrashReport(getApplicationContext());
     }
 
     public SharedPreferencesUtils getSharedPreferencesUtils() {

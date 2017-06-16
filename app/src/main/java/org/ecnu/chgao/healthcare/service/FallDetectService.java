@@ -96,7 +96,7 @@ public class FallDetectService extends Service implements FallDetectListener.OnF
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (intent.getBooleanExtra(CANCEL_FALL_DOWN_ACTION, false)) {
+        if (intent != null && intent.getBooleanExtra(CANCEL_FALL_DOWN_ACTION, false)) {
             onCancelFallDownAction();
         }
         return super.onStartCommand(intent, flags, startId);
