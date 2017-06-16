@@ -3,7 +3,6 @@ package org.ecnu.chgao.healthcare.present;
 import org.ecnu.chgao.healthcare.bean.UserAction;
 import org.ecnu.chgao.healthcare.connection.http.NetworkCallback;
 import org.ecnu.chgao.healthcare.model.RegisterModel;
-import org.ecnu.chgao.healthcare.util.Config;
 import org.ecnu.chgao.healthcare.view.RegisterViewer;
 import org.json.JSONException;
 
@@ -26,7 +25,7 @@ public class FindPwdPresent extends RegisterPresent {
             mViewer.showProgress("重置中...");
             UserAction ua = new UserAction(mViewer.getContext());
             try {
-                ua.register(phone, pwd, smsCode, Config.ACTION_CHANGE_PASSWORD, new NetworkCallback() {
+                ua.findPwd(phone, pwd, smsCode, new NetworkCallback() {
                     @Override
                     public void onSuccess(String result) {
                         mViewer.dismissProgress();

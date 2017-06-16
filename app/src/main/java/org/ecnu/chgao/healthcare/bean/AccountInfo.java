@@ -10,6 +10,7 @@ import org.ecnu.chgao.healthcare.connection.http.HttpMethod;
 import org.ecnu.chgao.healthcare.connection.http.NetConnection;
 import org.ecnu.chgao.healthcare.connection.http.NetworkCallback;
 import org.ecnu.chgao.healthcare.util.ApiStores;
+import org.ecnu.chgao.healthcare.util.Config;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,55 +46,55 @@ public class AccountInfo {
     }
 
 
-    public void register(String phone, String passwordMd5, String smsCode, int action,
+    public void register(String phone, String passwordMd5, String smsCode,
                          final NetworkCallback callback) throws JSONException {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put(AccountInfo.PHONE, phone);
         jsonObject.put(AccountInfo.PASSWORD_MD5, passwordMd5);
-        jsonObject.put(AccountInfo.ACTION, action);
+        jsonObject.put(AccountInfo.ACTION, Config.ACTION_REGISTER);
         jsonObject.put(AccountInfo.SMS_CODE, smsCode);
         System.out.println("JSON: " + jsonObject.toString());
         new NetConnection(context, ApiStores.API_SERVER_URL, HttpMethod.POST,
-                callback, action, jsonObject.toString());
+                callback, jsonObject.toString());
     }
 
 
-    public void login(String phone, String passwordMd5, int action,
+    public void login(String phone, String passwordMd5,
                       @NonNull NetworkCallback callback) throws JSONException {
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put(AccountInfo.PHONE, phone);
         jsonObject.put(AccountInfo.PASSWORD_MD5, passwordMd5);
-        jsonObject.put(AccountInfo.ACTION, action);
+        jsonObject.put(AccountInfo.ACTION, Config.ACTION_LOGIN);
         new NetConnection(context, ApiStores.API_SERVER_URL, HttpMethod.POST,
-                callback, action, jsonObject.toString());
+                callback, jsonObject.toString());
 
     }
 
-    public void findPwd(String phone, String passwordMd5, String smsCode, int action,
+    public void findPwd(String phone, String passwordMd5, String smsCode,
                         @NonNull NetworkCallback callback) throws JSONException {
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put(AccountInfo.PHONE, phone);
         jsonObject.put(AccountInfo.PASSWORD_MD5, passwordMd5);
         jsonObject.put(AccountInfo.SMS_CODE, smsCode);
-        jsonObject.put(AccountInfo.ACTION, action);
+        jsonObject.put(AccountInfo.ACTION, Config.ACTION_REGISTER);
 
 
-        new NetConnection(context, ApiStores.API_SERVER_URL, HttpMethod.POST, callback, action, jsonObject.toString());
+        new NetConnection(context, ApiStores.API_SERVER_URL, HttpMethod.POST, callback, jsonObject.toString());
 
     }
 
-    public void getSmsCode(String phone, int action,
+    public void getSmsCode(String phone,
                            @NonNull NetworkCallback callback) throws JSONException {
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put(AccountInfo.PHONE, phone);
-        jsonObject.put(AccountInfo.ACTION, action);
+        jsonObject.put(AccountInfo.ACTION, Config.ACTION_GET_SMS_CODE);
 
 
         new NetConnection(context, ApiStores.API_SERVER_URL, HttpMethod.POST,
-                callback, action, jsonObject.toString());
+                callback, jsonObject.toString());
 
     }
 

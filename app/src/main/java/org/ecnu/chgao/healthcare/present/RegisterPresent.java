@@ -36,7 +36,7 @@ public class RegisterPresent extends BasePresent<RegisterViewer, RegisterModel> 
         mPhone = phone;
         UserAction action = new UserAction(mViewer.getContext());
         try {
-            action.getSmsCode(phone, Config.ACTION_GET_SMS_CODE, new NetworkCallback() {
+            action.getSmsCode(phone, new NetworkCallback() {
                 @Override
                 public void onSuccess(String result) {
                     Log.i(TAG, "send sms code success");
@@ -68,7 +68,7 @@ public class RegisterPresent extends BasePresent<RegisterViewer, RegisterModel> 
             mViewer.showProgress("注册中...");
             UserAction ua = new UserAction(mViewer.getContext());
             try {
-                ua.register(phone, pwd, smsCode, Config.ACTION_REGISTER, new NetworkCallback() {
+                ua.register(phone, pwd, smsCode, new NetworkCallback() {
                     @Override
                     public void onSuccess(String result) {
                         mViewer.dismissProgress();
@@ -106,7 +106,7 @@ public class RegisterPresent extends BasePresent<RegisterViewer, RegisterModel> 
                         //if the sms code is correct,will invoke register function
                         UserAction ua = new UserAction(mViewer.getContext());
                         try {
-                            ua.register(phone, pwd, smsCode, Config.ACTION_REGISTER, new NetworkCallback() {
+                            ua.register(phone, pwd, smsCode, new NetworkCallback() {
                                 @Override
                                 public void onSuccess(String result) {
                                     mViewer.dismissProgress();

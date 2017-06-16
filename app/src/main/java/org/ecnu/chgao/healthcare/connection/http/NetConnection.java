@@ -10,8 +10,8 @@ public class NetConnection {
     public static final String TAG = "NetConnection";
 
     public NetConnection(Context context, final String url, final HttpMethod httpMethod,
-                         @NonNull final NetworkCallback callback, final int action,
+                         @NonNull final NetworkCallback callback,
                          final String jsonParams) {
-        new BaseNetConnection(context, url, httpMethod, callback, action, jsonParams);
+        new BaseNetConnection(context, url, httpMethod, callback, jsonParams);
     }
 }

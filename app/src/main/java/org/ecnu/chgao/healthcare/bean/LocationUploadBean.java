@@ -1,5 +1,7 @@
 package org.ecnu.chgao.healthcare.bean;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,10 +13,15 @@ import java.util.Date;
  */
 
 public class LocationUploadBean extends BaseUploadBean implements Serializable {
+    @SerializedName("frequency")
     public static final int FREQUENCY = 60 * 1000;//ms
+    @SerializedName("latitude")
     private double mLatitude;
+    @SerializedName("longitude")
     private double mLongitude;
+    @SerializedName("accuracy")
     private float mAccuracy;
+    @SerializedName("address")
     private String mAddress;
 
     public LocationUploadBean(long time) {
@@ -58,7 +65,7 @@ public class LocationUploadBean extends BaseUploadBean implements Serializable {
         StringBuilder sb = new StringBuilder();
         sb
                 .append("id:").append(id).append("\n")
-                .append("time:").append(new Date(mHappendTime).toGMTString()).append("\n")
+                .append("time:").append(new Date(mHappendTime)).append("\n")
                 .append("address:").append(mAddress);
         return sb.toString();
     }

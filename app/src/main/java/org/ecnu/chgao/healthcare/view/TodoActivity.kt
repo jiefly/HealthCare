@@ -38,7 +38,9 @@ class TodoActivity : BaseActivity(), ToDoViewer {
         initRv()
         floatActionButton = findViewById(R.id.id_remind_float_button) as FloatingActionButton?
         floatActionButton!!.setOnClickListener {
-            startActivityForResult(Intent(this, NotificationEditActivity::class.java), REQUEST_ADD)
+            val intent = Intent(this, NotificationEditActivity::class.java)
+            intent.putExtra("action", REQUEST_ADD)
+            startActivityForResult(intent, REQUEST_ADD)
         }
     }
 
@@ -75,6 +77,8 @@ class TodoActivity : BaseActivity(), ToDoViewer {
         adapter.positionClicks.subscribeOn(AndroidSchedulers.mainThread()).subscribe {
             present.handleItemClick(it)
             val intent = Intent(this, NotificationEditActivity::class.java)
+            intent.putExtra("old", it.remindData)
+            intent.putExtra("action", REQUEST_CHANGE)
             startActivityForResult(intent, REQUEST_CHANGE)
         }
 

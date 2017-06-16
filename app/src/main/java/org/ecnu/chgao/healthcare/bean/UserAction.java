@@ -20,22 +20,20 @@ public class UserAction {
 
     public void login(String phoneMd5, String passwordMd5, int action,
                       @NonNull final NetworkCallback callback) throws JSONException {
-        new AccountInfo(context).login(phoneMd5, passwordMd5, action, callback);
+        new AccountInfo(context).login(phoneMd5, passwordMd5, callback);
     }
 
-    public void getSmsCode(String phone, int action, @NonNull NetworkCallback callback) throws JSONException {
-        AccountInfo accountInfo = new AccountInfo(context);
-        accountInfo.getSmsCode(phone, action, callback);
+    public void getSmsCode(String phone, @NonNull NetworkCallback callback) throws JSONException {
+        new AccountInfo(context).getSmsCode(phone, callback);
     }
 
-    public void findPwd(String phone, String pwd, String code, int action, @NonNull NetworkCallback callback) throws JSONException {
-        AccountInfo accountInfo = new AccountInfo(context);
-        accountInfo.findPwd(phone, pwd, code, action, callback);
+    public void findPwd(String phone, String pwd, String code, @NonNull NetworkCallback callback) throws JSONException {
+        new AccountInfo(context).findPwd(phone, pwd, code, callback);
     }
 
-    public void register(String phone, String passwordMd5, String smsCode, int action,
+    public void register(String phone, String passwordMd5, String smsCode,
                          @NonNull NetworkCallback callback) throws JSONException {
 
-        new AccountInfo(context).register(phone, passwordMd5, smsCode, action, callback);
+        new AccountInfo(context).register(phone, passwordMd5, smsCode, callback);
     }
 }

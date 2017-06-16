@@ -62,7 +62,7 @@ public class MedicalNotificationEditItemData extends NotificationEditItemData im
     }
 
     public enum Type {
-        MEDCIAL_NAME(0), PILL_PERTIME(1), TIMES_PERDAY(2), START_TIME(3), INTEVAL(4)/*unit is minute*/, REMIND_WAY(5), DOURATION(6);
+        MEDCIAL_NAME(0), PILL_PERTIME(2), TIMES_PERDAY(3), START_TIME(4), INTEVAL(5)/*unit is minute*/, REMIND_WAY(6), DOURATION(1);
         int value;
 
         Type(int value) {
@@ -78,21 +78,25 @@ public class MedicalNotificationEditItemData extends NotificationEditItemData im
             return null;
         }
 
+        public int getValue() {
+            return value;
+        }
+
         public String getName() {
-            switch (value) {
-                case 0:
+            switch (this) {
+                case MEDCIAL_NAME:
                     return "药物名称";
-                case 1:
+                case PILL_PERTIME:
                     return "每次服用";
-                case 2:
+                case TIMES_PERDAY:
                     return "每日服用";
-                case 3:
+                case START_TIME:
                     return "开始服用时间";
-                case 4:
+                case INTEVAL:
                     return "服用间隔";
-                case 5:
+                case REMIND_WAY:
                     return "提醒方式";
-                case 6:
+                case DOURATION:
                     return "服用天数";
             }
             return "";

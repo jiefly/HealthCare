@@ -13,7 +13,9 @@ import com.bigkoo.pickerview.TimePickerView
 import org.ecnu.chgao.healthcare.R
 import org.ecnu.chgao.healthcare.adapter.NotificationEditRvAdapter
 import org.ecnu.chgao.healthcare.bean.MedicalNotificationEditItemData
+import org.ecnu.chgao.healthcare.bean.RemindData
 import org.ecnu.chgao.healthcare.util.dateDetail
+import org.ecnu.chgao.healthcare.view.TodoActivity.Companion.REQUEST_CHANGE
 import rx.android.schedulers.AndroidSchedulers
 
 
@@ -23,6 +25,7 @@ class NotificationEditActivity : BaseActivity(), NotificationEditViewer {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notification_edit)
+        val action = intent.extras.getInt("action")
         useCustomToolbar(title = "添加提醒", onRightIconClick = View.OnClickListener {
             val intent = Intent()
             val bundle = Bundle()
@@ -33,10 +36,15 @@ class NotificationEditActivity : BaseActivity(), NotificationEditViewer {
             setResult(Activity.RESULT_OK, intent)
             finish()
         })
-        initRv()
+        if (action == REQUEST_CHANGE) {
+            val remind = intent.extras.getSerializable("old") as RemindData
+            initRv(remind.getmMedicalNotificationData())
+        } else {
+            initRv(null)
+        }
     }
 
-    private fun initRv() {
+    private fun initRv(datas: List<MedicalNotificationEditItemData>?) {
         recyclerView = findViewById(R.id.id_edit_notification_rv) as RecyclerView
         adapter = NotificationEditRvAdapter(this)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -106,13 +114,17 @@ class NotificationEditActivity : BaseActivity(), NotificationEditViewer {
         }
         adapter.positionLongClicks.subscribeOn(AndroidSchedulers.mainThread()).subscribe {
         }
-        adapter.addData(MedicalNotificationEditItemData(MedicalNotificationEditItemData.Type.MEDCIAL_NAME).setValue("阿姆西林"))
-        adapter.addData(MedicalNotificationEditItemData(MedicalNotificationEditItemData.Type.DOURATION).setValue("14"))
-        adapter.addData(MedicalNotificationEditItemData(MedicalNotificationEditItemData.Type.PILL_PERTIME).setValue("2"))
-        adapter.addData(MedicalNotificationEditItemData(MedicalNotificationEditItemData.Type.TIMES_PERDAY).setValue("3"))
-        adapter.addData(MedicalNotificationEditItemData(MedicalNotificationEditItemData.Type.START_TIME).setValue("08:00"))
-        adapter.addData(MedicalNotificationEditItemData(MedicalNotificationEditItemData.Type.INTEVAL).setValue("6.0"))
-        adapter.addData(MedicalNotificationEditItemData(MedicalNotificationEditItemData.Type.REMIND_WAY).setValue("响铃"))
+        if (datas == null || datas.isEmpty()) {
+            adapter.addData(MedicalNotificationEditItemData(MedicalNotificationEditItemData.Type.MEDCIAL_NAME).setValue("阿姆西林"))
+            adapter.addData(MedicalNotificationEditItemData(MedicalNotificationEditItemData.Type.DOURATION).setValue("14"))
+            adapter.addData(MedicalNotificationEditItemData(MedicalNotificationEditItemData.Type.PILL_PERTIME).setValue("2"))
+            adapter.addData(MedicalNotificationEditItemData(MedicalNotificationEditItemData.Type.TIMES_PERDAY).setValue("3"))
+            adapter.addData(MedicalNotificationEditItemData(MedicalNotificationEditItemData.Type.START_TIME).setValue("08:00"))
+            adapter.addData(MedicalNotificationEditItemData(MedicalNotificationEditItemData.Type.INTEVAL).setValue("6.0"))
+            adapter.addData(MedicalNotificationEditItemData(MedicalNotificationEditItemData.Type.REMIND_WAY).setValue("响铃"))
+        } else {
+            adapter.addDatas(datas.sortedBy { it.getmType().value })
+        }
         adapter.notifyDataSetChanged()
     }
 

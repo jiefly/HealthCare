@@ -32,7 +32,7 @@ public class BaseNetConnection {
     }
 
     public BaseNetConnection(Context context, final String url,
-                             final HttpMethod httpMethod, @NonNull final NetworkCallback callback, final int action, final String jsonParams) {
+                             final HttpMethod httpMethod, @NonNull final NetworkCallback callback, final String jsonParams) {
 
         this.context = context;
 
@@ -53,11 +53,9 @@ public class BaseNetConnection {
 //						StringBuffer postParams = new StringBuffer();
 //						postParams.append("jsonRequestParams").append("=")
 //								.append(jsonParams);
-
                             conn = new URL(url).openConnection();
                             conn.setRequestProperty("connection", "Keep-Alive");
-                            if (!sessionId
-                                    .equals(BaseNetConnection.this.DEFAULT_SESSION_ID) && sessionId != null) {
+                            if (!sessionId.equals(BaseNetConnection.this.DEFAULT_SESSION_ID)) {
 
                                 conn.setRequestProperty("Cookie", "JSESSIONID="
                                         + sessionId);
@@ -68,7 +66,7 @@ public class BaseNetConnection {
                             BufferedWriter bw = new BufferedWriter(
                                     new OutputStreamWriter(conn.getOutputStream(),
                                             "UTF-8"));
-                            bw.write(jsonParams.toString());
+                            bw.write(jsonParams);
                             bw.flush();
                             bw.close();
 
@@ -92,10 +90,8 @@ public class BaseNetConnection {
 
                     }
 
-                    BufferedReader br = new BufferedReader(
-                            new InputStreamReader(conn.getInputStream(),
-                                    "utf-8"));
-                    String line = "";
+                    BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
+                    String line;
                     while ((line = br.readLine()) != null) {
                         jsonResult.append(line);
                     }

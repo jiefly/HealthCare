@@ -5,10 +5,8 @@ package org.ecnu.chgao.healthcare.util;
  */
 public class Config {
 
-    // ��������ļ�
     public static final String KEY_ACTION = "action";
     public static final String KEY_JSON_PARAMS = "key_jsonParams";
-    // ���ӷ��������ص�״̬��
     public static final int STATUS_SUCCESS = 1;
     public static final int STATUS_FAIL = 0;
     public static final int STATUS_FAIL_REASON_OTHER = 0;
@@ -17,8 +15,10 @@ public class Config {
     public static final int ACTION_UPLOAD = 3;
     public static final int ACTION_GET_SMS_CODE = 4;
     public static final int ACTION_CHANGE_PASSWORD = 5;
+    public static final int ACTION_TEST = 8;
     public static final String HEADER_STEP_PACKAGE = "step_package";
     public static final String HEADER_USER_INFO = "user_info";
+    public static final String HEADER_USER_MEDICAL = "medical_info";
     public static final double[] SAMPLE = {10.15907675, 10.20445321, 10.30242901, 10.35208591, 10.42332882, 10.4138552, 10.36579282,
             10.28880842, 10.13562666, 9.968384642, 9.840492119, 9.746637629, 9.203999981, 8.686755375, 7.925858568, 7.026434268,
             6.46869881, 5.448968105, 5.183926038, 4.31677549, 4.206787974, 2.692734912, 0.452117987, 0.302156539, 0.117195192,
@@ -42,9 +42,5 @@ public class Config {
             11.27523954, 11.62800435, 11.97667394, 12.23595909, 12.22011131, 11.67738283, 10.86937203, 10.07907377, 9.485305333,
             9.084932899, 8.83918939, 8.770601177, 8.890153273, 9.234174518, 9.607970867, 9.912703778, 10.1312301, 10.19097241, 10.17395555,
             10.06436318, 9.85398869};
-    public static String GATE_URL = "http://222.204.248.26:1432/FallDetectionSystem/capture/http_server_post";
-    public static String CHARSET = "GB2312";
-    public static String CHARSET2 = "GBK";
-    public static String CHARSET3 = "UTF-8";
 
 }

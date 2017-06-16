@@ -5,6 +5,7 @@ import com.litesuits.orm.db.annotation.PrimaryKey;
 import com.litesuits.orm.db.annotation.Table;
 import com.litesuits.orm.db.enums.AssignType;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,7 +16,7 @@ import java.util.Map;
  * Created by chgao on 17-6-12.
  */
 @Table("remind")
-public class RemindData {
+public class RemindData implements Serializable {
     private static final long HOURS = 60 * 60 * 1000;//ms
     private static final long DAY = 24 * HOURS;//ms
     @PrimaryKey(AssignType.AUTO_INCREMENT)

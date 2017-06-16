@@ -1,5 +1,9 @@
 package org.ecnu.chgao.healthcare.bean;
 
+import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,7 +15,9 @@ import java.util.List;
  */
 
 public class UploadPackage extends BaseUploadBean {
+    @SerializedName("step_package")
     private StepUploadBean mStepBean;
+    @SerializedName("location_package")
     private List<LocationUploadBean> mLocationBean;
 
     public UploadPackage(long time) {
@@ -22,16 +28,5 @@ public class UploadPackage extends BaseUploadBean {
     public void setStep(StepUploadBean step, List<LocationUploadBean> locations) {
         mStepBean = step;
         mLocationBean.addAll(locations);
-    }
-
-    public String toJson() {
-        JSONObject object = new JSONObject();
-        try {
-            object.put("Step", mStepBean);
-            object.put("location", mLocationBean);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return object.toString();
     }
 }

@@ -4,6 +4,8 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
+import com.google.gson.Gson;
+
 import org.ecnu.chgao.healthcare.application.BaseApplication;
 import org.ecnu.chgao.healthcare.bean.AccountInfo;
 import org.ecnu.chgao.healthcare.bean.LocationUploadBean;
@@ -15,14 +17,18 @@ import org.ecnu.chgao.healthcare.connection.http.NetworkCallback;
 import org.ecnu.chgao.healthcare.model.LoginModel;
 import org.ecnu.chgao.healthcare.step.bean.StepData;
 import org.ecnu.chgao.healthcare.step.service.StepService;
+import org.ecnu.chgao.healthcare.util.ApiStores;
 import org.ecnu.chgao.healthcare.util.Config;
 import org.ecnu.chgao.healthcare.util.DbUtils;
 import org.ecnu.chgao.healthcare.util.NetworkUtil;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
 
+import static org.ecnu.chgao.healthcare.util.Config.ACTION_REGISTER;
+import static org.ecnu.chgao.healthcare.util.Config.ACTION_TEST;
 import static org.ecnu.chgao.healthcare.util.Config.ACTION_UPLOAD;
 import static org.ecnu.chgao.healthcare.util.DateUtilKt.getTodayDate;
 
@@ -92,21 +98,24 @@ public class PackageUploadService extends IntentService {
         try {
             object.put(AccountInfo.USER, ((BaseApplication) getApplication()).getSharedPreferencesUtils().getParam(LoginModel.ACCOUNT_KEY, ""));
             object.put(AccountInfo.HEADER, Config.HEADER_STEP_PACKAGE);
-            object.put("packages", packages);
+            object.put(AccountInfo.ACTION, Config.ACTION_UPLOAD);
+            object.put("packages", new Gson().toJson(packages));
+            Log.i(TAG, object.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        new NetConnection(this, Config.GATE_URL, HttpMethod.POST, new NetworkCallback() {
+        new NetConnection(this, ApiStores.API_SERVER_URL, HttpMethod.POST, new NetworkCallback() {
             @Override
             public void onSuccess(String result) {
                 clearDB();
+                Log.i(TAG, "upload packages success");
             }
 
             @Override
             public void onFail(String reason) {
                 Log.e(TAG, "upload packages failed");
             }
-        }, ACTION_UPLOAD, object.toString());
+        }, object.toString());
     }
 
     private void clearDB() {
@@ -120,6 +129,6 @@ public class PackageUploadService extends IntentService {
         UploadPackage uploadPackage = new UploadPackage(System.currentTimeMillis());
         uploadPackage.setStep(stepUploadBean, locations);
         DbUtils.insert(uploadPackage, StepService.DB_NAME);
-        Log.i(TAG, uploadPackage.toJson());
+        Log.i(TAG, new Gson().toJson(uploadPackage));
     }
 }
