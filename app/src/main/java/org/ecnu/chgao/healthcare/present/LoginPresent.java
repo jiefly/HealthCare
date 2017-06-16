@@ -3,11 +3,11 @@ package org.ecnu.chgao.healthcare.present;
 import android.content.Context;
 
 import org.ecnu.chgao.healthcare.bean.UserAction;
+import org.ecnu.chgao.healthcare.connection.http.NetworkCallback;
 import org.ecnu.chgao.healthcare.model.LoginModel;
 import org.ecnu.chgao.healthcare.util.Config;
 import org.ecnu.chgao.healthcare.view.LoginViewer;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Created by chgao on 17-5-26.
@@ -36,33 +36,19 @@ public class LoginPresent extends BasePresent<LoginViewer, LoginModel> {
         mViewer.showProgress("登陆中...");
         UserAction action = new UserAction(mViewer.getContext());
         try {
-            action.login(account, pwd, Config.ACTION_LOGIN,
-                    new UserAction.SuccessCallback() {
-                        @Override
-                        public void onSuccess(String jsonResult) {
-                            try {
-                                JSONObject result = new JSONObject(jsonResult);
-                                if ("success".equals(result.getString("result"))) {
-                                    mViewer.dismissProgress();
-                                    mViewer.loginSuccess();
-                                    // TODO:save user account && pwd
-                                } else {
-                                    mViewer.dismissProgress();
-                                    mViewer.loginFailed(result.getString("message"));
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+            action.login(account, pwd, Config.ACTION_LOGIN, new NetworkCallback() {
+                @Override
+                public void onSuccess(String result) {
+                    mViewer.dismissProgress();
+                    mViewer.loginSuccess();
+                }
 
-                        }
-                    },
-                    new UserAction.FailCallback() {
-                        @Override
-                        public void onFail(int status, int reason) {
-                            mViewer.dismissProgress();
-                            mViewer.loginFailed("登录失败");
-                        }
-                    });
+                @Override
+                public void onFail(String reason) {
+                    mViewer.dismissProgress();
+                    mViewer.loginFailed(reason);
+                }
+            });
         } catch (JSONException e) {
             e.printStackTrace();
         }

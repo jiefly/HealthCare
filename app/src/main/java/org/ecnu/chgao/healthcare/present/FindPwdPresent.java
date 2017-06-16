@@ -1,11 +1,11 @@
 package org.ecnu.chgao.healthcare.present;
 
 import org.ecnu.chgao.healthcare.bean.UserAction;
+import org.ecnu.chgao.healthcare.connection.http.NetworkCallback;
 import org.ecnu.chgao.healthcare.model.RegisterModel;
 import org.ecnu.chgao.healthcare.util.Config;
 import org.ecnu.chgao.healthcare.view.RegisterViewer;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Created by chgao on 17-6-7.
@@ -26,36 +26,22 @@ public class FindPwdPresent extends RegisterPresent {
             mViewer.showProgress("重置中...");
             UserAction ua = new UserAction(mViewer.getContext());
             try {
-                ua.register(phone, pwd, smsCode, Config.ACTION_CHANGE_PASSWORD, new UserAction.SuccessCallback() {
+                ua.register(phone, pwd, smsCode, Config.ACTION_CHANGE_PASSWORD, new NetworkCallback() {
                     @Override
-                    public void onSuccess(String jsonResult) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(jsonResult);
-                            if ("success".equals(jsonObject.getString("result"))) {
-                                //if register success,loginSuccess and jump to main activity
-                                mViewer.dismissProgress();
-                                mViewer.onRegisterSuccess();
-                            } else {
-                                mViewer.dismissProgress();
-                                mViewer.onRegisterFailed(jsonObject.getString("message"));
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                    public void onSuccess(String result) {
+                        mViewer.dismissProgress();
+                        mViewer.onRegisterSuccess();
                     }
-                }, new UserAction.FailCallback() {
 
                     @Override
-                    public void onFail(int status, int reason) {
-                        //tell user register failed
+                    public void onFail(String reason) {
                         mViewer.dismissProgress();
-                        mViewer.onRegisterFailed("重置密码失败");
+                        mViewer.onRegisterFailed(reason);
                     }
                 });
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            return;
         }
     }
 }

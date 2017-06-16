@@ -17,6 +17,8 @@ public class Config {
     public static final int ACTION_UPLOAD = 3;
     public static final int ACTION_GET_SMS_CODE = 4;
     public static final int ACTION_CHANGE_PASSWORD = 5;
+    public static final String HEADER_STEP_PACKAGE = "step_package";
+    public static final String HEADER_USER_INFO = "user_info";
     public static final double[] SAMPLE = {10.15907675, 10.20445321, 10.30242901, 10.35208591, 10.42332882, 10.4138552, 10.36579282,
             10.28880842, 10.13562666, 9.968384642, 9.840492119, 9.746637629, 9.203999981, 8.686755375, 7.925858568, 7.026434268,
             6.46869881, 5.448968105, 5.183926038, 4.31677549, 4.206787974, 2.692734912, 0.452117987, 0.302156539, 0.117195192,

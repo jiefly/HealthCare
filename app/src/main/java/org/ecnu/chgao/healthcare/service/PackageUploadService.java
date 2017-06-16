@@ -4,12 +4,15 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
+import org.ecnu.chgao.healthcare.application.BaseApplication;
 import org.ecnu.chgao.healthcare.bean.AccountInfo;
 import org.ecnu.chgao.healthcare.bean.LocationUploadBean;
 import org.ecnu.chgao.healthcare.bean.StepUploadBean;
 import org.ecnu.chgao.healthcare.bean.UploadPackage;
 import org.ecnu.chgao.healthcare.connection.http.HttpMethod;
-import org.ecnu.chgao.healthcare.connection.http.Netconnection;
+import org.ecnu.chgao.healthcare.connection.http.NetConnection;
+import org.ecnu.chgao.healthcare.connection.http.NetworkCallback;
+import org.ecnu.chgao.healthcare.model.LoginModel;
 import org.ecnu.chgao.healthcare.step.bean.StepData;
 import org.ecnu.chgao.healthcare.step.service.StepService;
 import org.ecnu.chgao.healthcare.util.Config;
@@ -87,26 +90,20 @@ public class PackageUploadService extends IntentService {
         Log.i(TAG, "uploadPackages,package size:" + packages.size());
         JSONObject object = new JSONObject();
         try {
-            object.put(AccountInfo.USER, "1");
+            object.put(AccountInfo.USER, ((BaseApplication) getApplication()).getSharedPreferencesUtils().getParam(LoginModel.ACCOUNT_KEY, ""));
+            object.put(AccountInfo.HEADER, Config.HEADER_STEP_PACKAGE);
             object.put("packages", packages);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        new Netconnection(this, Config.GATE_URL, HttpMethod.POST,
-                new Netconnection.SuccessCallback() {
-
-                    @Override
-                    public void onSuccess(String result) {
-                        if ("success".equals(result)) {
-                            clearDB();
-                        } else {
-                            Log.e(TAG, "upload packages failed");
-                        }
-                    }
-                }, new Netconnection.FailCallback() {
+        new NetConnection(this, Config.GATE_URL, HttpMethod.POST, new NetworkCallback() {
+            @Override
+            public void onSuccess(String result) {
+                clearDB();
+            }
 
             @Override
-            public void onFail(int status, int reason) {
+            public void onFail(String reason) {
                 Log.e(TAG, "upload packages failed");
             }
         }, ACTION_UPLOAD, object.toString());

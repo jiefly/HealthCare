@@ -7,13 +7,16 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -28,19 +31,18 @@ public class BaseNetConnection {
         this.context = context;
     }
 
-    public BaseNetConnection(Context contex, final String url,
-                             final HttpMethod httpMethod, final SuccessCallback successCallback,
-                             final FailCallback failCallback, final int action, final String jsonParams) {
+    public BaseNetConnection(Context context, final String url,
+                             final HttpMethod httpMethod, @NonNull final NetworkCallback callback, final int action, final String jsonParams) {
 
-        this.context = contex;
+        this.context = context;
 
-        new AsyncTask<String, Void, String>() {//���ص���jsonResult��ֵ������null
+        new AsyncTask<String, Void, String>() {
 
             @Override
-            protected String doInBackground(String... params) {//String...Ϊ�ɱ䳤����
+            protected String doInBackground(String... params) {
 
-                StringBuffer jsonResult = new StringBuffer();
-                URLConnection conn = null;//URLConnection ��ʾӦ�ó�����URL֮���ͨ������
+                StringBuilder jsonResult = new StringBuilder();
+                URLConnection conn = null;
 
                 String sessionId = BaseNetConnection.this.get_cashed_sessionId();
 
@@ -52,25 +54,22 @@ public class BaseNetConnection {
 //						postParams.append("jsonRequestParams").append("=")
 //								.append(jsonParams);
 
-                            conn = new URL(url).openConnection();//��Ҫͨ��openConnection()����������URLConnection����
-                            conn.setRequestProperty("connection", "Keep-Alive");//���ø�URLConnection�ġ�connection������ͷ�ֶε�ֵΪ��Keep-Alive",��ʾ���Գ�������
+                            conn = new URL(url).openConnection();
+                            conn.setRequestProperty("connection", "Keep-Alive");
                             if (!sessionId
                                     .equals(BaseNetConnection.this.DEFAULT_SESSION_ID) && sessionId != null) {
 
                                 conn.setRequestProperty("Cookie", "JSESSIONID="
-                                        + sessionId);//���ͷ��Ϣ��cookie�͵�������
+                                        + sessionId);
                             }
-                            conn.setDoInput(true);//����POST���������������������ͷ�ֶε�ֵΪ��
+                            conn.setDoInput(true);
                             conn.setDoOutput(true);
-                            conn.connect();//����ʵ�ʵ�����
-
-                            // ���������д��ȥ
+                            conn.connect();
                             BufferedWriter bw = new BufferedWriter(
                                     new OutputStreamWriter(conn.getOutputStream(),
-                                            //��ȡURLConnection�����Ӧ�������������д����Դ
                                             "UTF-8"));
                             bw.write(jsonParams.toString());
-                            bw.flush();//������Ļ���
+                            bw.flush();
                             bw.close();
 
 
@@ -93,7 +92,6 @@ public class BaseNetConnection {
 
                     }
 
-                    // ��ȡ���������صĽ��������ȡURL����Ӧ��
                     BufferedReader br = new BufferedReader(
                             new InputStreamReader(conn.getInputStream(),
                                     "utf-8"));
@@ -106,8 +104,6 @@ public class BaseNetConnection {
 
                     return jsonResult.toString();
 
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -119,21 +115,23 @@ public class BaseNetConnection {
             protected void onPostExecute(String result) {
 
                 if (result != null) {
-                    if (successCallback != null) {
-
-                        // ���������ص�json���β������sessionId
-                        String[] results = result.split("#");
-                        if (results.length > 1) {
-                            result = results[0];
-                            BaseNetConnection.this.cash_sessionId(results[1]);
+                    String[] results = result.split("#");
+                    if (results.length > 1) {
+                        result = results[0];
+                        BaseNetConnection.this.cash_sessionId(results[1]);
+                    }
+                    try {
+                        JSONObject jsonObject = new JSONObject(result);
+                        if ("success".equals(jsonObject.getString("result"))) {
+                            callback.onSuccess(result);
+                        } else {
+                            callback.onFail(jsonObject.getString("message"));
                         }
-                        successCallback.onSuccess(result);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-
                 } else {
-                    if (failCallback != null) {
-                        failCallback.onFail(0, 0);
-                    }
+                    callback.onFail("网络连接错误");
                 }
             }
         }.execute();
@@ -148,7 +146,7 @@ public class BaseNetConnection {
     public void cash_sessionId(String sessionId) {
 
         SharedPreferences sd = context.getSharedPreferences(
-                this.SHAREDPREFERENCE_SESSION, Context.MODE_PRIVATE);//д������ݻḲ��ԭ�ļ�������
+                this.SHAREDPREFERENCE_SESSION, Context.MODE_PRIVATE);
         Editor e = sd.edit();
         e.putString(this.SESSION_ID, sessionId);
         e.commit();
@@ -164,17 +162,6 @@ public class BaseNetConnection {
         SharedPreferences sd = context.getSharedPreferences(
                 this.SHAREDPREFERENCE_SESSION, Context.MODE_PRIVATE);
         return sd.getString(this.SESSION_ID, this.DEFAULT_SESSION_ID);
-    }
-
-    // �ɹ��ص�����
-    public interface SuccessCallback {
-
-        void onSuccess(String result);
-    }
-
-    // ʧ�ܻص�����jsonRequestParams
-    public interface FailCallback {
-        void onFail(int status, int reason);
     }
 
 }

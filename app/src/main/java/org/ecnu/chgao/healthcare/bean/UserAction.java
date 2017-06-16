@@ -4,8 +4,9 @@ package org.ecnu.chgao.healthcare.bean;
  */
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
-import org.ecnu.chgao.healthcare.util.Config;
+import org.ecnu.chgao.healthcare.connection.http.NetworkCallback;
 import org.json.JSONException;
 
 public class UserAction {
@@ -18,177 +19,23 @@ public class UserAction {
     }
 
     public void login(String phoneMd5, String passwordMd5, int action,
-                      final SuccessCallback successCallback,
-                      final FailCallback failCallback) throws JSONException {
-
-        AccountInfo accountInfo = new AccountInfo(context);
-        accountInfo.login(phoneMd5, passwordMd5, action, new AccountInfo.SuccessCallback() {
-
-            @Override
-            public void onSuccess(String jsonResult) {
-                if (successCallback != null) {
-                    successCallback.onSuccess(jsonResult);
-                } else {
-                    failCallback.onFail(Config.STATUS_FAIL,
-                            Config.STATUS_FAIL_REASON_OTHER);
-                }
-            }
-        }, new AccountInfo.FailCallback() {
-
-            @Override
-            public void onFail(int status, int reason) {
-                if (failCallback != null) {
-                    failCallback.onFail(status, reason);
-                }
-            }
-        });
-
-        accountInfo = null;
-
+                      @NonNull final NetworkCallback callback) throws JSONException {
+        new AccountInfo(context).login(phoneMd5, passwordMd5, action, callback);
     }
 
-    public void getSmsCode(String phone, int action, final SuccessCallback successCallback, final FailCallback failCallback) throws JSONException {
+    public void getSmsCode(String phone, int action, @NonNull NetworkCallback callback) throws JSONException {
         AccountInfo accountInfo = new AccountInfo(context);
-        accountInfo.getSmsCode(phone, action, new AccountInfo.SuccessCallback() {
-                    @Override
-                    public void onSuccess(String jsonResult) {
-                        if (successCallback != null) {
-                            successCallback.onSuccess(jsonResult);
-                        } else {
-                            failCallback.onFail(Config.STATUS_FAIL, Config.STATUS_FAIL_REASON_OTHER);
-                        }
-
-                    }
-                },
-                new AccountInfo.FailCallback() {
-                    @Override
-                    public void onFail(int status, int reason) {
-                        if (failCallback != null) {
-                            failCallback.onFail(status, reason);
-                        }
-                    }
-                });
+        accountInfo.getSmsCode(phone, action, callback);
     }
 
-    public void findPwd(String phone, String pwd, String code, int action, final SuccessCallback successCallback, final FailCallback failCallback) throws JSONException {
+    public void findPwd(String phone, String pwd, String code, int action, @NonNull NetworkCallback callback) throws JSONException {
         AccountInfo accountInfo = new AccountInfo(context);
-        accountInfo.findPwd(phone, pwd, code, action, new AccountInfo.SuccessCallback() {
-                    @Override
-                    public void onSuccess(String jsonResult) {
-                        if (successCallback != null) {
-                            successCallback.onSuccess(jsonResult);
-                        } else {
-                            failCallback.onFail(Config.STATUS_FAIL, Config.STATUS_FAIL_REASON_OTHER);
-                        }
-
-                    }
-                },
-                new AccountInfo.FailCallback() {
-                    @Override
-                    public void onFail(int status, int reason) {
-                        if (failCallback != null) {
-                            failCallback.onFail(status, reason);
-                        }
-                    }
-                });
+        accountInfo.findPwd(phone, pwd, code, action, callback);
     }
 
     public void register(String phone, String passwordMd5, String smsCode, int action,
-                         final SuccessCallback successCallback,
-                         final FailCallback failCallback) throws JSONException {
+                         @NonNull NetworkCallback callback) throws JSONException {
 
-        AccountInfo accountInfo = new AccountInfo(context);
-        accountInfo.register(phone, passwordMd5, smsCode, action, new AccountInfo.SuccessCallback() {
-            @Override
-            public void onSuccess(String jsonResult) {
-                // TODO Auto-generated method stub
-                if (successCallback != null) {
-                    successCallback.onSuccess(jsonResult);
-                } else {
-                    failCallback.onFail(Config.STATUS_FAIL, Config.STATUS_FAIL_REASON_OTHER);
-                }
-            }
-        }, new AccountInfo.FailCallback() {
-            @Override
-            public void onFail(int status, int reason) {
-                // TODO Auto-generated method stub
-                if (failCallback != null) {
-                    failCallback.onFail(status, reason);
-                }
-            }
-        });
-        accountInfo = null;
-    }
-
-    public void upload(String header, String user, String state, String date, String time, int action,
-                       final SuccessCallback successCallback,
-                       final FailCallback failCallback) throws JSONException {
-
-        DataInfo dataInfo = new DataInfo(context);
-        dataInfo.upload(header, user, state, date, time, action,
-                new AccountInfo.SuccessCallback() {
-                    @Override
-                    public void onSuccess(String jsonResult) {
-                        // TODO Auto-generated method stub
-                        if (successCallback != null) {
-                            successCallback.onSuccess(jsonResult);
-                        } else {
-                            failCallback.onFail(Config.STATUS_FAIL, Config.STATUS_FAIL_REASON_OTHER);
-                        }
-                    }
-                }, new AccountInfo.FailCallback() {
-                    @Override
-                    public void onFail(int status, int reason) {
-                        // TODO Auto-generated method stub
-                        if (failCallback != null) {
-                            failCallback.onFail(status, reason);
-                        }
-                    }
-                });
-        dataInfo = null;
-    }
-
-    public void uploadLocation(String header, String user, String longitude, String latitude, String time, int action,
-                               final SuccessCallback successCallback,
-                               final FailCallback failCallback) throws JSONException {
-
-        DataInfo dataInfo = new DataInfo(context);
-        dataInfo.uploadLocation(header, user, longitude, latitude, time, action,
-                new AccountInfo.SuccessCallback() {
-
-                    @Override
-                    public void onSuccess(String jsonResult) {
-                        // TODO Auto-generated method stub
-                        if (successCallback != null) {
-                            successCallback.onSuccess(jsonResult);
-                        } else {
-                            failCallback.onFail(Config.STATUS_FAIL, Config.STATUS_FAIL_REASON_OTHER);
-                        }
-                    }
-                }, new AccountInfo.FailCallback() {
-
-                    @Override
-                    public void onFail(int status, int reason) {
-                        // TODO Auto-generated method stub
-                        if (failCallback != null) {
-                            failCallback.onFail(status, reason);
-                        }
-                    }
-                });
-        dataInfo = null;
-    }
-
-    /**
-     * �ɹ��ص�����
-     */
-    public interface SuccessCallback {
-        void onSuccess(String jsonResult);
-    }
-
-    /**
-     * ʧ�ܻص�����
-     */
-    public interface FailCallback {
-        void onFail(int status, int reason);
+        new AccountInfo(context).register(phone, passwordMd5, smsCode, action, callback);
     }
 }

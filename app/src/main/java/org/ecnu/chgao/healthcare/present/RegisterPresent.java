@@ -3,11 +3,11 @@ package org.ecnu.chgao.healthcare.present;
 import android.util.Log;
 
 import org.ecnu.chgao.healthcare.bean.UserAction;
+import org.ecnu.chgao.healthcare.connection.http.NetworkCallback;
 import org.ecnu.chgao.healthcare.model.RegisterModel;
 import org.ecnu.chgao.healthcare.util.Config;
 import org.ecnu.chgao.healthcare.view.RegisterViewer;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.Objects;
 
@@ -36,18 +36,17 @@ public class RegisterPresent extends BasePresent<RegisterViewer, RegisterModel> 
         mPhone = phone;
         UserAction action = new UserAction(mViewer.getContext());
         try {
-            action.getSmsCode(phone, Config.ACTION_GET_SMS_CODE, new UserAction.SuccessCallback() {
-                        @Override
-                        public void onSuccess(String jsonResult) {
-                            Log.i(TAG, "send sms code success");
-                        }
-                    },
-                    new UserAction.FailCallback() {
-                        @Override
-                        public void onFail(int status, int reason) {
+            action.getSmsCode(phone, Config.ACTION_GET_SMS_CODE, new NetworkCallback() {
+                @Override
+                public void onSuccess(String result) {
+                    Log.i(TAG, "send sms code success");
+                }
 
-                        }
-                    });
+                @Override
+                public void onFail(String message) {
+                    Log.w(TAG, message);
+                }
+            });
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -69,29 +68,19 @@ public class RegisterPresent extends BasePresent<RegisterViewer, RegisterModel> 
             mViewer.showProgress("注册中...");
             UserAction ua = new UserAction(mViewer.getContext());
             try {
-                ua.register(phone, pwd, smsCode, Config.ACTION_REGISTER, new UserAction.SuccessCallback() {
+                ua.register(phone, pwd, smsCode, Config.ACTION_REGISTER, new NetworkCallback() {
                     @Override
-                    public void onSuccess(String jsonResult) {
-                        try {
-                            mViewer.dismissProgress();
-                            JSONObject jsonObject = new JSONObject(jsonResult);
-                            if ("success".equals(jsonObject.getString("result"))) {
-                                //if register success,loginSuccess and jump to main activity
-                                mViewer.onRegisterSuccess();
-                            } else {
-                                mViewer.onRegisterFailed(jsonObject.getString("message"));
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                    public void onSuccess(String result) {
+                        mViewer.dismissProgress();
+                        //if register success,loginSuccess and jump to main activity
+                        mViewer.onRegisterSuccess();
                     }
-                }, new UserAction.FailCallback() {
 
                     @Override
-                    public void onFail(int status, int reason) {
+                    public void onFail(String result) {
                         mViewer.dismissProgress();
                         //tell user register failed
-                        mViewer.onRegisterFailed("注册失败");
+                        mViewer.onRegisterFailed(result);
                     }
                 });
             } catch (JSONException e) {
@@ -117,28 +106,18 @@ public class RegisterPresent extends BasePresent<RegisterViewer, RegisterModel> 
                         //if the sms code is correct,will invoke register function
                         UserAction ua = new UserAction(mViewer.getContext());
                         try {
-                            ua.register(phone, pwd, smsCode, Config.ACTION_REGISTER, new UserAction.SuccessCallback() {
+                            ua.register(phone, pwd, smsCode, Config.ACTION_REGISTER, new NetworkCallback() {
                                 @Override
-                                public void onSuccess(String jsonResult) {
-                                    try {
-                                        JSONObject jsonObject = new JSONObject(jsonResult);
-                                        if ("success".equals(jsonObject.getString("result"))) {
-                                            //if register success,loginSuccess and jump to main activity
-                                            mViewer.onRegisterSuccess();
-                                        } else {
-                                            mViewer.onRegisterFailed(jsonObject.getString("message"));
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-
+                                public void onSuccess(String result) {
+                                    mViewer.dismissProgress();
+                                    mViewer.onRegisterSuccess();
                                 }
-                            }, new UserAction.FailCallback() {
 
                                 @Override
-                                public void onFail(int status, int reason) {
+                                public void onFail(String result) {
+                                    mViewer.dismissProgress();
                                     //tell user register failed
-                                    mViewer.onRegisterFailed("注册失败");
+                                    mViewer.onRegisterFailed(result);
                                 }
                             });
                         } catch (JSONException e) {
