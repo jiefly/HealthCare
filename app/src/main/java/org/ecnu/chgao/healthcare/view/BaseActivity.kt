@@ -24,8 +24,10 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     inline fun showToast(message: String?) {
+        if (isFinishing) {
+            return
+        }
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-
     }
 
     override fun onBackPressed() {
@@ -34,6 +36,9 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     inline fun showSnack(view: View, message: String?) {
+        if (isFinishing) {
+            return
+        }
         Snackbar.make(view, message.toString(), Snackbar.LENGTH_SHORT).show()
     }
 
@@ -44,6 +49,9 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     inline fun showAlertDialog(title: String?, message: String?, positive: DialogInterface.OnClickListener?, negative: DialogInterface.OnClickListener?) {
+        if (isFinishing) {
+            return
+        }
         val builder = AlertDialog.Builder(this)
         if (!title.isNullOrEmpty())
             builder.setTitle(title)
@@ -55,8 +63,12 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     inline fun showProgress(title: String) {
+        if (isFinishing) {
+            return
+        }
         if (dialog == null) {
-            dialog = SpotsDialog(this, title)
+            dialog = SpotsDialog(this, title, R.style.Custom)
+
         }
         dialog!!.show()
     }
@@ -66,6 +78,9 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     inline fun showInputAlertDialog(title: String, onInputAlert: OnInputAlert) {
+        if (isFinishing) {
+            return
+        }
         val builder = AlertDialog.Builder(this)
         builder.setTitle(title)
         val editText = EditText(this)

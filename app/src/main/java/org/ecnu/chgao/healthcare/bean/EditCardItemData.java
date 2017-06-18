@@ -5,10 +5,10 @@ package org.ecnu.chgao.healthcare.bean;
  */
 
 public class EditCardItemData {
-    private String name;
-    private boolean mChecked;
-    private boolean mEnable;
-    private int mIndex;
+    protected String name;
+    protected boolean mChecked;
+    protected boolean mEnable;
+    protected int mIndex;
 
     public EditCardItemData(int index, String name, boolean mChecked) {
         mIndex = index;

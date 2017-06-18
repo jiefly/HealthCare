@@ -7,11 +7,14 @@ import com.amap.api.location.AMapLocation
 import com.amap.api.location.AMapLocationClient
 import com.amap.api.location.AMapLocationClientOption
 import com.amap.api.location.AMapLocationListener
+import com.amap.api.maps2d.AMap
 import com.amap.api.maps2d.LocationSource
 import com.amap.api.maps2d.MapView
+import com.amap.api.maps2d.model.LatLng
 import org.ecnu.chgao.healthcare.R
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class Amap : AppCompatActivity(), LocationSource, AMapLocationListener {
@@ -21,6 +24,7 @@ class Amap : AppCompatActivity(), LocationSource, AMapLocationListener {
                 listener?.onLocationChanged(p0)
                 val sb = StringBuilder()
                 val amapLocation = p0
+                drawLine(LatLng(p0.latitude, p0.longitude))
                 amapLocation.locationType//获取当前定位结果来源，如网络定位结果，详见定位类型表
                 sb.append("结果来源：").append(amapLocation.locationType)
                 amapLocation.latitude//获取纬度
@@ -73,6 +77,13 @@ class Amap : AppCompatActivity(), LocationSource, AMapLocationListener {
         }
     }
 
+    private fun drawLine(latLng: LatLng) {
+        datas.add(latLng)
+
+
+    }
+
+    val datas = ArrayList<LatLng>()
     var locationOption: AMapLocationClientOption? = null
     var locationClient: AMapLocationClient? = null
     var listener: LocationSource.OnLocationChangedListener? = null

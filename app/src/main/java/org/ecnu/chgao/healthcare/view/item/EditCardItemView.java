@@ -42,7 +42,7 @@ public class EditCardItemView extends RelativeLayout {
     }
 
     private void init(Context context) {
-        inflate(context, R.layout.edit_card_item, this);
+        inflate(context, R.layout.title_switch_item, this);
         mNameTV = (TextView) findViewById(R.id.id_edit_card_name);
         mEnableSw = (Switch) findViewById(R.id.id_edit_card_enable);
     }

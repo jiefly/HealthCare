@@ -1,5 +1,6 @@
 package org.ecnu.chgao.healthcare.bean;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.litesuits.orm.db.annotation.Column;
 import com.litesuits.orm.db.annotation.PrimaryKey;
@@ -16,7 +17,7 @@ public class BaseUploadBean implements Serializable {
     @SerializedName("time")
     protected long mHappendTime;
     @PrimaryKey(AssignType.AUTO_INCREMENT)
-    @SerializedName("id")
+    @Expose(deserialize = false)
     protected int id;
 
     public BaseUploadBean(long time) {

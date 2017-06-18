@@ -49,10 +49,6 @@ public class BaseNetConnection {
                 try {
                     switch (httpMethod) {
                         case POST:
-
-//						StringBuffer postParams = new StringBuffer();
-//						postParams.append("jsonRequestParams").append("=")
-//								.append(jsonParams);
                             conn = new URL(url).openConnection();
                             conn.setRequestProperty("connection", "Keep-Alive");
                             if (!sessionId.equals(BaseNetConnection.this.DEFAULT_SESSION_ID)) {
@@ -69,15 +65,13 @@ public class BaseNetConnection {
                             bw.write(jsonParams);
                             bw.flush();
                             bw.close();
-
-
                             break;
 
                         case GET:
                             if (sessionId
                                     .equals(BaseNetConnection.this.DEFAULT_SESSION_ID)) {
                                 conn = new URL(url + "?" + "jsonRequestParams"
-                                        + "=" + jsonParams).openConnection();//�򿪺�URL֮�������
+                                        + "=" + jsonParams).openConnection();
                             } else {
 
                                 conn = new URL(url + "?" + "jsonRequestParams"
@@ -134,11 +128,6 @@ public class BaseNetConnection {
 
     }
 
-    /**
-     * �����������ص�sessionId���ڱ���
-     *
-     * @param sessionId sessionId
-     */
     public void cash_sessionId(String sessionId) {
 
         SharedPreferences sd = context.getSharedPreferences(
@@ -149,11 +138,6 @@ public class BaseNetConnection {
 
     }
 
-    /**
-     * ��ȡ���ڱ��ص�sessionId
-     *
-     * @return
-     */
     private String get_cashed_sessionId() {
         SharedPreferences sd = context.getSharedPreferences(
                 this.SHAREDPREFERENCE_SESSION, Context.MODE_PRIVATE);

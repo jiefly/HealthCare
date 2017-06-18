@@ -2,7 +2,6 @@ package org.ecnu.chgao.healthcare.present;
 
 import org.ecnu.chgao.healthcare.bean.UserAction;
 import org.ecnu.chgao.healthcare.connection.http.NetworkCallback;
-import org.ecnu.chgao.healthcare.model.RegisterModel;
 import org.ecnu.chgao.healthcare.view.RegisterViewer;
 import org.json.JSONException;
 
@@ -11,9 +10,6 @@ import org.json.JSONException;
  */
 
 public class FindPwdPresent extends RegisterPresent {
-    public FindPwdPresent(RegisterViewer viewer, RegisterModel model) {
-        super(viewer, model);
-    }
 
     public FindPwdPresent(RegisterViewer viewer) {
         super(viewer);

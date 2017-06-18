@@ -1,5 +1,7 @@
 package org.ecnu.chgao.healthcare.bean;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import com.litesuits.orm.db.annotation.PrimaryKey;
 import com.litesuits.orm.db.enums.AssignType;
 
@@ -9,11 +11,17 @@ import com.litesuits.orm.db.enums.AssignType;
 
 public class UserInfo {
     @PrimaryKey(AssignType.AUTO_INCREMENT)
+    @Expose(deserialize = false)
     private int id;
+    @SerializedName("user_name")
     private String userName;
+    @SerializedName("user_sex")
     private int userSex;
+    @SerializedName("emergency_name")
     private String emergencyName;
+    @SerializedName("emergency_phone")
     private String emergencyPhone;
+    @SerializedName("emergency_sex")
     private int emergencySex;
 
     public UserInfo(String userName, int userSex, String emergencyName, String emergencyPhone, int emergencySex) {

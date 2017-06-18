@@ -18,8 +18,8 @@ import com.amap.api.location.AMapLocationClientOption
 import com.amap.api.location.AMapLocationListener
 import org.ecnu.chgao.healthcare.R
 import org.ecnu.chgao.healthcare.adapter.MainRvAdapter
-import org.ecnu.chgao.healthcare.bean.NormalMainItemData
 import org.ecnu.chgao.healthcare.bean.MainMenuClickEvent
+import org.ecnu.chgao.healthcare.bean.NormalMainItemData
 import org.ecnu.chgao.healthcare.present.MainPresent
 import org.ecnu.chgao.healthcare.service.FallDetectService
 import org.ecnu.chgao.healthcare.step.service.StepService
@@ -75,15 +75,6 @@ class MainActivity : BaseActivity(), MainViewer, NavigationView.OnNavigationItem
     private fun initView() {
         initDrawer()
         initRv()
-        """
-        |fdsfdsajkfl
-        |fdsafkfdsj
-        |sfdasff
-        |sdafdsfksfjsaf
-        |dasfjasdldfjasdf
-        |asdfasdlfjasdf
-        |sdjfklasdjfasdfjdskf
-        """.trimMargin()
     }
 
     private fun initDrawer() {
@@ -100,6 +91,7 @@ class MainActivity : BaseActivity(), MainViewer, NavigationView.OnNavigationItem
         when (item.itemId) {
             R.id.nav_account -> navigate<UserInfoActivity>()
             R.id.nav_reset_pwd -> navigate<FindPwdActivity>()
+            R.id.nav_setting -> navigate<SettingActivity>()
             else -> showToast("menu item clicked ,item name:${item.title}")
         }
         return true
