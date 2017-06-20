@@ -15,8 +15,9 @@ import android.widget.TextView
 import android.widget.Toast
 import dmax.dialog.SpotsDialog
 import org.ecnu.chgao.healthcare.R
+import org.ecnu.chgao.healthcare.util.PermissionActivity
 
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity : PermissionActivity() {
     var dialog: SpotsDialog? = null
 
     interface OnInputAlert {
@@ -30,6 +31,9 @@ abstract class BaseActivity : AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
+    override fun onResume() {
+        super.onResume()
+    }
     override fun onBackPressed() {
         super.onBackPressed()
         dismissProgress()

@@ -7,7 +7,6 @@ import com.amap.api.location.AMapLocation
 import com.amap.api.location.AMapLocationClient
 import com.amap.api.location.AMapLocationClientOption
 import com.amap.api.location.AMapLocationListener
-import com.amap.api.maps2d.AMap
 import com.amap.api.maps2d.LocationSource
 import com.amap.api.maps2d.MapView
 import com.amap.api.maps2d.model.LatLng
@@ -79,7 +78,6 @@ class Amap : AppCompatActivity(), LocationSource, AMapLocationListener {
 
     private fun drawLine(latLng: LatLng) {
         datas.add(latLng)
-
 
     }
 

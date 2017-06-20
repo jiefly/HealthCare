@@ -53,6 +53,7 @@ dependencies {
     compile 'io.reactivex:rxjava:1.0.14'
     compile 'io.reactivex:rxandroid:1.0.1'
     compile 'com.amap.api:map2d:latest.integration'
+    compile 'com.amap.api:3dmap:latest.integration'
     compile 'com.amap.api:location:latest.integration'
     compile 'com.google.code.gson:gson:2.8.1'
     compile 'com.contrarywind:Android-PickerView:3.2.5'

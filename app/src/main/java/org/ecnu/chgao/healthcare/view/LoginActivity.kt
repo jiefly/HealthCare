@@ -9,7 +9,6 @@ import org.ecnu.chgao.healthcare.R
 import org.ecnu.chgao.healthcare.present.LoginPresent
 
 class LoginActivity : BaseActivity(), LoginViewer {
-
     var accountET: EditText? = null
     var pwdET: EditText? = null
     var loginTv: TextView? = null
@@ -46,9 +45,12 @@ class LoginActivity : BaseActivity(), LoginViewer {
 
     //loginSuccess success will invoke this method
     override fun loginSuccess() {
-        showToast("登陆成功")
-        navigate<MainActivity>()
-        finish()
+        //check all needed permission
+        checkPermission(CheckPermListener {
+            showToast("登陆成功")
+            navigate<MainActivity>()
+            finish()
+        }, R.string.ask_again, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.ACCESS_FINE_LOCATION)
     }
 
     override fun loginFailed(msg: String?) {

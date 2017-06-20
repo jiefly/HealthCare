@@ -16,6 +16,7 @@ import android.view.MenuItem
 import com.amap.api.location.AMapLocationClient
 import com.amap.api.location.AMapLocationClientOption
 import com.amap.api.location.AMapLocationListener
+import org.ecnu.chgao.healthcare.Manifest
 import org.ecnu.chgao.healthcare.R
 import org.ecnu.chgao.healthcare.adapter.MainRvAdapter
 import org.ecnu.chgao.healthcare.bean.MainMenuClickEvent
@@ -26,6 +27,10 @@ import org.ecnu.chgao.healthcare.step.service.StepService
 import rx.android.schedulers.AndroidSchedulers
 
 class MainActivity : BaseActivity(), MainViewer, NavigationView.OnNavigationItemSelectedListener {
+    val permissionR = android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+    val permissionW = android.Manifest.permission.READ_EXTERNAL_STORAGE
+    val permissionL = android.Manifest.permission.ACCESS_FINE_LOCATION
+    val permissionC = android.Manifest.permission.CALL_PHONE
     var mainPresent: MainPresent? = null
     var recyclerView: RecyclerView? = null
     var adapter: MainRvAdapter? = null
@@ -107,6 +112,7 @@ class MainActivity : BaseActivity(), MainViewer, NavigationView.OnNavigationItem
 
     override fun onResume() {
         super.onResume()
+        checkPermission(CheckPermListener { }, R.string.ask_again, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.ACCESS_FINE_LOCATION)
         adapter!!.replaceAllDatas(mainPresent!!.allCards)
         mainPresent!!.updateUi()
     }
