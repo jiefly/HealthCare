@@ -15,7 +15,7 @@ public class Config {
     public static final int ACTION_UPLOAD = 3;
     public static final int ACTION_GET_SMS_CODE = 4;
     public static final int ACTION_CHANGE_PASSWORD = 5;
-    public static final int ACTION_TEST = 8;
+    public static final int ACTION_FALL_DOWN = 6;
     public static final String HEADER_STEP_PACKAGE = "step_package";
     public static final String HEADER_USER_INFO = "user_info";
     public static final String HEADER_USER_MEDICAL = "medical_info";

@@ -6,6 +6,6 @@ import org.ecnu.chgao.healthcare.bean.UserInfo;
  * Created by chgao on 17-6-10.
  */
 
-public interface UserInfoViewer extends Viewer {
+public interface UserInfoViewer extends BaseViewer {
     void setUserInfo(UserInfo userInfo);
 }

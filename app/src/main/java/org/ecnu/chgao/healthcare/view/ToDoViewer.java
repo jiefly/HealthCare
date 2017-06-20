@@ -9,7 +9,7 @@ import java.util.List;
  * Created by chgao on 17-6-12.
  */
 
-public interface ToDoViewer extends Viewer<ToDoPresent> {
+public interface ToDoViewer extends BaseViewer<ToDoPresent> {
     void onItemAdded(NormalRemindItemData data);
 
     void onRangeItemAdded(List<NormalRemindItemData> datas);

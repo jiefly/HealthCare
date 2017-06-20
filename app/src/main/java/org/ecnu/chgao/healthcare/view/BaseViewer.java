@@ -8,7 +8,7 @@ import android.view.View;
  * Created by chgao on 17-5-26.
  */
 
-public interface Viewer<P> {
+public interface BaseViewer<P> {
     //void setPresent(P present);
     Context getContext();
 

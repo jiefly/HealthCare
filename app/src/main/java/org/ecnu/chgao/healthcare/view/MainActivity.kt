@@ -16,7 +16,6 @@ import android.view.MenuItem
 import com.amap.api.location.AMapLocationClient
 import com.amap.api.location.AMapLocationClientOption
 import com.amap.api.location.AMapLocationListener
-import org.ecnu.chgao.healthcare.Manifest
 import org.ecnu.chgao.healthcare.R
 import org.ecnu.chgao.healthcare.adapter.MainRvAdapter
 import org.ecnu.chgao.healthcare.bean.MainMenuClickEvent
@@ -133,7 +132,7 @@ class MainActivity : BaseActivity(), MainViewer, NavigationView.OnNavigationItem
                         navigate<StepHistoryActivity>()
                     }
                 }
-                NormalMainItemData.ItemType.LOCATION -> navigate<Amap>()
+                NormalMainItemData.ItemType.LOCATION -> navigate<LocationActivity>()
                 NormalMainItemData.ItemType.FOTTER -> navigate<EditCardActivity>()
                 NormalMainItemData.ItemType.NOTIFICATION -> navigate<TodoActivity>()
                 else -> showToast("index:${it.getmIndex()} clicked")

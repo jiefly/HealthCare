@@ -6,7 +6,7 @@ import org.ecnu.chgao.healthcare.present.LoginPresent;
  * Created by chgao on 17-5-26.
  */
 
-public interface LoginViewer extends Viewer<LoginPresent> {
+public interface LoginViewer extends BaseViewer<LoginPresent> {
     void loginSuccess();
 
     void loginFailed(String msg);

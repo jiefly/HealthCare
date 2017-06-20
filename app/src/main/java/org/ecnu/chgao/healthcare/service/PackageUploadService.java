@@ -21,15 +21,11 @@ import org.ecnu.chgao.healthcare.util.ApiStores;
 import org.ecnu.chgao.healthcare.util.Config;
 import org.ecnu.chgao.healthcare.util.DbUtils;
 import org.ecnu.chgao.healthcare.util.NetworkUtil;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
 
-import static org.ecnu.chgao.healthcare.util.Config.ACTION_REGISTER;
-import static org.ecnu.chgao.healthcare.util.Config.ACTION_TEST;
-import static org.ecnu.chgao.healthcare.util.Config.ACTION_UPLOAD;
 import static org.ecnu.chgao.healthcare.util.DateUtilKt.getTodayDate;
 
 
@@ -123,9 +119,12 @@ public class PackageUploadService extends IntentService {
     }
 
     private void generateAndStoreUploadPackage(StepUploadBean stepUploadBean) {
-        List<LocationUploadBean> locations = DbUtils.getQueryAll(LocationUploadBean.class, StepService.DB_NAME);
+        List<LocationUploadBean> locations = DbUtils.getQueryByWhere(LocationUploadBean.class, "used", new String[]{"false"}, StepService.DB_NAME);
         //remove locations in db
-        DbUtils.deleteAll(LocationUploadBean.class, StepService.DB_NAME);
+        for (LocationUploadBean location : locations) {
+            location.setmUsed(true);
+            DbUtils.update(location, StepService.DB_NAME);
+        }
         UploadPackage uploadPackage = new UploadPackage(System.currentTimeMillis());
         uploadPackage.setStep(stepUploadBean, locations);
         DbUtils.insert(uploadPackage, StepService.DB_NAME);

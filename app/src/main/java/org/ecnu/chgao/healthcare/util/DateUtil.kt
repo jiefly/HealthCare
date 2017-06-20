@@ -37,3 +37,9 @@ fun getTodayDate(): String {
     val sdf = SimpleDateFormat("yyyy-MM-dd")
     return sdf.format(date)
 }
+
+fun time2DateString(time: Long): String {
+    val date = Date(time)
+    val sdf = SimpleDateFormat("yyyy-MM-dd")
+    return sdf.format(date)
+}

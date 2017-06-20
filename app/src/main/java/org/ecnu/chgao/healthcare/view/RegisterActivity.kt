@@ -2,7 +2,6 @@ package org.ecnu.chgao.healthcare.view
 
 import android.content.Context
 import android.os.Bundle
-import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import org.ecnu.chgao.healthcare.R

@@ -8,6 +8,6 @@ import java.util.List;
  * Created by chgao on 17-5-29.
  */
 
-public interface StepViewer extends Viewer {
+public interface StepViewer extends BaseViewer {
     void fillData(List<StepData> datas);
 }

@@ -6,6 +6,8 @@ package org.ecnu.chgao.healthcare.bean;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.google.gson.Gson;
+
 import org.ecnu.chgao.healthcare.connection.http.HttpMethod;
 import org.ecnu.chgao.healthcare.connection.http.NetConnection;
 import org.ecnu.chgao.healthcare.connection.http.NetworkCallback;
@@ -71,6 +73,15 @@ public class AccountInfo {
 
     }
 
+    public void onFallDown(String phone, LocationUploadBean location, @NonNull NetworkCallback callback) throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(AccountInfo.PHONE, phone);
+        jsonObject.put("location", new Gson().toJson(location));
+        jsonObject.put(AccountInfo.ACTION, Config.ACTION_FALL_DOWN);
+        new NetConnection(context, ApiStores.API_SERVER_URL, HttpMethod.POST, callback, jsonObject.toString());
+
+    }
+
     public void findPwd(String phone, String passwordMd5, String smsCode,
                         @NonNull NetworkCallback callback) throws JSONException {
 
@@ -78,7 +89,7 @@ public class AccountInfo {
         jsonObject.put(AccountInfo.PHONE, phone);
         jsonObject.put(AccountInfo.PASSWORD_MD5, passwordMd5);
         jsonObject.put(AccountInfo.SMS_CODE, smsCode);
-        jsonObject.put(AccountInfo.ACTION, Config.ACTION_REGISTER);
+        jsonObject.put(AccountInfo.ACTION, Config.ACTION_CHANGE_PASSWORD);
 
 
         new NetConnection(context, ApiStores.API_SERVER_URL, HttpMethod.POST, callback, jsonObject.toString());
@@ -97,5 +108,4 @@ public class AccountInfo {
                 callback, jsonObject.toString());
 
     }
-
 }

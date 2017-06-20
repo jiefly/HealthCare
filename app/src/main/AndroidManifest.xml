@@ -269,7 +269,7 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".view.Amap" />
+        <activity android:name=".view.LocationActivity" />
 
         <receiver android:name=".alarmmanager.LoongggAlarmReceiver">
             <intent-filter>

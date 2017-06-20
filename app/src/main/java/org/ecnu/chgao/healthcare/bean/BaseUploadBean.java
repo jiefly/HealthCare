@@ -6,6 +6,8 @@ import com.litesuits.orm.db.annotation.Column;
 import com.litesuits.orm.db.annotation.PrimaryKey;
 import com.litesuits.orm.db.enums.AssignType;
 
+import org.ecnu.chgao.healthcare.util.DateUtilKt;
+
 import java.io.Serializable;
 
 /**
@@ -13,15 +15,22 @@ import java.io.Serializable;
  */
 
 public class BaseUploadBean implements Serializable {
-    @Column("time")
     @SerializedName("time")
     protected long mHappendTime;
     @PrimaryKey(AssignType.AUTO_INCREMENT)
     @Expose(deserialize = false)
     protected int id;
+    @Expose(deserialize = false)
+    @Column("today")
+    private String mToday;
 
     public BaseUploadBean(long time) {
         mHappendTime = time;
+        mToday = DateUtilKt.time2DateString(time);
+    }
+
+    public long getmHappendTime() {
+        return mHappendTime;
     }
 
     public int getId() {
@@ -30,5 +39,13 @@ public class BaseUploadBean implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getmToday() {
+        return mToday;
+    }
+
+    public void setmToday(String mToday) {
+        this.mToday = mToday;
     }
 }

@@ -5,7 +5,6 @@ import android.util.Log;
 import org.ecnu.chgao.healthcare.bean.UserAction;
 import org.ecnu.chgao.healthcare.connection.http.NetworkCallback;
 import org.ecnu.chgao.healthcare.model.RegisterModel;
-import org.ecnu.chgao.healthcare.util.Config;
 import org.ecnu.chgao.healthcare.view.RegisterViewer;
 import org.json.JSONException;
 

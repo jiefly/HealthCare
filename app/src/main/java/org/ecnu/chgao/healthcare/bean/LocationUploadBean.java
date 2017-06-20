@@ -1,9 +1,7 @@
 package org.ecnu.chgao.healthcare.bean;
 
 import com.google.gson.annotations.SerializedName;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.litesuits.orm.db.annotation.Column;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -23,6 +21,9 @@ public class LocationUploadBean extends BaseUploadBean implements Serializable {
     private float mAccuracy;
     @SerializedName("address")
     private String mAddress;
+    @Column("used")
+    private boolean mUsed;
+
 
     public LocationUploadBean(long time) {
         super(time);
@@ -60,6 +61,14 @@ public class LocationUploadBean extends BaseUploadBean implements Serializable {
         this.mAddress = mAddress;
     }
 
+    public boolean ismUsed() {
+        return mUsed;
+    }
+
+    public void setmUsed(boolean mUsed) {
+        this.mUsed = mUsed;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -68,21 +77,5 @@ public class LocationUploadBean extends BaseUploadBean implements Serializable {
                 .append("time:").append(new Date(mHappendTime)).append("\n")
                 .append("address:").append(mAddress);
         return sb.toString();
-    }
-
-    public JSONObject toJson() {
-        JSONObject object = new JSONObject();
-        try {
-            object.put("id", id);
-            object.put("time", mHappendTime);
-            object.put("latitude", mLatitude);
-            object.put("longitude", mLongitude);
-            object.put("accuracy", mAccuracy);
-            object.put("address", mAddress);
-            object.put("frequency", FREQUENCY);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return object;
     }
 }
