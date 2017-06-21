@@ -4,6 +4,7 @@ package org.ecnu.chgao.healthcare.bean;
  */
 
 import android.content.Context;
+import android.location.Location;
 import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
@@ -74,12 +75,8 @@ public class AccountInfo {
     }
 
     public void onFallDown(String phone, LocationUploadBean location, @NonNull NetworkCallback callback) throws JSONException {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put(AccountInfo.PHONE, phone);
-        jsonObject.put("location", new Gson().toJson(location));
-        jsonObject.put(AccountInfo.ACTION, Config.ACTION_FALL_DOWN);
-        new NetConnection(context, ApiStores.API_SERVER_URL, HttpMethod.POST, callback, jsonObject.toString());
-
+        UploadBean<LocationUploadBean> bean = new UploadBean<>(phone, Config.ACTION_FALL_DOWN, "", location);
+        new NetConnection(context, ApiStores.API_SERVER_URL, HttpMethod.POST, callback, new Gson().toJson(bean));
     }
 
     public void findPwd(String phone, String passwordMd5, String smsCode,

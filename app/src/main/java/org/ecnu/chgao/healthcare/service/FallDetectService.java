@@ -40,7 +40,7 @@ public class FallDetectService extends Service implements FallDetectListener.OnF
     public static final int FOREGROUND_NOTIFICATION_ID = 0x10010;
     public static final int FALL_DOWN_ACTION_NOTIFICATION_ID = 0x01101;
     public static final String CANCEL_FALL_DOWN_ACTION = "cancel_fall_down_action";
-    public static final int FALLDOWN_CANCEL_TIME = 20 * 1000;
+    public static final int FALL_DOWN_CANCEL_TIME = 20;
     private SensorManager mSensorManager;
     private FallDetectListener mListener;
     private AtomicBoolean mShowFallDownNotification;
@@ -146,21 +146,21 @@ public class FallDetectService extends Service implements FallDetectListener.OnF
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setContentIntent(pendingIntent)
                 .setVibrate(new long[]{0, 300, 500, 700})
-                .setSmallIcon(R.mipmap.ic_launcher);
+                .setSmallIcon(R.drawable.logo_icon);
         final NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         nm.notify(FALL_DOWN_ACTION_NOTIFICATION_ID, builder.build());
         mTimer = new Timer();
         mTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if (System.currentTimeMillis() - fallTime > FALLDOWN_CANCEL_TIME) {
+                if (System.currentTimeMillis() - fallTime > FALL_DOWN_CANCEL_TIME * 1000) {
                     realFall();
                     mTimer.cancel();
-                    builder.setContentText("由于您未在60s内取消该事件，我们将帮你通知您的亲属。");
+                    builder.setContentText("由于您未在20s内取消该事件，我们将帮你通知您的亲属。");
                     nm.notify(FALL_DOWN_ACTION_NOTIFICATION_ID, builder.build());
                     return;
                 }
-                builder.setContentText(String.format("如果您不希望上传摔倒事件，请在 %s s 内点击次通知。", FALLDOWN_CANCEL_TIME - (System.currentTimeMillis() - fallTime) / 1000));
+                builder.setContentText(String.format("如果您不希望上传摔倒事件，请在 %s s 内点击次通知。", FALL_DOWN_CANCEL_TIME - (System.currentTimeMillis() - fallTime) / 1000));
                 nm.notify(FALL_DOWN_ACTION_NOTIFICATION_ID, builder.build());
             }
         }, 1000, 1000);

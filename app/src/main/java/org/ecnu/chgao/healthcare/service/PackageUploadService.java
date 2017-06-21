@@ -10,6 +10,7 @@ import org.ecnu.chgao.healthcare.application.BaseApplication;
 import org.ecnu.chgao.healthcare.bean.AccountInfo;
 import org.ecnu.chgao.healthcare.bean.LocationUploadBean;
 import org.ecnu.chgao.healthcare.bean.StepUploadBean;
+import org.ecnu.chgao.healthcare.bean.UploadBean;
 import org.ecnu.chgao.healthcare.bean.UploadPackage;
 import org.ecnu.chgao.healthcare.connection.http.HttpMethod;
 import org.ecnu.chgao.healthcare.connection.http.NetConnection;
@@ -90,16 +91,7 @@ public class PackageUploadService extends IntentService {
 
     private void uploadPackages(List<UploadPackage> packages) {
         Log.i(TAG, "uploadPackages,package size:" + packages.size());
-        JSONObject object = new JSONObject();
-        try {
-            object.put(AccountInfo.USER, ((BaseApplication) getApplication()).getSharedPreferencesUtils().getParam(LoginModel.ACCOUNT_KEY, ""));
-            object.put(AccountInfo.HEADER, Config.HEADER_STEP_PACKAGE);
-            object.put(AccountInfo.ACTION, Config.ACTION_UPLOAD);
-            object.put("packages", new Gson().toJson(packages));
-            Log.i(TAG, object.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        UploadBean<List<UploadPackage>> bean = new UploadBean<>((String) ((BaseApplication) getApplication()).getSharedPreferencesUtils().getParam(LoginModel.ACCOUNT_KEY, ""), Config.ACTION_UPLOAD, Config.HEADER_STEP_PACKAGE, packages);
         new NetConnection(this, ApiStores.API_SERVER_URL, HttpMethod.POST, new NetworkCallback() {
             @Override
             public void onSuccess(String result) {
@@ -109,9 +101,9 @@ public class PackageUploadService extends IntentService {
 
             @Override
             public void onFail(String reason) {
-                Log.e(TAG, "upload packages failed");
+                Log.e(TAG, "upload packages failed,reason:" + reason);
             }
-        }, object.toString());
+        }, new Gson().toJson(bean));
     }
 
     private void clearDB() {
