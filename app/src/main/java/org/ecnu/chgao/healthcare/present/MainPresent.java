@@ -48,6 +48,10 @@ public class MainPresent extends BasePresent<MainViewer, MainModel> implements U
     public void onStepServiceDisconnected() {
     }
 
+    public String getCount() {
+        return mModel.getCount();
+    }
+
     public void updateTask(int step) {
         mModel.updateTodayTask(step);
     }

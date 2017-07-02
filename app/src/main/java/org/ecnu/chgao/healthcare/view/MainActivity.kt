@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.Gravity
 import android.view.MenuItem
+import android.widget.TextView
 import com.amap.api.location.AMapLocationClient
 import com.amap.api.location.AMapLocationClientOption
 import com.amap.api.location.AMapLocationListener
@@ -85,6 +86,8 @@ class MainActivity : BaseActivity(), MainViewer, NavigationView.OnNavigationItem
         drawer = findViewById(R.id.drawer_layout) as DrawerLayout
         navigationView = findViewById(R.id.nav_view) as NavigationView
         navigationView!!.setNavigationItemSelectedListener(this)
+        val phone = navigationView!!.getHeaderView(0).findViewById(R.id.id_main_drawer_phone) as TextView
+        phone.text = mainPresent!!.count
         navigationView!!.findViewById(R.id.id_main_logout).setOnClickListener {
             mainPresent!!.logout()
         }

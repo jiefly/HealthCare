@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HealthCare</string>
+    <string name="app_name">健康关怀</string>
     <string name="today_task_format">今日计划：%d 步</string>
     <string name="day_format">%d 天</string>
     <string name="times_format">%d 次</string>

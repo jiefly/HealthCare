@@ -1,15 +1,20 @@
 package org.ecnu.chgao.healthcare.service;
 
+import android.Manifest;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.net.Uri;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
@@ -18,6 +23,7 @@ import org.ecnu.chgao.healthcare.R;
 import org.ecnu.chgao.healthcare.application.BaseApplication;
 import org.ecnu.chgao.healthcare.bean.AccountInfo;
 import org.ecnu.chgao.healthcare.bean.LocationUploadBean;
+import org.ecnu.chgao.healthcare.bean.UserInfo;
 import org.ecnu.chgao.healthcare.connection.http.NetworkCallback;
 import org.ecnu.chgao.healthcare.model.LoginModel;
 import org.ecnu.chgao.healthcare.step.service.StepService;
@@ -62,12 +68,12 @@ public class FallDetectService extends Service implements FallDetectListener.OnF
         mListener = new FallDetectListener(this).registerListener(this);
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mSensorManager.registerListener(mListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                onFall();
-            }
-        }, 10000);
+//        new Timer().schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                onFall();
+//            }
+//        }, 10000);
     }
 
     private void initReceiver() {
@@ -167,6 +173,32 @@ public class FallDetectService extends Service implements FallDetectListener.OnF
     }
 
     private void realFall() {
+        //upload action
+        uploadFallDownAction();
+
+        DbUtils.createDb(this, StepService.DB_NAME);
+        List<UserInfo> userInfos = DbUtils.getQueryAll(UserInfo.class, StepService.DB_NAME);
+        if (userInfos == null || userInfos.size() == 0) {
+            Log.e(TAG, "user info error");
+        } else {
+            //call
+            Intent intent = new Intent(Intent.ACTION_CALL);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setData(Uri.parse("tel:" + userInfos.get(0).getEmergencyPhone()));
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                Log.e(TAG, "no permission for calling");
+                return;
+            }
+            startActivity(intent);
+            //send message
+            // TODO: 17-6-21 should send message in client?
+
+        }
+
+
+    }
+
+    private void uploadFallDownAction() {
         DbUtils.createDb(this, StepService.DB_NAME);
         List<LocationUploadBean> today = DbUtils.getQueryByWhere(LocationUploadBean.class, "today", new String[]{DateUtilKt.getTodayDate()}, StepService.DB_NAME);
         LocationUploadBean closer;

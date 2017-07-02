@@ -47,6 +47,9 @@ class MainModel(val present: MainPresent) : BaseModel<MainPresent>(present) {
         spUtil.setParam(TODAY_TASK_STEP, todayTask.toString())
     }
 
+    fun getCount(): String {
+        return spUtil.getParam(LoginModel.ACCOUNT_KEY, "13188888888") as String
+    }
     fun updateCurrentStep(step: Int) {
         todayTask = step
         spUtil.setParam(TODAY_STEP, step.toString())

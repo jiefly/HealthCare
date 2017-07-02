@@ -50,7 +50,7 @@ class LoginActivity : BaseActivity(), LoginViewer {
             showToast("登陆成功")
             navigate<MainActivity>()
             finish()
-        }, R.string.ask_again, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.ACCESS_FINE_LOCATION)
+        }, R.string.ask_again, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.CALL_PHONE);
     }
 
     override fun loginFailed(msg: String?) {
